@@ -1,1 +1,14 @@
-你好
+<block v-if="{$tmpListKey}.columnInfo">
+    {volist name="tmpListFields" id="tmpListField"}
+        <div class="am-form-group am-u-sm-12" v-for="(field,i) in {$tmpListKey}.columnInfo.listInfo" v-if="field.name == '{$tmpListField}'">
+            
+            {php} $tmpValueName = $tmpListKey.".data";{/php}
+            {include file="xjryanse/amazeui/add/field" fieldName="field"  /}
+
+            <label class="am-u-sm-3 am-form-label">{{field.label}}</label>
+            <div class="am-u-sm-9">
+                {{{$tmpListKey}.data[field.name]}}
+            </div>
+        </div>
+    {/volist}    
+</block>

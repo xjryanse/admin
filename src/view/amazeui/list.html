@@ -56,7 +56,7 @@
                                     <div style="overflow:auto;">
                                         <!--表格-->
                                         {php}
-                                            $tmpListKey = $vo['table_name'];
+                                            $tmpListKey = $vo['table_name'].$vo['id'];
                                             $tmpListFields = explode(',',$vo['fields']);
                                         {/php}
                                         {include file="xjryanse/amazeui/list/data_sub"/}
@@ -67,7 +67,7 @@
                                     <div style="overflow:auto;">
                                         <!--表格-->
                                         {php}
-                                            $tmpListKey = $vo['table_name'];
+                                            $tmpListKey = $vo['table_name'].$vo['id'];
                                             $tmpListFields = explode(',',$vo['fields']);
                                         {/php}
                                         {include file="xjryanse/amazeui/list/data_info"/}
@@ -92,9 +92,10 @@
             data: {
                     'dataList' : [],
                     'queryData': {:json_encode(request()->param())},
+                    'isDetail' : '',
                 //块级变量
                 {volist name="columnInfo.blockInfo" id = "vo"}
-                    {$vo.table_name} : [],
+                    {$vo.table_name}{$vo.id} : [],
                 {/volist}
             },
             methods: {
@@ -373,8 +374,7 @@
                                 //关闭弹层
                                 layer.close(layerIndex{$key});   
                                 if(data.code == 0){
-                                    that.{$vo['table_name']} = data.data;
-                                    console.log( that.{$vo['table_name']}.columnInfo );
+                                    that.{$vo['table_name']}{$vo['id']} = data.data;
                                 }
                             }
                         });
