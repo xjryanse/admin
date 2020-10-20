@@ -1,4 +1,3 @@
-{__NOLAYOUT__}
 {php}$tmpTime = time();{/php}
 <body style="height:100%;">
     
@@ -18,24 +17,24 @@
                                 <form class="am-form tpl-form-border-form tpl-form-border-br">                                
                                     <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
                                         <!--操作按钮区-->
-                                        {include file="common/list/operate"/}
+                                        {include file="xjryanse/amazeui/list/operate"/}
                                     </div>
                                     <div class="am-u-sm-12 am-u-md-12 am-u-lg-3" style="float:right;">
                                         <!--工具按钮-->
-                                        {include file="common/list/tool"/}
+                                        {include file="xjryanse/amazeui/list/tool"/}
                                     </div>
                                     <!--搜索选择框-->
                                     <div class="am-u-sm-12" id='search{$tmpTime}' style="display:none">
-                                        {include file="common/list/search"/}
+                                        {include file="xjryanse/amazeui/list/search"/}
                                     </div>
                                     <!--数据表格区-->
 <!--                                    <div class="am-u-sm-12" style="overflow:auto;height:calc(70vh)">-->
                                     <div class="am-u-sm-12" style="overflow:auto;">
                                         <!--选项卡-->
-                                        {include file="common/list/typeTab"/}
+                                        {include file="xjryanse/amazeui/list/typeTab"/}
                                         <!--表格-->
                                         {php}$tmpListKey = 'dataList';{/php}
-                                        {include file="common/list/data"/}
+                                        {include file="xjryanse/amazeui/list/data"/}
                                     </div>
                                 </form>
                             </div>
@@ -60,7 +59,7 @@
                                             $tmpListKey = $vo['table_name'];
                                             $tmpListFields = explode(',',$vo['fields']);
                                         {/php}
-                                        {include file="common/list/data_sub"/}
+                                        {include file="xjryanse/amazeui/list/data_sub"/}
                                     </div>
                                 {/if}
                                 <!--信息-->
@@ -71,7 +70,7 @@
                                             $tmpListKey = $vo['table_name'];
                                             $tmpListFields = explode(',',$vo['fields']);
                                         {/php}
-                                        {include file="common/list/data_info"/}
+                                        {include file="xjryanse/amazeui/list/data_info"/}
                                     </div>
                                 {/if}
                             </div>
