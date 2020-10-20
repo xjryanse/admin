@@ -1,0 +1,60 @@
+        <!--字段明细-->
+        <td v-for="(field,j) in {$tmpListKey}.columnInfo.listInfo" v-if="field.is_list" style="text-overflow:ellipsis;overflow:hidden;max-width:300px;">
+            <!--普通文本-->
+            <block v-if = "field.type=='text'">
+                <!--点击直接搜索-->
+                <a href="javascript:;" v-if="field.search_type == 'equal'" :title="'点击搜索'+item[field.name]" v-on:click="searchData(field.name,item[field.name])">{{item[field.name]}}</a>
+                <span v-else>{{item[field.name]}}</span>
+            </block>
+            <!--普通枚举-->
+            <block v-if = "field.type=='enum'">
+                <!--可在列表编辑-->
+                <block v-if = "field.is_list_edit">
+                    <!--可以在列表进行修改-->
+                    <select v-model="item[field.name]" class="listEditInput" v-on:change="listEditUpdate(item)" onmouseover="$('.listEditInput').addClass('borderHide');$(this).removeClass('borderHide')"> 
+                        <option v-for="(tmpOption,k) in field.option" :value="k" >{{tmpOption}}</option> 
+                    </select>
+                </block>
+                <!--不可在列表编辑-->
+                <block v-else>
+                    <!--点击直接搜索-->
+                    <a href="javascript:;" v-if="field.search_type == 'equal'" :title="'点击搜索'+ field.option[item[field.name]]" v-on:click="searchData(field.name,item[field.name])">{{field.option[item[field.name]]}}</a>
+                    <span v-else>{{field.option[item[field.name]]}}</span>
+                </block>
+            </block>
+            <!--动态枚举-->
+            <block v-if = "field.type=='dynenum' && field.option.option">
+                <!--点击直接搜索-->
+                <a href="javascript:;" v-if="field.search_type == 'equal'" :title="'点击搜索'+ field.option.option[item[field.name]]" v-on:click="searchData(field.name,item[field.name])">{{field.option.option[item[field.name]]}}</a>
+                <span v-else>{{field.option.option[item[field.name]]}}</span>
+            </block>
+            <!--链接图片-->
+            <a :href="item[field.name]" v-if = "field.type=='image'" target="_blank">
+                <img :src="item[field.name]" width="80">
+            </a>
+            <!--上传图片-->
+            <a :href="item[field.name]['file_path']" v-if = "field.type=='uplimage' && item[field.name]"  target="_blank">
+                <img :src="item[field.name]['file_path']" width="80">
+            </a>
+            <!--开关-->
+            <block v-if = "field.type=='switch'">
+                <div class="tpl-switch">
+                    <input type="checkbox" class="ios-switch bigswitch tpl-switch-btn" v-model="item[field.name]" v-on:click="item[field.name] = Number(!item[field.name]);updateItem(item)">
+                    <div class="tpl-switch-btn-view">
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </block>
+            <!--listedit列表编辑-->
+            <input v-if = "field.type=='listedit'" type="text" class="tpl-form-input listEditInput" placeholder="" :style = "'min-width:' + field.width + 'px;'"
+                   v-model="item[field.name]" v-on:change="listEditUpdate(item)" onmouseover="$('.listEditInput').addClass('borderHide');$(this).removeClass('borderHide')">
+            <!--勾选框编辑-->
+            <block v-if = "field.type=='check'">
+                <block v-for="(tmpOption,k) in field.option.option">
+                    <block v-for="(optionData,l) in item[field.name]">
+                        <span v-if="optionData == tmpOption['id']" style="padding:2px;">{{tmpOption[field.option.value]}}</span>
+                    </block>
+                </block>
+            </block>
+        </td>

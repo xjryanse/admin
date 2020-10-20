@@ -1,0 +1,98 @@
+<!-- 内容区域 -->
+<div class="tpl-content-wrapper" style="margin-left: 0px;">
+    <div class="row-content am-cf">
+        <div class="row" id="vue_add{:request()->module()}{:request()->controller()}{:request()->param('admKey')}">
+            <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                <div class="widget am-cf" >
+                    <div class="widget-head am-cf">
+                        <div class="widget-title am-fl"></div>
+                        <div class="widget-function am-fr">
+                            <a href="javascript:;" class="am-icon-cog"></a>
+                        </div>
+                    </div>
+                    <div class="widget-body am-fr">
+                        <form class="am-form tpl-form-border-form tpl-form-border-br" @submit.prevent="submit" id="myForm">
+                            <!--只显示is_add字段；按后台配置宽度显示-->
+                            <div class="am-form-group" :class=" 'am-u-sm-' + field.form_col"  v-for="(field,i) in columnHeader.listInfo" v-if="(field.is_add && formType == 'add') || (field.is_edit && formType == 'edit')">
+                                <label for="user-name" class="am-u-sm-3 am-form-label">{{field.label}}</label>
+                                <div class="am-u-sm-9">
+                                    <!--添加字段区-->
+                                    {include file="common/add/field" /}
+                                </div>
+                            </div>                    
+                            <div class="am-form-group" v-if="!isDetail">
+                                <div class="am-u-sm-9 am-u-sm-push-3">
+                                    <input type="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var app = new Vue({
+        el: '#vue_add{:request()->module()}{:request()->controller()}{:request()->param('admKey')}',
+        data: {
+            'columnHeader' : {:json_encode($header)},
+            'inputData':{:json_encode($row)},
+            'formType':"{$formType}",
+            //是否详情，非详情才可编辑
+            'isDetail':"{$isDetail|default=''}"
+        },
+        methods: {
+            //表单提交
+            submit : function () {
+                let formData = JSON.stringify(this.inputData);
+                console.log(formData);
+                layer.confirm('确认提交？', function (index) {
+                    //弹层
+                    var layerIndex = layer.load(2);
+                    axios({
+                        method: "post",
+                        url: "{$formUrl}",
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        data : JSON.parse(formData) ,
+                    }).then((res) => {
+                        //关闭弹层
+                        layer.close(layerIndex);                            
+                        if(res.data.code == 0){
+                            layer.msg(res.data.message, {icon: 1, time: 1000});
+                        } else {
+                            layer.msg(res.data.message, {icon: 2});
+                        }
+                    });
+                });
+            },
+            //上传图片
+            uplPic : function ( e,name ){
+                var that = this;
+                var formData = new FormData();
+                formData.append('file', $(e.target)[0].files[0]); // 文件数据
+                if(!$(e.target)[0].files[0]){
+                    return false;
+                }
+                $.ajax({
+                    url: '{:config("xiesemi.picUplApiUrl")}',
+                    type: 'POST',
+                    cache: false,
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).done(function(result) {
+                    that.inputData[name] = result.data;
+                    console.log('上传完成');
+                });
+            }
+        },
+        created: function () {
+            
+        }
+    });
+</script>

@@ -1,0 +1,44 @@
+<div class="am-form-group">
+    <div class="am-btn-toolbar">
+        <div class="am-btn-group am-btn-group-xs" v-if="dataList.columnInfo">
+            <block v-for="(operate,k) in dataList.columnInfo.operateInfo">
+                <!--新增-->
+                <a href="javascript:;" v-if="operate.operate_key == 'add'"  v-on:click="layerIframePage('{:url('add',$inputParam)}','70%','95%',true)" >
+                    <button type="button" class="am-btn am-btn-default am-btn-success">
+                        <span class="am-icon-plus"></span> {{operate['operate_name']}}
+                    </button>
+                </a>
+                <!--导入-->
+                <a href="javascript:;" v-if="operate.operate_key == 'import'">
+                    <button type="button" class="am-btn am-btn-default am-btn-secondary">
+                        <span class="am-icon-cloud-upload"></span> {{operate['operate_name']}}
+                    </button>
+                </a>
+                <!--导出-->
+                <a href="{:url('export',$paramInherit)}" target="_blank" v-if="operate.operate_key == 'export'">
+                    <button type="button" class="am-btn am-btn-default am-btn-warning">
+                        <span class="am-icon-cloud-download"></span> {{operate['operate_name']}}
+                    </button>
+                </a>
+            </block>
+            <!--数据：表信息-->
+            <a href="javascript:;" v-on:click="layerIframePage('{:url('/admin/scolumn/edit',array_merge($inputParam,['admKey'=>'index']))}?id='+ dataList.columnInfo.id,'70%','95%',true)">
+                <button type="button" class="am-btn am-btn-default am-btn-warning">
+                    <span class="am-icon-cloud-download"></span> 表信息
+                </button>
+            </a>
+            <!--数据：字段信息-->
+            <a href="javascript:;" v-on:click="layerPage('{:url('/admin/scolumn/list',array_merge($inputParam,['admKey'=>'list']))}',{column_id:dataList.columnInfo.id},'90%','90%',true)">
+                <button type="button" class="am-btn am-btn-default am-btn-warning">
+                    <span class="am-icon-cloud-download"></span> 字段信息
+                </button>
+            </a>
+            <!--数据：块信息-->
+            <a href="javascript:;" v-on:click="layerPage('{:url('/admin/scolumn/list',array_merge($inputParam,['admKey'=>'block']))}',{column_id:dataList.columnInfo.id},'90%','90%',true)">
+                <button type="button" class="am-btn am-btn-default am-btn-warning">
+                    <span class="am-icon-cloud-download"></span> 数据块
+                </button>
+            </a>            
+        </div>
+    </div>
+</div>

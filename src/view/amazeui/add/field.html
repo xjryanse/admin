@@ -1,0 +1,62 @@
+<!--字段类型：普通输入框-->
+<div v-if="field.type == 'text' || field.type == 'listedit' ">
+    <input type="text" class="tpl-form-input" placeholder="请输入" v-model="inputData[field.name]" v-if="!isDetail">
+    <p v-if="isDetail">{{inputData[field.name]}}</p>
+    <small>{{field.remark}}</small>
+</div>
+<!--字段类型：文本输入框-->
+<!--                        <div v-if="field.type == 'textarea'">-->
+<div v-if="field.type == 'textarea'">
+    <textarea class="" rows="10" placeholder="请输入" v-model="inputData[field.name]" v-if="!isDetail"></textarea>
+    <p v-if="isDetail">{{inputData[field.name]}}</p>
+</div>
+<!--字段类型：多选框-->
+<div v-if="field.type == 'check'">
+    <label class="am-checkbox-inline" v-for="(tmpOption,k) in field.option.option">
+        <input type="checkbox" :value="tmpOption.id" v-model="inputData[field.name]"> {{tmpOption[field.option.value]}}
+    </label>
+</div>
+<!--字段类型：普通枚举-->
+<div  v-if="field.type == 'enum'">
+    <select v-model="inputData[field.name]" data-am-selected="{searchBox: 1}" style="display: none;">
+        <option value="" >请选择</option> 
+        <option v-for="(tmpOption,k) in field.option" :value="k" >{{tmpOption}}</option> 
+    </select>
+</div>                        
+<!--字段类型：动态枚举-->
+<div  v-if="field.type == 'dynenum'">
+    <!--需要用js赋值一下，没有绑定。不知道为啥-->
+    <select v-model="inputData[field.name]" data-am-selected="{searchBox: 1}" :name="field.name" style="display: none;" onchange="app.inputData[this.name]=this.value;"> 
+        <option value="" >请选择</option> 
+        <option v-for="(tmpOption,k) in field.option.option" :value="k" >{{tmpOption}}</option> 
+    </select>
+</div>
+<!--字段类型：上传图片-->
+<div  v-if="field.type == 'uplimage'">
+    <div class="am-form-group am-form-file">
+        <div class="tpl-form-file-img">
+            <img :src="inputData[field.name]['file_path']" v-if="inputData[field.name]" >
+        </div>
+        <button type="button" class="am-btn am-btn-danger am-btn-sm" >
+            <i class="am-icon-cloud-upload"></i> 添加图片
+        </button>
+        <input id="doc-form-file" type="file" multiple="" @change="uplPic($event,field.name)" >
+    </div>
+</div>
+<!--字段类型：编辑器-->
+<div  v-if="field.type == 'editor'">
+    <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
+    <script>
+        var ue = UE.getEditor('editor');
+    </script>
+</div>
+<!--字段类型：开关-->
+<div  v-if="field.type == 'switch'">
+    <div class="tpl-switch">
+        <input type="checkbox" class="ios-switch bigswitch tpl-switch-btn" v-model="inputData[field.name]" v-on:click="inputData[field.name] = Number(!inputData[field.name])">
+        <div class="tpl-switch-btn-view">
+            <div>
+            </div>
+        </div>
+    </div>
+</div>

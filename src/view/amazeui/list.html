@@ -1,0 +1,425 @@
+{__NOLAYOUT__}
+{php}$tmpTime = time();{/php}
+<body style="height:100%;">
+    
+    <div id="vue_list{:request()->module()}{:request()->controller()}{:request()->param('admKey')}{$tmpTime}">
+        <!-- 内容区域 -->
+        <!-- 内容区域 -->
+        <div>
+            <div class="row-content am-cf">
+                <div class="row">
+                    <!--主模块区域-->
+                    <div :class="'am-u-sm-12 am-u-md-' + dataList.columnInfo.block_width">
+                        <div class="widget am-cf">
+                            <div class="widget-head am-cf">
+                                <div class="widget-title  am-cf">{{dataList.columnInfo.name}}</div>
+                            </div>
+                            <div class="widget-body am-fr">
+                                <form class="am-form tpl-form-border-form tpl-form-border-br">                                
+                                    <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                                        <!--操作按钮区-->
+                                        {include file="common/list/operate"/}
+                                    </div>
+                                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-3" style="float:right;">
+                                        <!--工具按钮-->
+                                        {include file="common/list/tool"/}
+                                    </div>
+                                    <!--搜索选择框-->
+                                    <div class="am-u-sm-12" id='search{$tmpTime}' style="display:none">
+                                        {include file="common/list/search"/}
+                                    </div>
+                                    <!--数据表格区-->
+<!--                                    <div class="am-u-sm-12" style="overflow:auto;height:calc(70vh)">-->
+                                    <div class="am-u-sm-12" style="overflow:auto;">
+                                        <!--选项卡-->
+                                        {include file="common/list/typeTab"/}
+                                        <!--表格-->
+                                        {php}$tmpListKey = 'dataList';{/php}
+                                        {include file="common/list/data"/}
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!--子模块区域-->
+                    {volist name="columnInfo.blockInfo" id = "vo"}
+                        <!--参数：块宽度-->
+                        <div class="am-u-sm-12 am-u-md-{$vo.block_width}">
+                            <div class="widget am-cf">
+                                <div class="widget-head am-cf">
+                                    <div class="widget-title am-fl">{$vo.title|default="title未命名"}</div>
+                                    <div class="widget-function am-fr">
+                                        <a href="javascript:;" class="am-icon-cog"></a>
+                                    </div>
+                                </div>
+                                <!--列表-->
+                                {if $vo.show_type == 'list'}
+                                    <div style="overflow:auto;">
+                                        <!--表格-->
+                                        {php}
+                                            $tmpListKey = $vo['table_name'];
+                                            $tmpListFields = explode(',',$vo['fields']);
+                                        {/php}
+                                        {include file="common/list/data_sub"/}
+                                    </div>
+                                {/if}
+                                <!--信息-->
+                                {if $vo.show_type == 'info'}
+                                    <div style="overflow:auto;">
+                                        <!--表格-->
+                                        {php}
+                                            $tmpListKey = $vo['table_name'];
+                                            $tmpListFields = explode(',',$vo['fields']);
+                                        {/php}
+                                        {include file="common/list/data_info"/}
+                                    </div>
+                                {/if}
+                            </div>
+                        </div>
+                    {/volist}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * 列表编辑框不可见
+         */
+        $('.listEditInput').addClass('borderHide');
+        
+        var app = new Vue({
+            el: '#vue_list{:request()->module()}{:request()->controller()}{:request()->param('admKey')}{$tmpTime}',
+            data: {
+                    'dataList' : [],
+                    'queryData': {:json_encode(request()->param())},
+                //块级变量
+                {volist name="columnInfo.blockInfo" id = "vo"}
+                    {$vo.table_name} : [],
+                {/volist}
+            },
+            methods: {
+                //获取数据列表
+                getLists : function () {
+                    var e = this;
+                    //弹层
+                    var layerIndex = layer.load(2);
+                    //ajax请求
+                    axios({
+                        method: "post",
+                        url: "{:url('',$paramInherit)}",
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        params : e.queryData ,
+                        transformRequest: [function (data) {
+
+                            }],
+                    }).then((res) => {
+                        //关闭弹层
+                        layer.close(layerIndex);
+                        console.log(res.data);
+                        if (res.data.code != 0) {
+                            layer.msg(res.message);
+                        }
+                        e.dataList = res.data.data;
+                        console.log(e.dataList);
+                    })
+                },
+                //更新数据
+                updateItem : function (e) {
+                    var that = this;
+                    console.log(e);
+                    //弹层
+                    var layerIndex = layer.load(2);
+                    //发异步删除数据
+                    $.ajax({
+                        url:"{:url('update',$inputParam)}",
+                        type:'POST',
+                        data: e,
+                        success:function(data){
+                            //关闭弹层
+                            layer.close(layerIndex);
+                            if(data.code == 0){
+                                layer.msg(data.message, {icon: 1, time: 1000});
+                            } else {
+                                layer.msg(data.message, {icon: 2});
+                            }
+                        }
+                    });
+                },            
+                //删除数据
+                deleteItem : function (e) {
+                    var that = this;
+                    console.log(e);
+                    layer.confirm('该操作不可恢复，确认要删除吗？', function (index) {
+                        //弹层
+                        var layerIndex = layer.load(2);
+                        //发异步删除数据
+                        $.ajax({
+                            url:"{:url('del',$inputParam)}",
+                            type:'POST',
+                            data: {
+                                'id': e.id
+                            },
+                            success:function(data){
+                                //关闭弹层
+                                layer.close(layerIndex);
+                                if(data.code == 0){
+                                    layer.msg(data.message, {icon: 1, time: 1000},function(){
+                                        that.getLists( );
+                                    });
+                                } else {
+                                    layer.msg(data.message, {icon: 2});
+                                }
+                            }
+                        });
+                    });
+                },
+                //复制数据
+                copyItem : function (e) {
+                    var that = this;
+                    console.log(e);
+                    layer.confirm('确认复制该条数据？', function (index) {
+                        //弹层
+                        var layerIndex = layer.load(2);
+                        //发异步删除数据
+                        $.ajax({
+                            url:"{:url('copy',$inputParam)}",
+                            type:'POST',
+                            data: {
+                                'id': e.id
+                            },
+                            success:function(data){
+                                //关闭弹层
+                                layer.close(layerIndex);
+                                if(data.code == 0){
+                                    layer.msg(data.message, {icon: 1, time: 1000},function(){
+                                        that.getLists( );
+                                    });
+                                } else {
+                                    layer.msg(data.message, {icon: 2});
+                                }
+                            }
+                        });
+                    });
+                },              
+                //列表编辑
+                listEditUpdate : function ( item ) {
+                    console.log( item );
+                    //弹层
+                    //没有确认弹窗
+                    var layerIndex = layer.load(2);
+                    axios({
+                        method: "post",
+                        url:"{:url('update',$inputParam)}",
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        data : item ,
+                    }).then((res) => {
+                        //关闭弹层
+                        layer.close(layerIndex);                            
+                        layer.msg( res.data.message);                        
+                    });
+                    return false;
+                    //有弹窗
+                    layer.open({
+                        content: '确定修改？'
+                        , btn: ['确定', '取消']
+                        , yes: function ( index ) {
+                                //弹层
+                                var layerIndex = layer.load(2);
+                                axios({
+                                    method: "post",
+                                    url:"{:url('update',$inputParam)}",
+                                    headers: {
+                                        'X-Requested-With': 'XMLHttpRequest'
+                                    },
+                                    data : item ,
+                                }).then((res) => {
+                                    //关闭弹层
+                                    layer.close(layerIndex);                            
+                                    layer.msg( res.data.message);                        
+                                });
+                        }, btn2: function ( index ) {
+                            layer.close(index);
+                        }, cancel: function ( index ) {
+                            layer.close(index);
+                        }
+                    });
+                },    
+                //页面切换
+                contentChange : function(url){
+                    axios.post( url ).then(res => {
+                        console.log(res);
+                        $('#AM_Content').html(res.data);
+                    }).catch(err => {
+                        // error callback
+                    });
+                },
+                /**
+                 * 普通弹窗
+                 * @param {type} url        url
+                 * @param {type} formData   表单数据
+                 * @param {type} width      宽度
+                 * @param {type} height     高度
+                 * @param {type} refresh    刷新与否
+                 * @returns {undefined}
+                 */
+                layerPage : function ( url ,formData,width,height,refresh){
+                    //弹层
+                    var layerIndex = layer.load(2);                
+                    var that = this;
+                    axios({
+                        method: "post",
+                        url: url,
+                        headers: {
+    //                        'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        params :formData,
+                        transformRequest: [function (data) {
+
+                            }],
+                    }).then((res) => {
+                        console.log(res.data)
+                        //关闭弹层
+                        layer.close(layerIndex);                            
+                        layer.open({
+                            type: 1,
+                            skin: 'layui-layer-rim', //加上边框
+                            area: [width, height], //宽高
+                            end : function () {
+                                if(refresh){
+                                    that.getLists( );
+                                }
+                            },
+                            content: res.data
+                        });
+                    })
+                },
+                /**
+                 * Iframe弹窗
+                 * @param {type} url        url
+                 * @param {type} formData   表单数据
+                 * @param {type} width      宽度
+                 * @param {type} height     高度
+                 * @param {type} refresh    刷新与否
+                 * @returns {undefined}
+                 */
+                layerIframePage : function ( url ,width,height,refresh){
+                    var that = this;
+                    layer.open({
+                        type: 2,
+                        skin: 'layui-layer-rim', //加上边框
+                        area: [width, height], //宽高
+                        end : function () {
+                            if(refresh){
+                                that.getLists( );
+                            }
+                        },
+                        content: url
+                    });
+                },                
+                /**
+                 * 按钮弹窗
+                 * @param {type} btn    按钮
+                 * @param {type} data   数据
+                 * @returns {undefined}
+                 */
+                btnLayerPage : function (btn,data,refresh){
+                    console.log(btn);
+                    console.log(data);
+                    var url = btn.url;
+                    //正则替换
+                    $.each(data,function (key, value) {
+                        var tmp = url.replace( '{$'+ key +'}' ,value);
+                        url = tmp;
+                    });
+                    console.log( url );
+                    //url弹窗
+                    this.layerPage(url,[],'95%','95%',refresh);
+                },
+                /**
+                 * 编辑弹窗
+                 * @param {type} btn    按钮
+                 * @param {type} data   数据
+                 * @returns {undefined}
+                 */
+                editLayerPage : function (url){
+                    this.layerIframePage(url, '70%','95%',true);
+                },
+                /**
+                 * 单选中事件的搜索
+                 */
+                onItemSelect :function( item ){
+//                    console.log(item);
+                    //循环加载各块级数据
+                    var that = this;                    
+                    {volist name="columnInfo.blockInfo" id = "vo"}
+                        //弹层
+                        var layerIndex{$key} = layer.load(2);
+                        //优先识别字段，字段未找到再匹配表名
+                        var tableName{$key} =  item['{$vo.table_name}'] ? item['{$vo.table_name}'] : '{$vo.table_name}';
+                        $.ajax({
+                            url:"{:url('data',$inputParam)}",
+                            type:'POST',
+                            data: {
+                                'show_type': "{$vo.show_type}",
+                                'table_name':  tableName{$key} ,
+                                'table_field': "{$vo.table_field}",
+                                'main_field': item['{$vo.main_field}'],
+                            },
+                            success:function(data){
+                                //关闭弹层
+                                layer.close(layerIndex{$key});   
+                                if(data.code == 0){
+                                    that.{$vo['table_name']} = data.data;
+                                    console.log( that.{$vo['table_name']}.columnInfo );
+                                }
+                            }
+                        });
+                    {/volist}                    
+                },
+                //搜索数据
+                searchData : function (key,value)
+                {
+                    //添加搜索数据
+                    this.queryData[key] = value;
+                    //恢复第一页搜索
+                    this.queryData.page = 1;
+                    //搜索
+                    this.getLists();
+                },
+                //获取分页查询数据，common/list/data中使用
+                getPageLists( page){
+                    this.queryData.page=page;
+                    //获取菜单
+                    this.getLists();                
+                },
+                //搜索更多的选框
+                searchMore() {
+                    //慢慢地切入和淡出
+                    $("#search{$tmpTime}").slideToggle("normal");
+                },
+                //全屏
+                fullScreen(){
+                    var fullscreenElement = document.fullscreenElement ||
+                                            document.mozFullScreenElement ||
+                                            document.webkitFullscreenElement;
+                    if (fullscreenElement == null) {
+                        fullscreen();
+                    } else {
+                        exitFullscreen();
+                    }                    
+                }
+            },
+            created: function () {
+                //获取菜单
+                this.getLists();
+            }
+        });
+    </script>
+
+</body>
+

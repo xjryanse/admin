@@ -1,0 +1,31 @@
+<div class="am-u-sm-12 am-u-md-6 am-u-lg-2" style="float:left" v-for="(field,i) in dataList.columnInfo.listInfo" v-if="field.search_type != -1">
+    <!--输入框-->
+    <div class="am-form-group tpl-table-list-select" v-if = "field.type=='text'" >
+        <input type="text" class="am-form-field" :placeholder="field.label" v-model="queryData[field.name]">
+    </div>
+    <!--枚举框-->
+    <div class="am-form-group tpl-table-list-select" v-if = "field.type=='enum'">
+        <select data-am-selected="{btnSize: 'sm'}" style="color:gray;" v-model="queryData[field.name]">
+            <option value="">请选择{{field.label}}</option>
+            <option :value="j" v-for="(items,j) in field.option">{{items}}</option>
+        </select>
+    </div>
+    <!--动态枚举框-->
+    <div class="am-form-group tpl-table-list-select" v-if = "field.type=='dynenum'">
+        <select data-am-selected="{btnSize: 'sm'}" style="color:gray;" v-model="queryData[field.name]">
+            <option value="">请选择{{field.label}}</option>
+            <option :value="j" v-for="(items,j) in field.option.option">{{items}}</option>
+        </select>
+    </div>
+    
+</div>
+
+<div class="am-u-sm-12 am-u-md-6 am-u-lg-2" style="float:left" >
+    <span>
+        <button class="am-btn am-btn-success am-icon-search" type="button" v-on:click="getLists(this)">搜索</button>
+    </span>
+    <span>
+        <button class="am-btn am-btn-success am-icon-search" type="button" v-on:click="queryData = {}">清空</button>
+    </span>
+</div>
+
