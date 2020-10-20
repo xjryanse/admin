@@ -1,0 +1,18 @@
+{
+    "name": "xjryanse/admin",
+    "description": "可复用的系统管理模块",
+    "type": "library",
+    "authors": [
+        {
+            "name": "xjryanse",
+            "email": "xjryanse@sina.com"
+        }
+    ],
+    "require": {},
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+          "xjryanse\\admin\\": "src/"
+        }
+    }
+}
