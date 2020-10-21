@@ -67,6 +67,7 @@
                                     <div style="overflow:auto;">
                                         <!--表格-->
                                         {php}
+                                            dump($vo);
                                             $tmpListKey = $vo['table_name'].$vo['id'];
                                             $tmpListFields = explode(',',$vo['fields']);
                                         {/php}
