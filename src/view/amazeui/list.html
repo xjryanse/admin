@@ -65,11 +65,23 @@
                                 <!--信息-->
                                 {if $vo.show_type == 'info'}
                                     <div style="overflow:auto;">
+                                        
+                                        <script>
+                                            var tablesInfo{$key} = {:json_encode($vo['tablesInfo'])};
+                                            console.log(tablesInfo{$key}[item['{$vo.table_name}']]);
+                                            //识别table_name是否有字段，有字段则从明细的表中拿数据，没字段则认为ydzb_system_column_block中table_name为定死的表
+                                            var tableName{$key}  = item['{$vo.table_name}'] ? tablesInfo{$key}[item['{$vo.table_name}']]['table_name'] : '{$vo.table_name}';
+                                            var tableField{$key} = item['{$vo.table_name}'] ? tablesInfo{$key}[item['{$vo.table_name}']]['table_field'] : '{$vo.table_field}';
+                                            var mainField{$key}  = item['{$vo.table_name}'] ? item[tablesInfo{$key}[item['{$vo.table_name}']]['main_field']] : item['{$vo.main_field}'];
+                                        </script>
+                                        
                                         <!--表格-->
                                         {php}
-                                            dump($vo);
-                                            $tmpListKey = $vo['table_name'].$vo['id'];
-                                            $tmpListFields = explode(',',$vo['fields']);
+                                            $tmpTableName       = $vo['table_name'];            
+                                            $tmpListKey         = $vo['table_name'].$vo['id'];
+                                            $tmpTableNameKey    = $vo['table_name'].$vo['id'].'TableName';
+                                            $tmpListTablesInfo  = $vo['tablesInfo'];
+                                            $tmpListFields      = explode(',',$vo['fields']);
                                         {/php}
                                         {include file="xjryanse/amazeui/list/data_info"/}
                                     </div>
@@ -97,6 +109,7 @@
                 //块级变量
                 {volist name="columnInfo.blockInfo" id = "vo"}
                     {$vo.table_name}{$vo.id} : [],
+                    {$vo.table_name}{$vo.id}TableName : '',
                 {/volist}
             },
             methods: {
@@ -360,22 +373,31 @@
                     {volist name="columnInfo.blockInfo" id = "vo"}
                         //弹层
                         var layerIndex{$key} = layer.load(2);
-                        //优先识别字段，字段未找到再匹配表名
-                        var tableName{$key} =  item['{$vo.table_name}'] ? item['{$vo.table_name}'] : '{$vo.table_name}';
+                        //优先识别字段，字段未找到再匹配表名：从ydzb_system_column_block_table_fields表中拿数据
+                        var tablesInfo{$key} = {:json_encode($vo['tablesInfo'])};
+                        console.log(tablesInfo{$key}[item['{$vo.table_name}']]);
+                        //识别table_name是否有字段，有字段则从明细的表中拿数据，没字段则认为ydzb_system_column_block中table_name为定死的表
+                        var tableName{$key}  = item['{$vo.table_name}'] ? tablesInfo{$key}[item['{$vo.table_name}']]['table_name'] : '{$vo.table_name}';
+                        var tableField{$key} = item['{$vo.table_name}'] ? tablesInfo{$key}[item['{$vo.table_name}']]['table_field'] : '{$vo.table_field}';
+                        var mainField{$key}  = item['{$vo.table_name}'] ? item[tablesInfo{$key}[item['{$vo.table_name}']]['main_field']] : item['{$vo.main_field}'];
+
                         $.ajax({
                             url:"{:url('data',$inputParam)}",
                             type:'POST',
                             data: {
-                                'show_type': "{$vo.show_type}",
-                                'table_name':  tableName{$key} ,
-                                'table_field': "{$vo.table_field}",
-                                'main_field': item['{$vo.main_field}'],
+                                'show_type'     : "{$vo.show_type}",
+                                'table_name'    :  tableName{$key} ,
+                                'table_field'   : tableField{$key},
+                                'main_field'    : mainField{$key},
                             },
                             success:function(data){
                                 //关闭弹层
                                 layer.close(layerIndex{$key});   
                                 if(data.code == 0){
+                                    //数据
                                     that.{$vo['table_name']}{$vo['id']} = data.data;
+                                    //表名
+                                    that.{$vo['table_name']}{$vo['id']}TableName = data.data.columnInfo;//data_info中使用
                                 }
                             }
                         });
