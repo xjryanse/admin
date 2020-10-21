@@ -14,7 +14,7 @@
                                 <div class="widget-title  am-cf">{{dataList.columnInfo.name}}</div>
                             </div>
                             <div class="widget-body am-fr">
-                                <form class="am-form tpl-form-border-form tpl-form-border-br">                                
+                                <form class="am-form tpl-form-border-form tpl-form-border-br">
                                     <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
                                         <!--操作按钮区-->
                                         {include file="xjryanse/amazeui/list/operate"/}
@@ -112,6 +112,8 @@
                     'dataList' : [],
                     'queryData': {:json_encode(request()->param())},
                     'isDetail' : '',
+                    //主表当前选中字段
+                    'currentSelectItem' : [],
                 //块级变量
                 {volist name="columnInfo.blockInfo" id = "vo"}
                     {$vo.table_name}{$vo.id} : [],
@@ -136,7 +138,7 @@
                         params : e.queryData ,
                         transformRequest: [function (data) {
 
-                            }],
+                        }],
                     }).then((res) => {
                         //关闭弹层
                         layer.close(layerIndex);
@@ -315,8 +317,8 @@
                 dataAjax : function ( btn, data, refresh ){
                     console.log( btn );
                     console.log( data );
-                    //正则替换
-                    $.each(data,function (key, value) {
+                    //子块内的操作，正则替换参数：使用主表数据currentSelectItem
+                    $.each( this.currentSelectItem,function (key, value) {
                         var tmp = btn.url.replace( '{$'+ key +'}' ,value);
                         btn.url = tmp;
                     });
@@ -346,6 +348,7 @@
                  */
                 onItemSelect :function( item ){
 //                    console.log(item);
+                    this.currentSelectItem = item;
                     //循环加载各块级数据
                     var that = this;                    
                     {volist name="columnInfo.blockInfo" id = "vo"}
