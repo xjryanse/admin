@@ -36,7 +36,8 @@
                     </a>
                 </block>
                 <!--按钮-->
-                {include file="xjryanse/amazeui/list/operate/listOperate"/}
+                {php} $tmpBtnColumnInfoName = $tmpListKey.".columnInfo"; {/php}
+                {include file="xjryanse/amazeui/list/operate/btn"/}
             </div>
         </td>
     </tr>

@@ -42,6 +42,9 @@
                     </div>
                     <!--子模块区域-->
                     {volist name="columnInfo.blockInfo" id = "vo"}
+                        <!--循环变量主键-->
+                        {php}$tmpBlockKey = $key;{/php}
+
                         <!--参数：块宽度-->
                         <div class="am-u-sm-12 am-u-md-{$vo.block_width}">
                             <div class="widget am-cf">
@@ -65,16 +68,6 @@
                                 <!--信息-->
                                 {if $vo.show_type == 'info'}
                                     <div style="overflow:auto;">
-                                        
-                                        <script>
-                                            var tablesInfo{$key} = {:json_encode($vo['tablesInfo'])};
-                                            console.log(tablesInfo{$key}[item['{$vo.table_name}']]);
-                                            //识别table_name是否有字段，有字段则从明细的表中拿数据，没字段则认为ydzb_system_column_block中table_name为定死的表
-                                            var tableName{$key}  = item['{$vo.table_name}'] ? tablesInfo{$key}[item['{$vo.table_name}']]['table_name'] : '{$vo.table_name}';
-                                            var tableField{$key} = item['{$vo.table_name}'] ? tablesInfo{$key}[item['{$vo.table_name}']]['table_field'] : '{$vo.table_field}';
-                                            var mainField{$key}  = item['{$vo.table_name}'] ? item[tablesInfo{$key}[item['{$vo.table_name}']]['main_field']] : item['{$vo.main_field}'];
-                                        </script>
-                                        
                                         <!--表格-->
                                         {php}
                                             $tmpTableName       = $vo['table_name'];            
@@ -86,8 +79,19 @@
                                         {include file="xjryanse/amazeui/list/data_info"/}
                                     </div>
                                 {/if}
-                                <!--操作按钮-->
-                                {include file="xjryanse/amazeui/list/operate"/}
+                                <table class="am-table tpl-table-black" v-if="{$tmpListKey}.columnInfo">
+                                    <tr class="gradeX" style="white-space: nowrap;">
+                                        <!--操作按钮-->
+                                        <td>
+                                            <div class="tpl-table-black-operation">
+                                                <!--按钮-->
+                                                {php} $tmpBtnColumnInfoName = 'dataList.columnInfo.blockInfo['. $tmpBlockKey .']';  {/php}
+                                                {php} $tmpItemValueName = $tmpListKey.".data";  {/php}
+                                                {include file="xjryanse/amazeui/list/operate/btn"/}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     {/volist}
@@ -316,7 +320,6 @@
                         var tmp = btn.url.replace( '{$'+ key +'}' ,value);
                         btn.url = tmp;
                     });
-                    
                     var that = this;
                     if(btn.confirm){
                         //弹窗确认信息
