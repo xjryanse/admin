@@ -1,0 +1,17 @@
+<!--列表的操作按钮-->
+<block v-for="(btn,k) in {$tmpListKey}.columnInfo.btnInfo">
+    <!--列表弹窗-->
+    <a href="javascript:;" v-if="btn.o_type == 'listpop'" v-on:click="btnLayerPage(btn,item)">
+        <i class="am-icon-pencil"></i> {{btn.name}}
+    </a>
+    <!-- listoperate：列表操作-->
+    <a href="javascript:;" v-if="btn.o_type == 'listoperate'" v-on:click="dataAjax(btn,item)">
+        <i class="am-icon-pencil"></i> {{btn.name}}
+    </a>
+
+    <!--        jump：本页跳链-->
+    <!--     mainpop：本页弹窗-->
+    <!--       blank：新窗口-->
+    <!--     listpop：列表弹窗-->
+    <!-- listoperate：列表操作-->
+</block>
