@@ -158,7 +158,7 @@
                     var layerIndex = layer.load(2);
                     //发异步删除数据
                     $.ajax({
-                        url:"{:url('update',$inputParam)}",
+                        url:"{:url('update',paramInherit)}",
                         type:'POST',
                         data: e,
                         success:function(data){
@@ -181,7 +181,7 @@
                         var layerIndex = layer.load(2);
                         //发异步删除数据
                         $.ajax({
-                            url:"{:url('del',$inputParam)}",
+                            url:"{:url('del',paramInherit)}",
                             type:'POST',
                             data: {
                                 'id': e.id
@@ -207,7 +207,7 @@
                     layer.confirm('确认复制该条数据？', function (index) {
                         var data    = {'id': e.id};
                         //调用公共异步请求函数
-                        that.ajaxOperate( "{:url('copy',$inputParam)}",data,"getLists");
+                        that.ajaxOperate( "{:url('copy',paramInherit)}",data,"getLists");
                     });
                 },              
                 //列表编辑
@@ -215,7 +215,7 @@
                     var that = this;
                     console.log( item );
                     //调用公共异步请求函数
-                    that.ajaxOperate( "{:url('update',$inputParam)}",item,"");
+                    that.ajaxOperate( "{:url('update',paramInherit)}",item,"");
                 },
                 //页面切换
                 contentChange : function(url){
@@ -363,7 +363,7 @@
                         var mainField{$key}  = item['{$vo.table_name}'] ? item[tablesInfo{$key}[item['{$vo.table_name}']]['main_field']] : item['{$vo.main_field}'];
 
                         $.ajax({
-                            url:"{:url('data',$inputParam)}",
+                            url:"{:url('data',paramInherit)}",
                             type:'POST',
                             data: {
                                 'show_type'     : "{$vo.show_type}",
