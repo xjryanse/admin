@@ -23,7 +23,7 @@
                 <!--操作-->
                 <block v-for="(operate,k) in {$tmpListKey}.columnInfo.operateInfo">
                     <!--编辑-->
-                    <a href="javascript:;" v-if="operate.operate_key == 'edit'" v-on:click="editLayerPage('{:url('edit',paramInherit)}?id='+item.id)">
+                    <a href="javascript:;" v-if="operate.operate_key == 'edit'" v-on:click="editLayerPage('{:url('edit',$paramInherit)}?id='+item.id)">
                         <i class="am-icon-pencil"></i> {{operate['operate_name']}}
                     </a>
                     <!--删除-->
