@@ -14,7 +14,7 @@
         <!--inputType可设置number，动态；普通文本-->
         {if $vo.type== 'text'}
             <div class="weui-cell">
-                <div class="weui-cell__hd">{include file="_block/vformList/label"/}</div>
+                <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
                 <div class="weui-cell__bd">
                     <input class="weui-input " type="{$vo.inputType|default='text'}" v-model="inputData['{$vo.field}']" {if !$vo.is_edit} readonly {else /} placeholder="请输入{$vo.label}" {/if} >
                 </div>
@@ -23,7 +23,7 @@
         <!--单选框，可绑定事件-->
         {if $vo.type== 'radio'}
             <div class="weui-cell">
-                <div class="weui-cell__hd">{include file="_block/vformList/label"/}</div>
+                <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
                 <div class="weui-cell__bd weui-cells_checkbox" style="display: flex;">
                     {volist name="vo.option" id="option"}
                         <label class="weui-flex__item" style="display: flex;">
@@ -40,7 +40,7 @@
         <!--uplimage 上传图片-->
         {if $vo.type== 'uplimage'}
             <div class="weui-cell" style="height:auto;min-height:30px;">
-                <div class="weui-cell__hd">{include file="_block/vformList/label"/}</div>
+                <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
                 {if $vo.is_edit == 1}
                     <div class="weui-cell__bd">
                         <!--有图-->
@@ -68,7 +68,7 @@
         <!--citypicker 选择地址-->
         {if $vo.type== 'citypicker'}
             <div class="weui-cell">
-                <div class="weui-cell__hd">{include file="_block/vformList/label"/}</div>
+                <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
                 <div class="weui-cell__bd">
                     <input class="weui-input" id="{$vo.field}" name="{$vo.field}" type="{$vo.inputType|default='text'}" readonly placeholder="选择地区" onchange="App.inputData[this.name]=this.value;">
                 </div>
@@ -84,7 +84,7 @@
         <!--短信验证码-->
         {if $vo.type== 'smsCode'}        
             <div class="weui-cell">
-                <div class="weui-cell__hd ">{include file="_block/vformList/label"/}</div>
+                <div class="weui-cell__hd ">{include file="xjryanse/weui/vformList/label"/}</div>
                 <div class="weui-cell__bd">
                     <input type="text" class="weui-input" placeholder="请输入{$vo.label}" v-model="inputData['{$vo.field}']">
                 </div>
