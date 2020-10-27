@@ -1,0 +1,98 @@
+<!--vue的form表单-->
+<style>
+    .myImg{
+        width: 100%; height: 100%;
+    }
+</style>
+
+<div class="weui-cells user-form noborder mt00">
+    {volist name = 'tmpDataField' id="vo"}
+        <!--空行-->
+        {if $vo.type== 'empty'}
+            <div class="f14" style="background-color: #f2f2f2;padding:5px 10px;color:#999999">{$vo.label|raw}</div>
+        {/if}        
+        <!--inputType可设置number，动态；普通文本-->
+        {if $vo.type== 'text'}
+            <div class="weui-cell">
+                <div class="weui-cell__hd">{include file="_block/vformList/label"/}</div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input " type="{$vo.inputType|default='text'}" v-model="inputData['{$vo.field}']" {if !$vo.is_edit} readonly {else /} placeholder="请输入{$vo.label}" {/if} >
+                </div>
+            </div>
+        {/if}
+        <!--单选框，可绑定事件-->
+        {if $vo.type== 'radio'}
+            <div class="weui-cell">
+                <div class="weui-cell__hd">{include file="_block/vformList/label"/}</div>
+                <div class="weui-cell__bd weui-cells_checkbox" style="display: flex;">
+                    {volist name="vo.option" id="option"}
+                        <label class="weui-flex__item" style="display: flex;">
+                            <div class="weui-cell__hd">
+                                <input type="radio" class="weui-check" value="{$key}" v-model="inputData['{$vo.field}']" @click="{$vo.field}Change('{$key}')">
+                                <span class="weui-icon-checked"></span>
+                            </div>
+                            <div class="weui-cell__fd">{$option}</div>
+                        </label>
+                    {/volist}
+                </div>
+            </div>
+        {/if}        
+        <!--uplimage 上传图片-->
+        {if $vo.type== 'uplimage'}
+            <div class="weui-cell" style="height:auto;min-height:30px;">
+                <div class="weui-cell__hd">{include file="_block/vformList/label"/}</div>
+                {if $vo.is_edit == 1}
+                    <div class="weui-cell__bd">
+                        <!--有图-->
+                        <img :src="inputData['{$vo.field}']['file_path']" v-if="inputData['{$vo.field}'] && inputData['{$vo.field}']['file_path']" class="myImg" style="max-width:100%;">
+                        <!--无图-->
+                        <img src="__STATIC__/web/images/home/321.png" v-else class="myImg" style="height:35px;width:35px;">
+                        <!--注：上传事件固定为uplPic-->
+                        <input class="weui-uploader__input" accept="image/*" multiple="" type="file" @change="uplPic($event,'{$vo.field}')">
+                    </div>
+                {/if}
+            </div>
+            {if $vo.is_edit == 0}
+                <div class="weui-cell" style="height:auto;min-height:30px;" >
+                    <div>
+                        <!--有图-->
+                        <img :src="inputData['{$vo.field}']['file_path']" v-if="inputData['{$vo.field}']['file_path']" class="myImg" style="max-width:100%;">
+                        <!--无图-->
+                        <img src="__STATIC__/web/images/home/321.png" v-else class="myImg" style="height:40px;width:40px;">
+                    </div>
+                    <!--注：上传事件固定为uplPic-->
+                    <input class="weui-uploader__input" accept="image/*" multiple="" type="file" @change="uplPic($event,'{$vo.field}')">
+                </div>
+            {/if}
+        {/if}
+        <!--citypicker 选择地址-->
+        {if $vo.type== 'citypicker'}
+            <div class="weui-cell">
+                <div class="weui-cell__hd">{include file="_block/vformList/label"/}</div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" id="{$vo.field}" name="{$vo.field}" type="{$vo.inputType|default='text'}" readonly placeholder="选择地区" onchange="App.inputData[this.name]=this.value;">
+                </div>
+                <!-----需配合如下js使用
+                <script>
+                    $("#{$vo.field}").cityPicker({
+                      title: "请选择地址"
+                    });
+                </script>
+                ----->
+            </div>
+        {/if}
+        <!--短信验证码-->
+        {if $vo.type== 'smsCode'}        
+            <div class="weui-cell">
+                <div class="weui-cell__hd ">{include file="_block/vformList/label"/}</div>
+                <div class="weui-cell__bd">
+                    <input type="text" class="weui-input" placeholder="请输入{$vo.label}" v-model="inputData['{$vo.field}']">
+                </div>
+                <div class="weui-btn weui-btn_mini"
+                     :class="{ 'bg-gray f-black': isSmsCodeLocked ==false, 'bg-orange f-white': isSmsCodeLocked }"
+                     @click.stop="smsCodeSend( smsPhone, smsKey)">{{verifyText}}</div>
+            </div>
+        {/if}
+    {/volist}
+</div>
+
