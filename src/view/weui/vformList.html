@@ -4,7 +4,7 @@
         width: 100%; height: 100%;
     }
 </style>
-
+<!--empty;text;radio;uplimg;citypicker;smsCode;multiSelect-->
 <div class="weui-cells user-form noborder mt00">
     {volist name = 'tmpDataField' id="vo"}
         <!--空行-->
@@ -36,7 +36,18 @@
                     {/volist}
                 </div>
             </div>
-        {/if}        
+        {/if}
+        <!--大数据量复选框-->
+        {if $vo.type== 'multiSelect'}
+            <div class="weui-cell" style="border-bottom:none">
+                <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd weui-cells_checkbox" style="display: flex;">
+                    <textarea rows="5" cols="5" id="{$vo.field|default=''}" name="{$vo.field|default=''}" v-model="inputData['{$vo.field}']" style="width:100%;" {if !$vo.is_edit} readonly {else /} placeholder="请选择{$vo.label}" {/if}>{$vo.default|default=''}</textarea>
+                </div>
+            </div>
+        {/if}
         <!--uplimage 上传图片-->
         {if $vo.type== 'uplimage'}
             <div class="weui-cell" style="height:auto;min-height:30px;">
