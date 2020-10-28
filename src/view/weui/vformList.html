@@ -71,14 +71,9 @@
             </div>
             {if $vo.is_edit == 0}
                 <div class="weui-cell" style="height:auto;min-height:30px;" >
-                    <div>
-                        <!--有图-->
-                        <img :src="inputData['{$vo.field}']['file_path']" v-if="inputData['{$vo.field}']['file_path']" class="myImg" style="max-width:100%;">
-                        <!--无图-->
-                        <img src="__STATIC__/web/images/home/321.png" v-else class="myImg" style="height:40px;width:40px;">
-                    </div>
-                    <!--注：上传事件固定为uplPic-->
-                    <input class="weui-uploader__input" accept="image/*" multiple="" type="file" @change="uplPic($event,'{$vo.field}')">
+                    <!--有图-->
+                    <img :src="inputData['{$vo.field}']['file_path']" v-if="inputData['{$vo.field}'] && inputData['{$vo.field}']['file_path']" class="myImg" style="max-width:100%;">
+                    <span style="text-align: center; width: 100%;">无</span>
                 </div>
             {/if}
         {/if}
