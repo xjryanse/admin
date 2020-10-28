@@ -46,7 +46,8 @@
                 <div class="weui-cell__bd weui-cells_checkbox" style="display: flex;">
                     <textarea rows="5" cols="5" id="{$vo.field|default=''}" 
                         name="{$vo.field|default=''}" 
-                        v-model="inputData['{$vo.field}']" style="width:100%;"
+                        :data-values="inputData['{$vo.field}']" 
+                        style="width:100%;"
                         {if !$vo.is_edit} readonly {else /} placeholder="请选择{$vo.label}" {/if}
                         onchange="App.inputData[this.name]=$(this).attr('data-values');"
                     >{$vo.default|default=''}</textarea>
