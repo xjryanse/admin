@@ -48,7 +48,7 @@
                         name="{$vo.field|default=''}" 
                         v-model="inputData['{$vo.field}']" style="width:100%;"
                         {if !$vo.is_edit} readonly {else /} placeholder="请选择{$vo.label}" {/if}
-                        onchange="App.inputData[this.name]=this.value;"
+                        onchange="App.inputData[this.name]=$(this).attr('data-values');"
                     >{$vo.default|default=''}</textarea>
                 </div>
             </div>
