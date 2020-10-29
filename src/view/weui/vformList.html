@@ -16,7 +16,7 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input " type="{$vo.inputType|default='text'}" v-model="inputData['{$vo.field}']" {if !$vo.is_edit} readonly {else /} placeholder="请输入{$vo.label}" {/if} >
+                    <input class="weui-input " id="{$vo.field}" name="{$vo.field}" type="{$vo.inputType|default='text'}" v-model="inputData['{$vo.field}']" {if !$vo.is_edit} readonly {else /} placeholder="请输入{$vo.label}" {/if} >
                 </div>
             </div>
         {/if}
@@ -28,7 +28,7 @@
                     {volist name="vo.option" id="option"}
                         <label class="weui-flex__item" style="display: flex;">
                             <div class="weui-cell__hd">
-                                <input type="radio" class="weui-check" value="{$key}" v-model="inputData['{$vo.field}']" @click="{$vo.field}Change('{$key}')">
+                                <input type="radio" class="weui-check" value="{$key}" v-model="inputData['{$vo.field}']" @click="{$vo.field}Change('{$key}')" id="{$vo.field}" name="{$vo.field}">
                                 <span class="weui-icon-checked"></span>
                             </div>
                             <div class="weui-cell__fd">{$option}</div>
@@ -110,7 +110,7 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd ">{include file="xjryanse/weui/vformList/label"/}</div>
                 <div class="weui-cell__bd">
-                    <input class="weui-switch" type="checkbox" v-model="inputData['{$vo.field}']">
+                    <input class="weui-switch" type="checkbox" v-model="inputData['{$vo.field}']" id="{$vo.field}" name="{$vo.field}">
                 </div>
             </div>
         {/if}
