@@ -105,6 +105,15 @@
                      @click.stop="smsCodeSend( smsPhone, smsKey)">{{verifyText}}</div>
             </div>
         {/if}
+        <!--开关-->
+        {if $vo.type== 'switch'}
+            <div class="weui-cell">
+                <div class="weui-cell__hd ">{include file="xjryanse/weui/vformList/label"/}</div>
+                <div class="weui-cell__bd">
+                    <input class="weui-switch" type="checkbox" v-model="inputData['{$vo.field}']">
+                </div>
+            </div>
+        {/if}
     {/volist}
 </div>
 
