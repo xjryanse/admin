@@ -20,6 +20,17 @@
                 </div>
             </div>
         {/if}
+        <!-- 日期 -->
+        {if $vo.type== 'date'}
+            <div class="weui-cell">
+                <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input txtright picker-input dateinput"
+                           type="text" id="{$vo.field}" name="{$vo.field}" type="{$vo.inputType|default='text'}" v-model="inputData['{$vo.field}']" placeholder="请选择" 
+                           onchange="App.inputData[this.name]=this.value;" >
+                </div>
+            </div>
+        {/if}
         <!--单选框，可绑定事件-->
         {if $vo.type== 'radio'}
             <div class="weui-cell">

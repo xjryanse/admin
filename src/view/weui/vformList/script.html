@@ -7,11 +7,17 @@
                   items: {:json_encode($vo.option,JSON_UNESCAPED_UNICODE)}
               });
         {/if}
-
+        <!-- date 选择日期 -->
+        {if $vo.type== 'date'}
+            $("#{$vo.field}").datetimePicker({
+                times:function(){return [];}
+            });
+        {/if}
         <!--citypicker 选择地址-->
         {if $vo.type== 'citypicker'}
             $("#{$vo.field}").cityPicker({
               title: "请选择地址"
             });
         {/if}
+        
     {/volist}
