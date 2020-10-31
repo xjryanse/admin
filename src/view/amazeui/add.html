@@ -53,20 +53,18 @@
                 layer.confirm('确认提交？', function (index) {
                     //弹层
                     var layerIndex = layer.load(2);
-                    axios({
-                        method: "post",
-                        url: "{$formUrl}",
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        },
-                        data : JSON.parse(formData) ,
-                    }).then((res) => {
-                        //关闭弹层
-                        layer.close(layerIndex);                            
-                        if(res.data.code == 0){
-                            layer.msg(res.data.message, {icon: 1, time: 1000});
-                        } else {
-                            layer.msg(res.data.message, {icon: 2});
+                    $.ajax({
+                        url: '{$formUrl}',
+                        type: 'POST',
+                        data: JSON.parse(formData) ,
+                        success: function (data) {
+                            //关闭弹层
+                            layer.close(layerIndex);                            
+                            if(res.data.code == 0){
+                                layer.msg(res.data.message, {icon: 1, time: 1000});
+                            } else {
+                                layer.msg(res.data.message, {icon: 2});
+                            }
                         }
                     });
                 });
