@@ -355,7 +355,7 @@
                         //优先识别字段，字段未找到再匹配表名：从ydzb_system_column_block_table_fields表中拿数据
                         var tablesInfo{$key} = {:json_encode($vo['tablesInfo'])};
                         console.log(item['{$vo.table_name}']);
-                        if(!tablesInfo{$key}[item['{$vo.table_name}']]){
+                        if(item['{$vo.table_name}'] && !tablesInfo{$key}[item['{$vo.table_name}']]){
                             layer.msg('请联系开发人员配置数据表'+ item['{$vo.table_name}']);
                             return false;
                         }
