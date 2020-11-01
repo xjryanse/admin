@@ -4,7 +4,7 @@
  * @param {type} url
  * @returns {undefined}
  */
-function ajaxContentChange(itemId, url) {
+function ajaxContentChange(itemId, url,callback) {
     $.ajax({
         url: url,
         type: 'POST',
@@ -16,6 +16,7 @@ function ajaxContentChange(itemId, url) {
         success: function (data) {
             //关闭弹层
             $('#' + itemId).html(data);
+            callback( data );
         }
     });
 }
