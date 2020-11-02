@@ -16,7 +16,7 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input " id="{$vo.field}" name="{$vo.field}" type="{$vo.inputType|default='text'}" v-model="inputData['{$vo.field}']" {if !$vo.is_edit} readonly {else /} placeholder="请输入{$vo.label}" {/if} >
+                    <input class="weui-input " id="{:str_replace(['[',']'],'_',$vo.field)}" name="{$vo.field}" type="{$vo.inputType|default='text'}" v-model='inputData.{:str_replace(['[',']'],['["','"]'],$vo.field)}' {if !$vo.is_edit} readonly {else /} placeholder="请输入{$vo.label}" {/if} >
                 </div>
             </div>
         {/if}
@@ -26,7 +26,7 @@
                 <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
                 <div class="weui-cell__bd">
                     <input class="weui-input txtright picker-input dateinput"
-                           type="text" id="{$vo.field}" name="{$vo.field}" type="{$vo.inputType|default='text'}" v-model="inputData['{$vo.field}']" placeholder="请选择" 
+                           type="text" id="{:str_replace(['[',']'],'_',$vo.field)}" name="{$vo.field}" type="{$vo.inputType|default='text'}" v-model='inputData.{:str_replace(['[',']'],['["','"]'],$vo.field)}' placeholder="请选择" 
                            onchange="App.inputData[this.name]=this.value;" >
                 </div>
             </div>
@@ -39,7 +39,7 @@
                     {volist name="vo.option" id="option"}
                         <label class="weui-flex__item" style="display: flex;">
                             <div class="weui-cell__hd">
-                                <input type="radio" class="weui-check" value="{$key}" v-model="inputData['{$vo.field}']" @click="{$vo.field}Change('{$key}')" id="{$vo.field}" name="{$vo.field}">
+                                <input type="radio" class="weui-check" value="{$key}" v-model='inputData.{:str_replace(['[',']'],['["','"]'],$vo.field)}' @click="{$vo.field}Change('{$key}')" id="{:str_replace(['[',']'],'_',$vo.field)}" name="{$vo.field}">
                                 <span class="weui-icon-checked"></span>
                             </div>
                             <div class="weui-cell__fd">{$option}</div>
@@ -55,8 +55,9 @@
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd weui-cells_checkbox" style="display: flex;">
-                    <textarea rows="5" cols="5" id="{$vo.field|default=''}" 
+                    <textarea rows="5" cols="5"
                         name="{$vo.field|default=''}" 
+                        id="{:str_replace(['[',']'],'_',$vo.field)}"
                         :data-values="inputData['{$vo.field}']" 
                         style="width:100%;"
                         {if !$vo.is_edit} readonly {else /} placeholder="请选择{$vo.label}" {/if}
@@ -93,7 +94,7 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" id="{$vo.field}" name="{$vo.field}" type="{$vo.inputType|default='text'}" readonly placeholder="选择地区" onchange="App.inputData[this.name]=this.value;">
+                    <input class="weui-input" id="{:str_replace(['[',']'],'_',$vo.field)}" name="{$vo.field}" type="{$vo.inputType|default='text'}" readonly placeholder="选择地区" onchange="App.inputData[this.name]=this.value;">
                 </div>
                 <!-----需配合如下js使用
                 <script>
@@ -109,7 +110,7 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd ">{include file="xjryanse/weui/vformList/label"/}</div>
                 <div class="weui-cell__bd">
-                    <input type="text" class="weui-input" placeholder="请输入{$vo.label}" v-model="inputData['{$vo.field}']">
+                    <input type="text" class="weui-input" placeholder="请输入{$vo.label}" v-model='inputData.{:str_replace(['[',']'],['["','"]'],$vo.field)}'>
                 </div>
                 <div class="weui-btn weui-btn_mini"
                      :class="{ 'bg-gray f-black': isSmsCodeLocked ==false, 'bg-orange f-white': isSmsCodeLocked }"
@@ -121,7 +122,7 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd ">{include file="xjryanse/weui/vformList/label"/}</div>
                 <div class="weui-cell__bd">
-                    <input class="weui-switch" type="checkbox" v-model="inputData['{$vo.field}']" id="{$vo.field}" name="{$vo.field}">
+                    <input class="weui-switch" type="checkbox" v-model='inputData.{:str_replace(['[',']'],['["','"]'],$vo.field)}' id="{:str_replace(['[',']'],'_',$vo.field)}" :checked="inputData['{$vo.field}']" name="{$vo.field}">
                 </div>
             </div>
         {/if}
