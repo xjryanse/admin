@@ -60,10 +60,10 @@
                         success: function (data) {
                             //关闭弹层
                             layer.close(layerIndex);                            
-                            if(res.data.code == 0){
-                                layer.msg(res.data.message, {icon: 1, time: 1000});
+                            if(data.code == 0){
+                                layer.msg(data.message, {icon: 1, time: 1000});
                             } else {
-                                layer.msg(res.data.message, {icon: 2});
+                                layer.msg(data.message, {icon: 2});
                             }
                         }
                     });
