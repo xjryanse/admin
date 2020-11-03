@@ -32,6 +32,14 @@
         <option v-for="(tmpOption,k) in [fieldName].option.option" :value="k" >{{tmpOption}}</option> 
     </select>
 </div>
+<!--字段类型：date日期-->
+<div  v-if="[fieldName].type == 'date'">
+    <input type="text" class="tpl-form-input" :readonly="[fieldName].is_edit == 0" placeholder="请输入" v-if="!isDetail"  v-model="{$tmpValueName}[[fieldName].name]" :name="[fieldName].name" data-am-datepicker 
+           onchange="app.{$tmpValueName}[this.name]= $(this).attr('value')">
+    <p v-if="isDetail">{{{$tmpValueName}[[fieldName].name]}}</p>
+    <small>{{[fieldName].remark}}</small>
+</div>
+
 <!--字段类型：上传图片-->
 <div  v-if="[fieldName].type == 'uplimage'">
     <div class="am-form-group am-form-file">
@@ -48,7 +56,7 @@
 <div  v-if="[fieldName].type == 'editor'">
     <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
     <script>
-        var ue = UE.getEditor('editor');
+//        var ue = UE.getEditor('editor');
     </script>
 </div>
 <!--字段类型：开关-->

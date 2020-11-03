@@ -1,7 +1,10 @@
         <!--字段明细-->
-        <td v-for="(field,j) in {$tmpListKey}.columnInfo.listInfo" v-if="field.is_list" style="text-overflow:ellipsis;overflow:hidden;max-width:300px;">
+        <td v-for="(field,j) in {$tmpListKey}.columnInfo.listInfo" v-if="field.is_list" 
+            style="text-overflow:ellipsis;overflow:hidden;max-width:300px;display:table-cell;vertical-align:middle"
+            :style="{ 'min-width' : field.min_width + 'px', 'max-width': field.width + 'px' }"
+        >
             <!--普通文本-->
-            <block v-if = "field.type=='text'">
+            <block v-if = "field.type=='text' || field.type == 'date'">
                 <!--点击直接搜索-->
                 <a href="javascript:;" v-if="field.search_type == 'equal'" :title="'点击搜索'+item[field.name]" v-on:click="searchData(field.name,item[field.name])">{{item[field.name]}}</a>
                 <span v-else>{{item[field.name]}}</span>
