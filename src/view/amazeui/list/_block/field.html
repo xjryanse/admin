@@ -4,10 +4,14 @@
             :style="{ 'min-width' : field.min_width + 'px', 'max-width': field.width + 'px' }"
         >
             <!--普通文本-->
-            <block v-if = "field.type=='text' || field.type == 'date'">
+            <block v-if = "field.type=='text'">
                 <!--点击直接搜索-->
                 <a href="javascript:;" v-if="field.search_type == 'equal'" :title="'点击搜索'+item[field.name]" v-on:click="searchData(field.name,item[field.name])">{{item[field.name]}}</a>
                 <span v-else>{{item[field.name]}}</span>
+            </block>
+            <!--日期时间-->
+            <block v-if = "field.type == 'date'">
+                <span v-if = "item[field.name] !='0000-00-00 00:00:00'">{{vGetDateTime(item[field.name],'MM-dd')}}</span>
             </block>
             <!--普通枚举-->
             <block v-if = "field.type=='enum'">
