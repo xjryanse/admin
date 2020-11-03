@@ -419,6 +419,9 @@
                 },
                 //获取日期时间
                 vGetDateTime( value ,formatt){
+                    if(formatt == ''){
+                        formatt = 'yyyy-MM-dd';
+                    }
                     return getDateTime(value,formatt);
                 }
             },
