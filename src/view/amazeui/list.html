@@ -1,6 +1,5 @@
 {php}$tmpTime = time();{/php}
 <body style="height:100%;">
-    
     <div id="vue_list{:request()->module()}{:request()->controller()}{:request()->param('admKey')}{$tmpTime}">
         <!-- 内容区域 -->
         <!-- 内容区域 -->
@@ -428,6 +427,13 @@
             created: function () {
                 //获取菜单
                 this.getLists();
+                //下一个点击事件
+                this.$nextTick(function () {
+                    $(document).ready(function () {
+                        console.log('hehe');
+                        $("#temptest").freezeHeader();
+                    })
+                })
             }
         });
     </script>

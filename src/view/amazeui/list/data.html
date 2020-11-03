@@ -1,47 +1,53 @@
-<table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black am-table-bordered" id="example-r" v-if="{$tmpListKey}.columnInfo" style="font-size:12px;">
-    <tr>
-        <th></th>
-        <th v-for="(field,i) in {$tmpListKey}.columnInfo.listInfo" v-if="field.is_list">{{field.label}}</th>
-        <th>操作</th>
-    </tr>
-    <tr v-if="{$tmpListKey}.data.length == 0" >
-        <td colspan=99 style="text-align:center;"> 暂无数据 </td>
-    </tr>
+<table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black am-table-bordered" 
+       id ="temptest"
+       v-if="{$tmpListKey}.columnInfo" style="font-size:12px;">
+    <thead>
+        <tr>
+            <th></th>
+            <th v-for="(field,i) in {$tmpListKey}.columnInfo.listInfo" v-if="field.is_list">{{field.label}}</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr v-if="{$tmpListKey}.data.length == 0" >
+            <td colspan=99 style="text-align:center;"> 暂无数据 </td>
+        </tr>
 
-    <tr class="gradeX" style="white-space: nowrap;" v-for="(item,i) in {$tmpListKey}.data" v-if="{$tmpListKey}.data.length">
-        <!--必有的单选框-->
-        <td>
-            <label class="am-radio">
-                <input type="radio" name="id" :value="item['id']" data-am-ucheck @click="onItemSelect(item)">
-            </label>
-        </td>
-        <!--数据-->
-        {include file="xjryanse/amazeui/list/_block/field"/}
-        <!--操作按钮-->
-        <td style="display:table-cell; vertical-align:middle">
-            <div class="tpl-table-black-operation">
-                <!--操作-->
-                <block v-for="(operate,k) in {$tmpListKey}.columnInfo.operateInfo">
-                    <!--编辑-->
-                    <a href="javascript:;" v-if="operate.operate_key == 'edit'" v-on:click="editLayerPage('{:url('edit',$paramInherit)}?id='+item.id)">
-                        <i class="am-icon-pencil"></i> {{operate['operate_name']}}
-                    </a>
-                    <!--删除-->
-                    <a href="javascript:;" class="tpl-table-black-operation-del" v-if="operate.operate_key == 'delete'" v-on:click="deleteItem(item)">
-                        <i class="am-icon-trash"></i> {{operate['operate_name']}}
-                    </a>
-                    <!--复制-->
-                    <a href="javascript:;" v-if="operate.operate_key == 'copy'" v-on:click="copyItem(item)">
-                        <i class="am-icon-copy"></i> {{operate['operate_name']}}
-                    </a>
-                </block>
-                <!--按钮-->
-                {php} $tmpBtnColumnInfoName = $tmpListKey.".columnInfo"; {/php}
-                {php} $tmpItemValueName     = "item";  {/php}
-                {include file="xjryanse/amazeui/list/operate/btn"/}
-            </div>
-        </td>
-    </tr>
+        <tr class="gradeX" style="white-space: nowrap;" v-for="(item,i) in {$tmpListKey}.data" v-if="{$tmpListKey}.data.length">
+            <!--必有的单选框-->
+            <td style="display: table-cell; vertical-align: middle;;">
+                <label class="am-radio">
+                    <input type="radio" name="id" :value="item['id']" data-am-ucheck @click="onItemSelect(item)">
+                </label>
+            </td>
+            <!--数据-->
+            {include file="xjryanse/amazeui/list/_block/field"/}
+            <!--操作按钮-->
+            <td>
+                <div class="tpl-table-black-operation" style="float:right;">
+                    <!--操作-->
+                    <block v-for="(operate,k) in {$tmpListKey}.columnInfo.operateInfo">
+                        <!--编辑-->
+                        <a href="javascript:;" v-if="operate.operate_key == 'edit'" v-on:click="editLayerPage('{:url('edit',$paramInherit)}?id='+item.id)">
+                            <i class="am-icon-pencil"></i> {{operate['operate_name']}}
+                        </a>
+                        <!--删除-->
+                        <a href="javascript:;" class="tpl-table-black-operation-del" v-if="operate.operate_key == 'delete'" v-on:click="deleteItem(item)">
+                            <i class="am-icon-trash"></i> {{operate['operate_name']}}
+                        </a>
+                        <!--复制-->
+                        <a href="javascript:;" v-if="operate.operate_key == 'copy'" v-on:click="copyItem(item)">
+                            <i class="am-icon-copy"></i> {{operate['operate_name']}}
+                        </a>
+                    </block>
+                    <!--按钮-->
+                    {php} $tmpBtnColumnInfoName = $tmpListKey.".columnInfo"; {/php}
+                    {php} $tmpItemValueName     = "item";  {/php}
+                    {include file="xjryanse/amazeui/list/operate/btn"/}
+                </div>
+            </td>
+        </tr>
+    </tbody>
 </table>
 <!--页码-->
 {include file="xjryanse/amazeui/list/_block/paginate"/}

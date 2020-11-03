@@ -1,6 +1,6 @@
         <!--字段明细-->
         <td v-for="(field,j) in {$tmpListKey}.columnInfo.listInfo" v-if="field.is_list" 
-            style="text-overflow:ellipsis;overflow:hidden;max-width:300px;display:table-cell;vertical-align:middle"
+            style="text-overflow:ellipsis;overflow:hidden;display:table-cell;vertical-align:middle;text-align: center;"
             :style="{ 'min-width' : field.min_width + 'px', 'max-width': field.width + 'px' }"
         >
             <!--普通文本-->
