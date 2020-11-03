@@ -11,7 +11,7 @@
             </block>
             <!--日期时间-->
             <block v-if = "field.type == 'date'">
-                <span v-if = "item[field.name] !='0000-00-00 00:00:00'">{{vGetDateTime(item[field.name],field.option)}}</span>
+                <span v-if = "item[field.name] && item[field.name] !='0000-00-00 00:00:00'">{{vGetDateTime(item[field.name],field.option)}}</span>
             </block>
             <!--普通枚举-->
             <block v-if = "field.type=='enum'">
