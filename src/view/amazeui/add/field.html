@@ -32,6 +32,11 @@
         <option v-for="(tmpOption,k) in [fieldName].option.option" :value="k" >{{tmpOption}}</option> 
     </select>
 </div>
+<!--字段类型：动态树-->
+<div  v-if="[fieldName].type == 'dyntree'">
+    <textarea style="width: 100%;overflow:hidden;" rows=5 :checks="{$tmpValueName}[[fieldName].name]" :id="[fieldName].name" textLabel="jasontext"  type="text" readonly></textarea>
+</div>
+
 <!--字段类型：date日期-->
 <div  v-if="[fieldName].type == 'date'">
     <input type="text" class="tpl-form-input" :readonly="[fieldName].is_edit == 0" placeholder="请输入" v-if="!isDetail"  v-model="{$tmpValueName}[[fieldName].name]" :name="[fieldName].name" data-am-datepicker 

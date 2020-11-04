@@ -91,6 +91,21 @@
             }
         },
         created: function () {
+            var that = this;
+            this.$nextTick(function () {
+                that.columnHeader.listInfo.forEach(function(item,index){
+                    //动态树
+                    if(item.type=="dyntree"){
+                        console.log(item);
+                        var defaults = {
+                            zNodes: item.option.option,
+                            height: 400
+                        };
+                        console.log( defaults );
+                        $("#"+item.name).drawMultipleTree(defaults);                    
+                    }
+                })
+            })
             
         }
     });
