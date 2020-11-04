@@ -34,7 +34,7 @@
 </div>
 <!--字段类型：动态树-->
 <div  v-if="[fieldName].type == 'dyntree'">
-    <textarea style="width: 100%;overflow:hidden;" rows=5 :checks="{$tmpValueName}[[fieldName].name]" :id="[fieldName].name" v-model="{$tmpValueName}[[fieldName].name]" textLabel="jasontext"  type="text" readonly ></textarea>
+    <textarea style="width: 100%;overflow:hidden;" rows=5 :checks="{$tmpValueName}[[fieldName].name]" :id="[fieldName].name" :name="[fieldName].name" type="text" readonly onchange="console.log('465465')"></textarea>
 </div>
 
 <!--字段类型：date日期-->

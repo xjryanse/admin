@@ -1,7 +1,7 @@
 <!-- 内容区域 -->
-<div class="tpl-content-wrapper" style="margin-left: 0px;">
+<div class="tpl-content-wrapper" style="margin-left: 0px;" id="vue_add{:request()->module()}{:request()->controller()}{:request()->param('admKey')}">
     <div class="row-content am-cf">
-        <div class="row" id="vue_add{:request()->module()}{:request()->controller()}{:request()->param('admKey')}">
+        <div class="row" >
             <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
                 <div class="widget am-cf" >
                     <div class="widget-head am-cf">
@@ -13,14 +13,17 @@
                     <div class="widget-body am-fr">
                         <form class="am-form tpl-form-border-form tpl-form-border-br" @submit.prevent="submit" id="myForm">
                             <!--只显示is_add字段；按后台配置宽度显示-->
-                            <div class="am-form-group" :class=" 'am-u-sm-' + field.form_col"  v-for="(field,i) in columnHeader.listInfo" v-if="(field.is_add && formType == 'add') || (field.is_edit && formType == 'edit')">
-                                <label for="user-name" class="am-u-sm-3 am-form-label">{{field.label}}</label>
-                                <div class="am-u-sm-9">
-                                    <!--添加字段区-->
-                                    {php} $tmpValueName = "inputData";{/php}
-                                    {include file="xjryanse/amazeui/add/field" fieldName="field" /}
+                            <block v-for="(field,i) in columnHeader.listInfo" v-if="(field.is_add && formType == 'add') || (field.is_edit && formType == 'edit')">
+                                <div class="am-form-group" :class=" 'am-u-sm-' + field.form_col"  v-if="field.type !='hidden'">
+                                    <label for="user-name" class="am-form-label">{{field.label}}</label>
+                                    <div>
+                                        <!--添加字段区-->
+                                        {php} $tmpValueName = "inputData";{/php}
+                                        {include file="xjryanse/amazeui/add/field" fieldName="field" /}
+                                    </div>
                                 </div>
-                            </div>
+                                <input v-if="field.type =='hidden'" type="hidden" v-model="inputData[field.name]">
+                            </block>
                             <div class="am-form-group" v-if="!isDetail">
                                 <div class="am-u-sm-9 am-u-sm-push-3">
                                     <input type="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">
@@ -48,6 +51,9 @@
         methods: {
             //表单提交
             submit : function () {
+                //参数刷新
+                this.paramRefresh();
+                //表单参数赋值
                 let formData = JSON.stringify(this.inputData);
                 console.log(formData);
                 layer.confirm('确认提交？', function (index) {
@@ -88,7 +94,22 @@
                     that.inputData[name] = result.data;
                     console.log('上传完成');
                 });
+            },
+            //参数刷新
+            paramRefresh(){
+                var that = this;
+                that.columnHeader.listInfo.forEach(function(item,index){
+                    //动态树
+                    if(item.type=="dyntree"){
+                        var tmpData = $("#"+item.name).attr('checks');    
+                        //TODO寻求直接绑定到dom上的方法20201104
+                        that.inputData[ item.name ] = tmpData.split( ',' );
+                    }
+                });
             }
+        },
+        computed : {
+            
         },
         created: function () {
             var that = this;
@@ -103,11 +124,13 @@
                         };
                         console.log( defaults );
 //                        $("#"+item.name).drawMultipleTree(defaults);         
-                        $("#"+item.name).treeSelect(defaults);         
+                        $("#"+item.name).treeSelect(defaults);    
+                        $("#"+item.name).bind('input propertychange',function(){
+                            console.log('text changed!!!');
+                        });
                     }
                 })
             })
-            
         }
     });
 </script>
