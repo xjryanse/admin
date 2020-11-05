@@ -2,15 +2,17 @@
 
 <block v-if="{$tmpListKey}.columnInfo">
     {notempty name="tmpListTablesInfo"}
-        <!--动态的表信息-->
+        <!--动态的表信息ydzb_system_column_block_table_fields-->
         {volist name="tmpListTablesInfo" id="tmpListTables"}
             {php}$tmpListFields = explode(',',$tmpListTables['fields']);{/php}
-            {volist name="tmpListFields" id="tmpListField"}
-                <div class="am-form-group am-u-sm-12" v-for="(field,i) in {$tmpTableNameKey}.listInfo" v-if="field.name == '{$tmpListField}'">
-                    <label class="am-u-sm-3 am-form-label">{{field.label}}</label>
-                    {include file="xjryanse/amazeui/add/field" fieldName="field"  /}
-                </div>
-            {/volist}
+                <block v-if="{$tmpTableNameKey}.table_name == '{$tmpListTables['table_name']}'">
+                    {volist name="tmpListFields" id="tmpListField"}
+                        <div class="am-form-group am-u-sm-12" v-for="(field,i) in {$tmpTableNameKey}.listInfo" v-if="field.name == '{$tmpListField}'">
+                            <label class="am-u-sm-3 am-form-label">{{field.label}}</label>
+                            {include file="xjryanse/amazeui/add/field" fieldName="field"  /}
+                        </div>
+                    {/volist}
+                </block>
         {/volist}
     {else /}
         <!--写死的表信息-->
