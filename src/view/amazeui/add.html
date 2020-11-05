@@ -106,21 +106,25 @@
                         that.inputData[ item.name ] = tmpData.split( ',' );
                     }
                 });
-            }
+            },
+            //模板字段设定
+            {include file="xjryanse/amazeui/vuejs/SColumnTplset"/}
+            //子数据项更新
+            {include file="xjryanse/amazeui/vuejs/subUpdate"/}
         },
         computed : {
             
         },
         created: function () {
             var that = this;
-            this.$nextTick(function () {
-                that.columnHeader.listInfo.forEach(function(item,index){
-                    //动态树
-                    if(item.type=="dyntree"){
+            that.columnHeader.listInfo.forEach(function(item,index){
+                //动态树
+                if(item.type=="dyntree"){
+                    that.$nextTick(function () {
                         console.log(item);
                         var defaults = {
                             zNodes: item.option.option,
-                            height: 400
+                            height: 300
                         };
                         console.log( defaults );
 //                        $("#"+item.name).drawMultipleTree(defaults);         
@@ -128,8 +132,21 @@
                         $("#"+item.name).bind('input propertychange',function(){
                             console.log('text changed!!!');
                         });
-                    }
-                })
+                    })
+                }
+                //tplset模板set
+                if(item.type=="tplset"){
+                    console.log(item);
+                    //获取
+                    that.SColumnTplset( that.columnHeader.table_name, item.id, that.inputData.id, function( data ){
+                        console.log(data);
+                        var tmpOption = that.columnHeader.listInfo[index];
+                        //解决不生效问题
+                        tmpOption.option.option = data;
+                        //解决不生效问题
+                        that.$set( that.columnHeader.listInfo,index, tmpOption );
+                    });
+                }
             })
         }
     });
