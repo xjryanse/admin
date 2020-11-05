@@ -55,7 +55,7 @@
             </block>
             <!--listedit列表编辑-->
             <input v-if = "field.type=='listedit'" type="text" class="tpl-form-input listEditInput" placeholder="" 
-                    :style="{ 'min-width' : field.min_width + 'px', 'max-width': field.width + 'px' }"
+                    style="width:100%;"
                    v-model="item[field.name]" v-on:change="listEditUpdate(item)" onmouseover="$('.listEditInput').addClass('borderHide');$(this).removeClass('borderHide')">
             <!--勾选框编辑-->
             <block v-if = "field.type=='check'">
