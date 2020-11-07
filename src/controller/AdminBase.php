@@ -5,6 +5,8 @@ abstract class AdminBase extends Base
 {
     //返回值复用类
     use \xjryanse\traits\ResponseTrait;
+    //TODO queryCon方法拆离
+    use \xjryanse\traits\ModelTrait;
     //后台基本类
     use \xjryanse\traits\BaseAdminTrait;
     
