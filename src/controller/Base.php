@@ -10,6 +10,7 @@ use xjryanse\system\service\SystemLogService as LogService;
  */
 abstract class Base extends Controller
 {
+    use \xjryanse\traits\DebugTrait;    
     use \xjryanse\traits\BaseWebTrait;
     
     protected function initialize()
