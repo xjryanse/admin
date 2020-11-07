@@ -26,7 +26,7 @@
         <option value="" >请选择</option> 
         <option v-for="(tmpOption,k) in [fieldName].option" :value="k" >{{tmpOption}}</option> 
     </select>
-</div>                        
+</div>
 <!--字段类型：动态枚举-->
 <div  v-if="[fieldName].type == 'dynenum'">
     <!--需要用js赋值一下，没有绑定。不知道为啥-->

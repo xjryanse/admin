@@ -1,6 +1,5 @@
 {php} $tmpValueName = $tmpListKey.".data";{/php}
-
-<block v-if="{$tmpListKey}.columnInfo">
+<block v-if="{$tmpListKey}.columnInfo && {$tmpListKey.'.data'}" >
     {notempty name="tmpListTablesInfo"}
         <!--动态的表信息ydzb_system_column_block_table_fields-->
         {volist name="tmpListTablesInfo" id="tmpListTables"}
