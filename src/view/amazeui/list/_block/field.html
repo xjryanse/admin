@@ -1,7 +1,7 @@
         <!--字段明细-->
         <td v-for="(field,j) in {$tmpListKey}.columnInfo.listInfo" v-if="field.is_list" 
-            style="text-overflow:ellipsis;overflow:hidden;display:table-cell;vertical-align:middle;text-align: center;"
-            :style="{ 'min-width' : field.min_width + 'px', 'max-width': field.width + 'px' }"
+            style="text-overflow:ellipsis;overflow:hidden;display:table-cell;vertical-align:middle;"
+            :style="{ 'min-width' : field.min_width + 'px', 'max-width': field.width + 'px', 'text-align': field.list_style }"
         >
             <!--普通文本-->
             <block v-if = "field.type=='text'">
@@ -59,6 +59,14 @@
                    v-model="item[field.name]" v-on:change="listEditUpdate(item)" onmouseover="$('.listEditInput').addClass('borderHide');$(this).removeClass('borderHide')">
             <!--勾选框编辑-->
             <block v-if = "field.type=='check'">
+                <block v-for="(tmpOption,k) in field.option.option">
+                    <block v-for="(optionData,l) in item[field.name]">
+                        <span v-if="optionData == tmpOption['id']" style="padding:2px;">{{tmpOption[field.option.value]}}</span>
+                    </block>
+                </block>
+            </block>
+            <!--动态树-->
+            <block v-if = "field.type=='dyntree'">
                 <block v-for="(tmpOption,k) in field.option.option">
                     <block v-for="(optionData,l) in item[field.name]">
                         <span v-if="optionData == tmpOption['id']" style="padding:2px;">{{tmpOption[field.option.value]}}</span>
