@@ -3,6 +3,9 @@ namespace xjryanse\admin\controller;
 //后台基类
 abstract class AdminBase extends Base
 {
+    //返回值复用类
+    use \xjryanse\traits\ResponseTrait;
+    //后台基本类
     use \xjryanse\traits\BaseAdminTrait;
     
     protected function initialize()
