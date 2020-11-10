@@ -66,6 +66,24 @@
                 </div>
             </div>
         {/if}
+        <!--单选框-->
+        {if $vo.type== 'singleSelect'}
+            <div class="weui-cell" style="border-bottom:none">
+                <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd weui-cells_checkbox" style="display: flex;">
+                    <textarea rows="{$vo.rows|default=5}" cols="5"
+                        name="{$vo.field|default=''}" 
+                        id="{:str_replace(['[',']'],'_',$vo.field)}"
+                        :data-values="inputData['{$vo.field}']" 
+                        style="width:100%;"
+                        {if !$vo.is_edit} readonly {else /} placeholder="请选择{$vo.label}" {/if}
+                        onchange="App.inputData[this.name]=$(this).attr('data-values');"
+                    >{$vo.default|default=''}</textarea>
+                </div>
+            </div>
+        {/if}        
         <!--uplimage 上传图片-->
         {if $vo.type== 'uplimage'}
             <div class="weui-cell" style="height:auto;min-height:30px;">

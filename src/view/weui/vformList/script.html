@@ -7,6 +7,13 @@
                   items: {:json_encode($vo.option,JSON_UNESCAPED_UNICODE)}
               });
         {/if}
+        <!--单选框-->
+        {if $vo.type== 'singleSelect'}
+            $("#{:str_replace(['[',']'],'_',$vo.field)}").select({
+                  title: "{$vo.label}",
+                  items: {:json_encode($vo.option,JSON_UNESCAPED_UNICODE)}
+              });
+        {/if}
         <!-- date 选择日期 -->
         {if $vo.type== 'date'}
             $("#{:str_replace(['[',']'],'_',$vo.field)}").datetimePicker({
