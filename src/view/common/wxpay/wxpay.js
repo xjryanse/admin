@@ -1,5 +1,6 @@
     //jsApiParameters:
     //jsApi参数
+    //必须先引入微信js才能使用
     var jsApiParameters;
     //微信支付回调通知接口
     var wxPayCallBackUrl = '';
@@ -15,7 +16,7 @@
                     window.location.href = wxPayCallBackUrl;
                 }
             });
-    },
+    }
     //调用微信支付接口
     function callWxPay() {
         if (typeof WeixinJSBridge == "undefined") {
