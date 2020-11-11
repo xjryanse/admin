@@ -3,7 +3,7 @@
         <div class="am-btn-group am-btn-group-xs" v-if="dataList.columnInfo">
             <block v-for="(operate,k) in dataList.columnInfo.operateInfo">
                 <!--新增-->
-                <a href="javascript:;" v-if="operate.operate_key == 'add'"  v-on:click="layerIframePage('{:url('add',$paramInherit)}','70%','95%',true)" >
+                <a href="javascript:;" v-if="operate.operate_key == 'add'"  v-on:click="layerIframePage('{:url('add',array_merge($paramInherit,request()->param()))}','70%','95%',true)" >
                     <button type="button" class="am-btn am-btn-default am-btn-success">
                         <span class="am-icon-plus"></span> {{operate['operate_name']}}
                     </button>
