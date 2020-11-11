@@ -147,6 +147,12 @@
                         that.$set( that.columnHeader.listInfo,index, tmpOption );
                     });
                 }
+                //编辑器
+                if(item.type=="editor"){
+                    that.$nextTick(function () {
+                        var ue = UE.getEditor('editor');
+                    });
+                }
             })
         }
     });
