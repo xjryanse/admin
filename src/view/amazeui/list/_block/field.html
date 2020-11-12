@@ -57,7 +57,7 @@
             <input v-if = "field.type=='listedit'" type="text" class="tpl-form-input listEditInput" placeholder="" 
                     style="width:100%;"
                    v-model="item[field.name]" v-on:change="listEditUpdate(item)" onmouseover="$('.listEditInput').addClass('borderHide');$(this).removeClass('borderHide')">
-            <!--勾选框编辑-->
+            <!--勾选框-->
             <block v-if = "field.type=='check'">
                 <block v-for="(tmpOption,k) in field.option.option">
                     <block v-for="(optionData,l) in item[field.name]">
@@ -65,11 +65,11 @@
                     </block>
                 </block>
             </block>
-            <!--动态树-->
-            <block v-if = "field.type=='dyntree'">
+            <!--动态树：name值固定（tree组件所需的name）-->
+            <block v-if = "field.type=='dyntree' ">
                 <block v-for="(tmpOption,k) in field.option.option">
                     <block v-for="(optionData,l) in item[field.name]">
-                        <span v-if="optionData == tmpOption['id']" style="padding:2px;">{{tmpOption[field.option.value]}}</span>
+                        <span v-if="optionData == tmpOption['id']" style="padding:2px;">{{tmpOption.name}}</span>
                     </block>
                 </block>
             </block>
