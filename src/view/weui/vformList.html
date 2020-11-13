@@ -25,7 +25,12 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input " maxlength="11" id="{:str_replace(['[',']'],'_',$vo.field)}" name="{$vo.field}" type="{$vo.inputType|default='text'}" v-model='inputData.{:str_replace(['[',']'],['["','"]'],$vo.field)}' {if !$vo.is_edit} readonly {else /} placeholder="请输入{$vo.label}" {/if} >
+                    <input class="weui-input " maxlength="11" 
+                           id="{:str_replace(['[',']'],'_',$vo.field)}" 
+                           name="{$vo.field}" 
+                           type="{$vo.inputType|default='text'}" 
+                           v-model='inputData.{:str_replace(['[',']'],['["','"]'],$vo.field)}' {if !$vo.is_edit} readonly {else /} placeholder="请输入{$vo.label}" {/if} 
+                           oninput = "value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
         {/if}
