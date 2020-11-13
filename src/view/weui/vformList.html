@@ -39,7 +39,8 @@
                     {volist name="vo.option" id="option"}
                         <label class="weui-flex__item" style="display: flex;">
                             <div class="weui-cell__hd">
-                                <input type="radio" class="weui-check" value="{$key}" v-model='inputData.{:str_replace(['[',']'],['["','"]'],$vo.field)}' @click="{$vo.field}Change('{$key}')" id="{:str_replace(['[',']'],'_',$vo.field)}" name="{$vo.field}">
+                                <input type="radio" class="weui-check" value="{$key}" v-model='inputData.{:str_replace(['[',']'],['["','"]'],$vo.field)}' 
+                                       @click="{:str_replace(['[',']'],'_',$vo.field)}Change('{$key}')" id="{:str_replace(['[',']'],'_',$vo.field)}" name="{$vo.field}">
                                 <span class="weui-icon-checked"></span>
                             </div>
                             <div class="weui-cell__fd">{$option}</div>
