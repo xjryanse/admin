@@ -1,7 +1,11 @@
     {volist name = 'tmpDataField' id="vo"}
+        {php} 
+            $tmpVoId    = str_replace(['[',']'],'_',$vo['field']);
+            $tmpVoField = str_replace(['[',']'],['["','"]'],$vo['field']);
+        {/php}    
         <!--大数据量复选框-->
         {if $vo.type== 'multiSelect'}
-            $("#{:str_replace(['[',']'],'_',$vo.field)}").select({
+            $("#{$tmpVoId}").select({
                   title: "{$vo.label}",
                   multi: true,
                   items: {:json_encode($vo.option,JSON_UNESCAPED_UNICODE)}
@@ -9,20 +13,20 @@
         {/if}
         <!--单选框-->
         {if $vo.type== 'singleSelect'}
-            $("#{:str_replace(['[',']'],'_',$vo.field)}").select({
+            $("#{$tmpVoId}").select({
                   title: "{$vo.label}",
                   items: {:json_encode($vo.option,JSON_UNESCAPED_UNICODE)}
               });
         {/if}
         <!-- date 选择日期 -->
         {if $vo.type== 'date'}
-            $("#{:str_replace(['[',']'],'_',$vo.field)}").datetimePicker({
+            $("#{$tmpVoId}").datetimePicker({
                 times:function(){return [];}
             });
         {/if}
         <!--citypicker 选择地址-->
         {if $vo.type== 'citypicker'}
-            $("#{:str_replace(['[',']'],'_',$vo.field)}").cityPicker({
+            $("#{$tmpVoId}").cityPicker({
               title: "请选择地址"
             });
         {/if}
