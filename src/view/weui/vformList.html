@@ -16,6 +16,7 @@
             <div class="f14" style="background-color: #f2f2f2;padding:5px 10px;color:#999999">{$vo.label|raw}</div>
         {/if}
         {if $vo.type== 'hidden'}
+            <input id="{$tmpVoId}" name="{$vo.field}" type="hidden" v-model="inputData.{$tmpVoField}">
         {/if}
         <!--inputType可设置number，动态；普通文本-->
         {if $vo.type== 'text'}

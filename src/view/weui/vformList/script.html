@@ -2,7 +2,11 @@
         {php} 
             $tmpVoId    = str_replace(['[',']'],'_',$vo['field']);
             $tmpVoField = str_replace(['[',']'],['["','"]'],$vo['field']);
-        {/php}    
+        {/php}
+        <!--隐藏域赋值-->
+        {if $vo.type== 'hidden'}
+            App.inputData.{$tmpVoField|raw}= "{$vo.default}";
+        {/if}        
         <!--大数据量复选框-->
         {if $vo.type== 'multiSelect'}
             $("#{$tmpVoId}").select({
