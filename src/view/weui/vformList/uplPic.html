@@ -1,0 +1,44 @@
+    //上传图片
+    uplPic : function ( event, name ){
+        var that = this;
+        var formData = new FormData();
+        formData.append('file', $(event.target)[0].files[0]); // 文件数据
+        if(!$(event.target)[0].files[0]){
+            return false;
+        }
+        //在scripts中定义了压缩图片
+        compressImg( $(event.target)[0].files[0],function(files){
+            formData.append('file', files);
+            //遮罩开启
+            $('.loading').show();
+            return $.ajax({
+                        url: '{:config("xiesemi.picUplApiUrl")}',
+                        type: 'POST',
+                        cache: false,
+                        data: formData,
+                        processData: false,
+                        contentType: false
+                    }).done(function(result) {
+                        //遮罩关闭
+                        $('.loading').hide();
+                        //替换左中括号
+                        var tmp = name.replace("[",".");
+                        //替换右中括号
+                        tmp     = tmp.replace("]","");
+                        //替换后的数组
+                        var arr = tmp.split(".");
+                        //name值
+                        var popName = arr.pop();
+                        console.log( arr );
+                        //使用set，目前只支持二级
+                        if( arr.length ){
+                            Vue.set(that.inputData[arr[0]], popName, result.data);
+                        } else {
+                            Vue.set(that.inputData, popName, result.data);
+                        }
+
+                        console.log('上传完成');
+                        console.log(that.inputData);
+                    });             
+        });
+    },
