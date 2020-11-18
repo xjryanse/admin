@@ -9,6 +9,8 @@
                 <a href="javascript:;" v-if="field.search_type == 'equal'" :title="'点击搜索'+item[field.name]" v-on:click="searchData(field.name,item[field.name])">{{item[field.name]}}</a>
                 <span v-else>{{item[field.name]}}</span>
             </block>
+            <!--编辑器-->
+            <div v-if = "field.type=='editor'" v-html="item[field.name]"></div>
             <!--日期时间-->
             <block v-if = "field.type == 'date'">
                 <span v-if = "item[field.name] && item[field.name] !='0000-00-00 00:00:00'">{{vGetDateTime(item[field.name],field.option)}}</span>

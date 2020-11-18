@@ -150,7 +150,13 @@
                 //编辑器
                 if(item.type=="editor"){
                     that.$nextTick(function () {
-                        var ue = UE.getEditor('editor');
+                        var ue = UE.getEditor( item.name );
+                        ue.addListener("blur",function(){
+                            var editor=UE.getEditor('content');
+                            var arr =(UE.getEditor('content').getContent());
+                            //赋值到绑定数据
+                            that.inputData[item.name] = arr;
+                        })
                     });
                 }
             })
