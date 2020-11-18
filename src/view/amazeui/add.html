@@ -91,7 +91,7 @@
                     processData: false,
                     contentType: false
                 }).done(function(result) {
-                    that.inputData[name] = result.data;
+                    Vue.set(that.inputData, name, result.data);
                     console.log('上传完成');
                 });
             },
