@@ -39,6 +39,10 @@
 
 
 <script>
+    var UEdit = [];    //ueditor对象实例
+    //模块加载时的时间戳
+    var LoadTimeStamp = parseInt((new Date).getTime());
+    
     var app = new Vue({
         el: '#vue_add{:request()->module()}{:request()->controller()}{:request()->param('admKey')}',
         data: {
@@ -150,12 +154,10 @@
                 //编辑器
                 if(item.type=="editor"){
                     that.$nextTick(function () {
-                        var ue = UE.getEditor( item.name );
-                        ue.addListener("blur",function(){
-                            var editor=UE.getEditor('content');
-                            var arr =(UE.getEditor('content').getContent());
+                        UEdit[item.id + LoadTimeStamp ] = UE.getEditor( item.name + LoadTimeStamp);
+                        UEdit[item.id + LoadTimeStamp ].addListener("blur",function(){
                             //赋值到绑定数据
-                            that.inputData[item.name] = arr;
+                            that.inputData[item.name] = UEdit[item.id + LoadTimeStamp ].getContent();
                         })
                     });
                 }
