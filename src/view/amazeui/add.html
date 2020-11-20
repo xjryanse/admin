@@ -154,10 +154,12 @@
                 //编辑器
                 if(item.type=="editor"){
                     that.$nextTick(function () {
-                        UEdit[item.id + LoadTimeStamp ] = UE.getEditor( item.name + LoadTimeStamp);
-                        UEdit[item.id + LoadTimeStamp ].addListener("blur",function(){
+                        //临时名称：字段名+时间戳
+                        var tmpName = item.name + LoadTimeStamp;
+                        UEdit[ tmpName ] = UE.getEditor( tmpName );
+                        UEdit[ tmpName ].addListener("blur",function(){
                             //赋值到绑定数据
-                            that.inputData[item.name] = UEdit[item.id + LoadTimeStamp ].getContent();
+                            that.inputData[item.name] = UEdit[ tmpName ].getContent();
                         })
                     });
                 }
