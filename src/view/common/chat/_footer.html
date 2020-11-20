@@ -1,0 +1,17 @@
+<!--脚标-->
+<footer>
+    <div class="footer-left">
+        <i class="mui-icon chat-icon chat-icon-voice"></i>
+    </div>
+    <div class="footer-center">
+        <textarea id="msg_text" type="text" class="input-text" v-model="message"></textarea>
+        <div class="mui-btn mui-btn-outlined voice-btn">按住 说话</div>
+    </div>
+    <div class="footer-right">
+        <i class="mui-icon chat-icon chat-icon-face" style="margin-right: 0.2rem; padding-left: 10px;"></i>
+        <block v-if="!message">
+            <i class="mui-icon chat-icon chat-icon-add-more" style="width: 46px;"></i>
+        </block>
+        <div class="mui-btn mui-btn-success" @click="messageSend()" v-if="message">发送</div>
+    </div>
+</footer>
