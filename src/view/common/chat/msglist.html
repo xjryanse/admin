@@ -1,6 +1,6 @@
 <!--消息列表组件：pc和web通用-->
 <template id="msglist{$tmpVueAppId}">
-    <ul class="lists">
+    <ul class="im-chat-main">
          <block v-for="(item,i) in chatLog" >
             <p class="gray f12" style="text-align: center;">{{item.msg_time}}</p> 
             <li :class=" item.from_user_id == '1' ? 'im-chat-mine' : '' ">
