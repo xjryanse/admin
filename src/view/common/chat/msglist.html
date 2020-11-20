@@ -1,19 +1,21 @@
 <!--消息列表组件：pc和web通用-->
 <template id="msglist{$tmpVueAppId}">
-    <ul class="im-chat-main">
-         <block v-for="(item,i) in chatLog" >
-            <p class="gray f12" style="text-align: center;">{{item.msg_time}}</p> 
-            <li :class=" item.from_user_id == '1' ? 'im-chat-mine' : '' ">
-                <div class="im-chat-user">
-                    <img :src="user_lists[item.from_user_id].headimg.file_path" v-if="user_lists[item.from_user_id].headimg"/>
-                    <img src="__STATIC__/defaultHeader.jpg" v-else/>
-                    <cite v-if="user_lists[item.from_user_id]">{{user_lists[item.from_user_id].nickname}}</cite>
-                    <cite v-if="!user_lists[item.from_user_id]">游客</cite>
-                </div>
-                <div class="im-chat-text">{{item.message}}</div>
-            </li>
-        </block>
-    </ul>
+    <div class="im-chat-main" >
+        <ul id="msg_list">
+             <block v-for="(item,i) in chatLog" >
+                <p class="gray f12" style="text-align: center;">{{item.msg_time}}</p> 
+                <li :class=" item.from_user_id == '1' ? 'im-chat-mine' : '' ">
+                    <div class="im-chat-user">
+                        <img :src="user_lists[item.from_user_id].headimg.file_path" v-if="user_lists[item.from_user_id].headimg"/>
+                        <img src="__STATIC__/defaultHeader.jpg" v-else/>
+                        <cite v-if="user_lists[item.from_user_id]">{{user_lists[item.from_user_id].nickname}}</cite>
+                        <cite v-if="!user_lists[item.from_user_id]">游客</cite>
+                    </div>
+                    <div class="im-chat-text">{{item.message}}</div>
+                </li>
+            </block>
+        </ul>
+    </div>
 </template>
 <script>
     //组件
@@ -63,7 +65,7 @@
 <script>
     function scrollToBottom(){
         //滚动条到最底部(还有其他方法吗？)
-        var msglist = document.getElementById("msglist{$tmpVueAppId}");
-        document.getElementById("msglist{$tmpVueAppId}").scrollTop = msglist.scrollHeight + msglist.offsetHeight;
+        var msglist = document.getElementById("msg_list");
+        document.getElementById("msg_list").scrollTop = msglist.scrollHeight + msglist.offsetHeight;
     }
 </script>
