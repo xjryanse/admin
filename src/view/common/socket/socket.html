@@ -84,9 +84,11 @@ $chatWithUserId：聊天对象id
      * 获取聊天对象id
      */
     function getChatWithConnectId(){
-        var message = "{\"type\":\"getConnectId\",\"message\":{\"user_id\":\""+ chatWithUserId + "\"}}";
-        console.log( message );
-        ws.send( message );
+        if(chatWithUserId){
+            var message = "{\"type\":\"getConnectId\",\"message\":{\"user_id\":\""+ chatWithUserId + "\"}}";
+            console.log( message );
+            ws.send( message );
+        }
     }
     
     /**
