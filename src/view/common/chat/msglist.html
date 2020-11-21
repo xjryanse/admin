@@ -20,15 +20,15 @@
 <script>
     //组件
     Vue.component('xjr-msglist', {
-        //activeUserId:聊天用户id；user_lists聊天双方用户信息
-        props: { active_user_id : String ,user_lists : Array },
+        //activeUserId:聊天用户id；user_lists聊天双方用户信息；new_chat_data新消息
+        props: { active_user_id : String ,user_lists : Array, new_chat_message : Array },
         template: '#msglist{$tmpVueAppId}',
         data: function () {
             return {
                 //聊天记录列表
                 chatLog : [],
             }
-        },                
+        },
         methods :{
             //获取聊天记录接口
             {include file="xjryanse/common/vuejs/chatChatLogs"/}
@@ -49,7 +49,7 @@
                         scrollToBottom();                                                          
                     });
                 })
-            },
+            }
         },
         watch :{
             active_user_id :function (newData,oldData){
@@ -58,9 +58,19 @@
                 //拉取聊天记录
                 this.getChatLogs();
             },
+            //监听新消息到达
+            new_chat_message :function (newData,oldData){
+                //推入消息列表
+                this.chatLog.push( newData );
+                this.$nextTick(function () {
+                    //主聊天框滚动到最底部
+                    scrollToBottom();
+                })
+            },
         },
         created : function(){
             //拉取聊天记录
+            console.log('组件执行开始');
             this.getChatLogs();         
         }        
     });

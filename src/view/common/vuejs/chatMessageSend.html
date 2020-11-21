@@ -1,0 +1,16 @@
+//http发送聊天消息
+chatMessageSend : function ( chatData ,callBack) {
+    $.ajax({
+        url: "{:url('webapi/chat/messageSend',$paramInherit)}",
+        type: 'POST',
+        data: chatData,
+        success: function (data) {
+            $('.loading').hide();
+            if(data.code == 0){
+                callBack( data.data );
+            } else {
+                console.log( data.message );
+            }
+        }
+    });
+},
