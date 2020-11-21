@@ -60,6 +60,8 @@
             },
             //监听新消息到达
             new_chat_message :function (newData,oldData){
+                console.log( '-------msglist--------' );
+                console.log(newData);
                 //推入消息列表
                 this.chatLog.push( newData );
                 this.$nextTick(function () {

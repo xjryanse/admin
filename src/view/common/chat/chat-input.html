@@ -21,8 +21,8 @@
 <script>
     //组件
     Vue.component('xjr-chat-input', {
-        //chat_with_socket_id：聊天对象socket连接id
-        props: { chat_with_socket_id : String },
+        //chat_with_socket_id：聊天对象socket连接id , chat_with_user_id 聊天对象用户id，user_id 主聊用户id
+        props: { chat_with_socket_id : String ,chat_with_user_id : String ,user_id: String },
         template: '#webChatInput{$tmpVueAppId}',
         data: function () {
             return {
@@ -31,7 +31,7 @@
                 //输入框的消息内容
                 message : '',
                 //消息类型
-                'msg_type':'text'
+                msg_type:'text'
             }
         },
         methods :{
@@ -48,7 +48,7 @@
                 //聊天消息发送
                 var that = this;
                 //聊天消息拼接
-                var chatData = { "msg_type": this.msg_type, "message": this.message ,"from_user_id" :"{$userId}","receiver_id":"{$chatWithUserId}" };
+                var chatData = { "msg_type": this.msg_type, "message": this.message ,"from_user_id" : this.user_id,"receiver_id": this.chat_with_user_id };
                 //socket在线则发socekt，不在线则发http离线消息
                 if( that.chat_with_socket_id ){
                     //发送聊天消息
