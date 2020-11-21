@@ -6,7 +6,7 @@
                 <p class="gray f12" style="text-align: center;">{{item.msg_time}}</p> 
                 <li :class=" item.from_user_id == '1' ? 'im-chat-mine' : '' ">
                     <div class="im-chat-user">
-                        <img :src="user_lists[item.from_user_id].headimg.file_path" v-if="user_lists[item.from_user_id].headimg"/>
+                        <img :src="user_lists[item.from_user_id].headimg.file_path" v-if="user_lists[item.from_user_id] && user_lists[item.from_user_id].headimg"/>
                         <img src="__STATIC__/defaultHeader.jpg" v-else/>
                         <cite v-if="user_lists[item.from_user_id]">{{user_lists[item.from_user_id].nickname}}</cite>
                         <cite v-if="!user_lists[item.from_user_id]">游客</cite>
@@ -19,7 +19,7 @@
 </template>
 <script>
     //组件
-    Vue.component('msglist', {
+    Vue.component('xjr-msglist', {
         //activeUserId:聊天用户id；user_lists聊天双方用户信息
         props: { active_user_id : String ,user_lists : Array },
         template: '#msglist{$tmpVueAppId}',
@@ -35,6 +35,9 @@
             //获取聊天记录，并进行数据处理
             getChatLogs : function(){
                 var that = this;
+                if(!that.active_user_id){
+                    return false;
+                }
                 that.chatChatLogs( that.active_user_id ,function( data ){
                     //聊天记录写到数组中
                     $.each( data.data ,function (index, element) {
