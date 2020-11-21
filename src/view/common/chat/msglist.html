@@ -4,7 +4,7 @@
         <ul id="msg_list">
              <block v-for="(item,i) in chatLog" >
                 <p class="gray f12" style="text-align: center;">{{item.msg_time}}</p> 
-                <li :class=" item.from_user_id == '1' ? 'im-chat-mine' : '' ">
+                <li :class=" item.from_user_id == user_id ? 'im-chat-mine' : '' ">
                     <div class="im-chat-user">
                         <img :src="user_lists[item.from_user_id].headimg.file_path" v-if="user_lists[item.from_user_id] && user_lists[item.from_user_id].headimg"/>
                         <img src="__STATIC__/defaultHeader.jpg" v-else/>
@@ -20,8 +20,8 @@
 <script>
     //组件
     Vue.component('xjr-msglist', {
-        //activeUserId:聊天用户id；user_lists聊天双方用户信息；new_chat_data新消息
-        props: { active_user_id : String ,user_lists : Array, new_chat_message : Array },
+        //activeUserId:聊天用户id；user_lists聊天双方用户信息；new_chat_data新消息,user_id:主用戶id
+        props: { active_user_id : String ,user_lists : Array, new_chat_message : Array ,user_id : String},
         template: '#msglist{$tmpVueAppId}',
         data: function () {
             return {

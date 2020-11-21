@@ -36,6 +36,8 @@
         },
         methods :{
             afterChat: function( chatData ){
+                //清空输入框
+                this.message = "";
                 //父组件接收消息
                 this.$emit( "new_chat_message" , chatData );
             },
