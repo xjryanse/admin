@@ -61,9 +61,7 @@ $chatWithUserId：聊天对象id
             }
         };
         ws.onopen = function(){
-            console.log('成功');
-            //获取聊天用户连接id
-            getChatWithConnectId();
+            console.log('ws.onopen连接成功');
             heartCheck.start();
         };
 
@@ -82,13 +80,11 @@ $chatWithUserId：聊天对象id
     }
     /**
      * 获取聊天对象id
+     * @type String
      */
-    function getChatWithConnectId(){
-        if(chatWithUserId){
-            var message = "{\"type\":\"getConnectId\",\"message\":{\"user_id\":\""+ chatWithUserId + "\"}}";
-            console.log( message );
-            ws.send( message );
-        }
+    function getChatWithConnectId( chatWithUserId ){
+        var message = "{\"type\":\"getConnectId\",\"message\":{\"user_id\":\""+ chatWithUserId + "\"}}";
+        socketSend( message );
     }
     
     /**
@@ -102,9 +98,8 @@ $chatWithUserId：聊天对象id
         //获取聊天消息
         if(type == 'chat'){
             //消息推送到前端
-            App.afterChat( message.message );
+            App.onChatMessage( message.message );
         }
-
     }
     /*
      * socket聊天消息发送
@@ -112,7 +107,13 @@ $chatWithUserId：聊天对象id
     function socketChatSend( message )
     {
         var _message = {"type":"chat","message":message};
-        ws.send( JSON.stringify( _message ) );
+        socketSend( _message );
+    }
+    
+    function socketSend( content ){
+        console.log('消息发送------');
+        console.log( content );
+        ws.send( JSON.stringify( content ) );
     }
     //创建连接
     createWebSocket(wssUrl);

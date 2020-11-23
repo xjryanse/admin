@@ -1,21 +1,21 @@
 <!--脚标-->
 <template id="webChatInput{$tmpVueAppId}">
-    <footer>
-        <div class="footer-left">
+    <div class="chat-input">
+        <div class="chat-input-left">
             <i class="mui-icon chat-icon chat-icon-voice"></i>
         </div>
-        <div class="footer-center">
+        <div class="chat-input-center">
             <textarea id="msg_text" type="text" class="input-text" v-model="message"></textarea>
             <div class="mui-btn mui-btn-outlined voice-btn">按住 说话</div>
         </div>
-        <div class="footer-right">
+        <div class="chat-input-right">
             <i class="mui-icon chat-icon chat-icon-face" style="margin-right: 0.2rem; padding-left: 10px;"></i>
             <block v-if="!message">
                 <i class="mui-icon chat-icon chat-icon-add-more" style="width: 46px;"></i>
             </block>
             <div class="mui-btn mui-btn-success" @click="messageSend()" v-if="message">发送</div>
         </div>
-    </footer>    
+    </div>    
 </template>
 
 <script>
@@ -43,6 +43,8 @@
             },
             messageSend : function(){
                 console.log('聊天框组件xjr-chat-input：messageSend()执行开始');
+                //socket消息实例
+                console.log(ws);
                 //没有发消息的情况
                 if(!this.msg_type || !this.message){
                     return false;
@@ -52,7 +54,7 @@
                 //聊天消息拼接
                 var chatData = { "msg_type": this.msg_type, "message": this.message ,"from_user_id" : this.user_id,"receiver_id": this.chat_with_user_id };
                 //socket在线则发socekt，不在线则发http离线消息
-                if( that.chat_with_socket_id ){
+                if( ws.readyState == 1 ){
                     //发送聊天消息
                     socketChatSend( chatData );
                     //聊天消息前端处理
@@ -68,7 +70,7 @@
             {include file="xjryanse/common/vuejs/chatMessageSend"/}
         },
         watch :{
-            
+
         },
         created : function(){
             //拉取聊天记录
@@ -76,3 +78,91 @@
         }        
     });
 </script>
+
+<style>
+
+    /***聊天底部***/
+    .chat-input {
+        position: fixed;
+        width: 100%;
+        height: 50px;
+        min-height: 50px;
+        border-top: solid 1px #ddd;
+        left: 0px;
+        bottom: 0px;
+        overflow: hidden;
+        padding: 0px 65px 0 45px;
+        background-color: #F5F5F5;
+    }
+
+    .chat-icon {
+        color: #6F7378;
+        font-size: 28px
+    }
+
+    .chat-input-left {
+        position: absolute;
+        width: 45px;
+        height: 50px;
+        left: 5px;
+        bottom: 0px;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 100%;
+        padding: 12px 4px;
+    }
+    .chat-input-right {
+        position: absolute;
+        margin-left: 0.1rem;
+        width: 100px;
+        height: 50px;
+        right: 1px;
+        bottom: 0px;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 100%;
+        padding: 12px 0px;
+        display: inline-block;
+    }
+    .chat-input-right .mui-btn{
+        top: -1px;
+        padding: 4px 8px;
+    }
+    .chat-input-right .mui-btn-success {
+        border: 1px solid #1AAD19;
+        background-color: #1AAD19;
+    }
+    .chat-input-center {
+        height: 100%;
+        padding: 5px 25px 10px 3px;
+    }
+    .chat-input-center [class*=input] {
+        width: 100%;
+        height: 100%;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    .chat-input-center .input-text {
+        background-color: #F5F5F5;
+        color: #000000;
+        border: none;
+        border-bottom: 1.5px solid #ddd;
+        padding: 10px !important;
+        font-size: 16px !important;
+        line-height: 18px !important;
+        font-family: verdana !important;
+        overflow: hidden;
+    }
+
+    .chat-input-center .input-text:focus {
+        border-bottom: 1.5px solid #45C01A;
+    }
+
+    .chat-input-center .voice-btn {
+        display: none;
+        margin-top: 2px;
+        padding: 8px 12px;
+        border: 1px solid #CFCFCF;
+        color: #727272;
+    }
+</style>
