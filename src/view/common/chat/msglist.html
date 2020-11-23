@@ -49,6 +49,21 @@
                         scrollToBottom();                                                          
                     });
                 })
+            },
+            setLastRead : function(){
+                var lastMsg = this.chatLog.slice(-1);
+                if(!lastMsg.length){
+                    return false;
+                }
+                console.log( '末条消息' );
+                console.log( lastMsg[0] );
+                //上报最后一条已读消息
+                if( ws.readyState == 1 ){
+                    //发送聊天消息
+                    socketChatLastRead( this.user_id, this.active_user_id, lastMsg[0].id.toString() );
+                } else {
+                    //TODO http处理
+                }
             }
         },
         watch :{
@@ -68,13 +83,17 @@
                     //主聊天框滚动到最底部
                     scrollToBottom();
                 })
-            },
+                //设定末条已读消息
+                this.setLastRead();
+            }
         },
         created : function(){
             //拉取聊天记录
             console.log('组件执行开始');
-            this.getChatLogs();         
-        }        
+            this.getChatLogs();
+            //设定末条已读消息
+            this.setLastRead();
+        }
     });
 </script>
 <script>

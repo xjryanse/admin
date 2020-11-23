@@ -109,6 +109,18 @@ $chatWithUserId：聊天对象id
         var _message = {"type":"chat","message":message};
         socketSend( _message );
     }
+    /*
+     * socket聊天消息发送
+     * @param {type} userId
+     * @param {type} friendId
+     * @param {type} lastReadId
+     * @returns {undefined}
+     */
+    function socketChatLastRead( userId,friendId,lastReadId )
+    {
+        var _message = {"type":"lastReadId","message":{"user_id" : userId ,"friend_user_id" : friendId ,"last_read_id" : lastReadId }};
+        socketSend( _message );
+    }
     
     function socketSend( content ){
         console.log('消息发送------');
