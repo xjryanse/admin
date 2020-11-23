@@ -48,6 +48,8 @@
                         //主聊天框滚动到最底部
                         scrollToBottom();                                                          
                     });
+                    //设定末条已读消息
+                    that.setLastRead();
                 })
             },
             setLastRead : function(){
@@ -91,8 +93,6 @@
             //拉取聊天记录
             console.log('组件执行开始');
             this.getChatLogs();
-            //设定末条已读消息
-            this.setLastRead();
         }
     });
 </script>
