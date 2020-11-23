@@ -97,8 +97,17 @@ $chatWithUserId：聊天对象id
         }
         //获取聊天消息
         if(type == 'chat'){
-            //消息推送到前端
-            App.onChatMessage( message.message );
+            //先尝试推送到聊天页面，消息推送到前端
+            try{
+                App.onChatMessage( message.message );       
+            }catch(e){
+                //推送聊天页面失败，则推送顶部导航栏
+                try{
+                    AppHead.onChatMessage( message.message );   
+                }catch(e){
+                    console.log(e.message);
+                }
+            }
         }
     }
     /*
