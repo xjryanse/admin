@@ -62,7 +62,7 @@
                 //上报最后一条已读消息
                 if( ws.readyState == 1 ){
                     //发送聊天消息
-                    socketChatLastRead( this.user_id, this.active_user_id, lastMsg[0].id.toString() );
+                    socketChatLastRead( this.user_id, this.active_user_id, lastMsg[0].id );
                 } else {
                     //TODO http处理
                 }
