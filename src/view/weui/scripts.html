@@ -2,6 +2,7 @@
 <script>
     //上一个链接，用于back
     var weuiLastUrl = '';
+    var thisUrl = '';
     //日期时间格式化
     Date.prototype.Format = function (fmt) { //author: meizz
         var o = {
@@ -65,7 +66,8 @@
      */
     function jumpWithLoading( url ){
         $('.loading').show();
-        weuiLastUrl = url;
+        weuiLastUrl = thisUrl;
+        thisUrl     = url;
 //        window.location.href = url;
         mainContentChange( url );
     }
