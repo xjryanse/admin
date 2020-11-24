@@ -1,5 +1,7 @@
 <!--一些通用的js方法-->
 <script>
+    //上一个链接，用于back
+    var weuiLastUrl = '';
     //日期时间格式化
     Date.prototype.Format = function (fmt) { //author: meizz
         var o = {
@@ -63,7 +65,9 @@
      */
     function jumpWithLoading( url ){
         $('.loading').show();
-        window.location.href = url;
+        weuiLastUrl = url;
+//        window.location.href = url;
+        mainContentChange( url );
     }
     /**
      * 带加载的返回
@@ -71,7 +75,7 @@
      */
     function backWithLoading(){
         $('.loading').show();
-        window.history.back();
+        mainContentChange( weuiLastUrl );
     }    
     
     /**
@@ -89,4 +93,10 @@
             isPageHide = true;
         });
     });    
+    
+    //主内容改变
+    function mainContentChange(url){
+        //异步加载首页内容
+        ajaxContentChange("mainContent",url );
+    }    
 </script>

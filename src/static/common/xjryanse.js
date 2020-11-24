@@ -44,7 +44,9 @@ function ajaxContentChange(itemId, url,callback) {
         success: function (data) {
             //关闭弹层
             $('#' + itemId).html(data);
-            callback( data );
+            if(callback){
+                callback( data );
+            }
         }
     });
 }
