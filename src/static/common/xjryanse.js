@@ -36,6 +36,26 @@ function ajaxContentChange(itemId, url,callback) {
     $.ajax({
         url: url,
         type: 'POST',
+        success: function (data) {
+            //关闭弹层
+            $('#' + itemId).html(data);
+            if(callback){
+                callback( data );
+            }
+        }
+    });
+}
+
+/**
+ * 以非ajax请求进行内容替换
+ * @param {type} itemId     
+ * @param {type} url
+ * @returns {undefined}
+ */
+function contentChange(itemId, url,callback) {
+    $.ajax({
+        url: url,
+        type: 'POST',
         beforeSend: function (xhr) {
             xhr.setRequestHeader('X-Requested-With', {toString: function () {
                 return '';
