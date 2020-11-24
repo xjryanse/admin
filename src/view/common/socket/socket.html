@@ -1,6 +1,7 @@
 <!--脚本方法
 参数：socket连接地址：$wssUrl;
 $chatWithUserId：聊天对象id
+需在外部定义dealSocketMessage方法，用于处理消息逻辑
 
 -->
 <script>
@@ -13,11 +14,6 @@ $chatWithUserId：聊天对象id
     //socket实例
     var ws;
     
-    //聊天消息通知声音
-    var audioChat = new Audio("__STATIC__/xjryanse/common/sound/on_message.mp3");//这里的路径写上mp3文件在项目中的绝对路径
-    //通知消息通知声音
-    var audioNotice = new Audio("__STATIC__/xjryanse/common/sound/on_notice.mp3");//这里的路径写上mp3文件在项目中的绝对路径
-
     //心跳检测
     var heartCheck = {
         timeout: 60000,//心跳检测60s
@@ -92,44 +88,6 @@ $chatWithUserId：聊天对象id
         socketSend( message );
     }
     
-    /**
-     * 处理消息方法：type:消息类型；message:完整消息内容
-     */
-    function dealSocketMessage(type,message){
-        //获取聊天连接id
-        if(type == 'getConnectId'){
-            chatWithConnectId = message.message;
-        }
-        //获取聊天消息
-        if(type == 'chat'){
-            //提示音
-            audioChat.play();//播放
-            //先尝试推送到聊天页面，消息推送到前端
-            try{
-                App.onChatMessage( message.message );       
-            }catch(e){
-                //推送聊天页面失败，则推送顶部导航栏
-                try{
-                    AppHead.onChatMessage( message.message );   
-                }catch(e){
-                    console.log(e.message);
-                }
-            }
-        }
-        if(type == 'notice'){
-            //先尝试推送到聊天页面，消息推送到前端
-            try{
-                App.onChatMessage( message.message );       
-            }catch(e){
-                //推送聊天页面失败，则推送顶部导航栏
-                try{
-                    AppHead.onChatMessage( message.message );   
-                }catch(e){
-                    console.log(e.message);
-                }
-            }
-        }        
-    }
     /*
      * socket聊天消息发送
      */
