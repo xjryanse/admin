@@ -136,3 +136,15 @@ exitFullscreen=function(){
     }
 //    layer.msg('已退出全屏');
 }
+
+//获取表格动态宽度(用于表头表体分离)
+getTableWidth = function(tableId){
+    var tmpTable = $("#"+ tableId);
+    var rows = tmpTable[0].rows;
+    var cols = rows[0].cells;
+    var widths = [];
+    $.each( cols ,function (index, element) {
+        widths.push(element.clientWidth);
+    });
+    return widths;
+}
