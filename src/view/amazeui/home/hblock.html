@@ -1,0 +1,37 @@
+<!-- hblock模板 -->
+<template id="hblock">
+    <div class="am-u-sm-12 am-u-md-6 am-u-lg-4">
+        <div class="widget am-cf " v-bind:class="styles[back_color]" >
+            <div class="widget-statistic-header">{{title}}</div>
+            <div class="widget-statistic-body">
+                <div class="widget-statistic-value">{{number}}</div>
+                <div class="widget-statistic-description" v-html="describe"></div>
+                <span class="widget-statistic-icon " v-bind:class="icons[icon]"></span>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('hblock', {
+        props: ['title','number','describe','back_color','icon'],
+        template: '#hblock',
+        data: function(){
+            return {
+                'styles':{
+                    "green" :"widget-primary",
+                    "purple":"widget-purple",
+                },
+                'icons':{
+                    "support" :"am-icon-support",
+                    "credit":"am-icon-credit-card-alt",
+                },
+            };
+        },
+        created :function(){
+            
+        }
+    });
+
+</script>
