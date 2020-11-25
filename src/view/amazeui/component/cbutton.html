@@ -2,8 +2,11 @@
 <template id="cbutton">
     <!--layerPage-->
     <a href="javascript:;" v-on:click="layerPage()" v-if="type=='layerPage'">
-        <button type="button" class="am-btn am-btn-default" v-bind:class=" btn_style ? styles[btn_style] : ''">
-            <span class="am-icon-plus"></span> {{button_name}}    {{type}}
+        <button type="button" class="am-btn am-btn-default" 
+                v-bind:class=" btn_style ? styles[btn_style] : ''"
+                v-bind:class=" size ? sizes[size] : ''"
+            >
+            <span v-bind:class=" icon ? icons[icon] : 'am-icon-plus'"></span> {{button_name}}
         </button>
     </a>
 </template>
@@ -11,10 +14,15 @@
 <script>
     //定义hblock组件
     Vue.component('cbutton', {
-        props: ['type','button_name','url','height','width','form_data','btn_style'],
+        props: ['type','button_name','url','height','width','form_data','btn_style','icon','size'],
         template: '#cbutton',
         data: function(){
             return {
+                //按钮尺寸
+                "sizes" :{
+                    'normal' : '',
+                    'small'  : 'am-btn-sm'
+                },
                 //按钮样式
                 'styles':{
                     "default" :"am-btn-default",
@@ -23,8 +31,20 @@
                     "warning":"am-btn-warning",
                     "danger":"am-btn-danger",
                     "success":"am-btn-success",
-                    "link":"am-btn-link",
+                    "link":"am-btn-link"
                 },
+                //图标
+                'icons':{
+                    "slack" :"am-icon-slack",
+                    "plus"  :"am-icon-plus",
+                    "cloud-download":"am-icon-cloud-download",
+                    "wordpress":"am-icon-wordpress",
+                    "openid":"am-icon-openid",
+                    "yahoo":"am-icon-yahoo",
+                    "google":"am-icon-google",
+                    "reddit":"am-icon-reddit",
+                    "stumbleupon":"am-icon-stumbleupon",                    
+                }
             };
         },
         methods : {
