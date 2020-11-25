@@ -85,8 +85,10 @@
                     //主聊天框滚动到最底部
                     scrollToBottom();
                 })
-                //设定末条已读消息
-                this.setLastRead();
+                if(newData.from_user_id != this.user_id){
+                    //设定末条已读消息
+                    this.setLastRead();
+                }
             }
         },
         created : function(){
