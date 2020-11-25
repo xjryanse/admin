@@ -1,7 +1,7 @@
 <!-- hblock模板 -->
 <template id="hblock">
     <div class="am-u-sm-12 am-u-md-6 am-u-lg-4">
-        <div class="widget am-cf " v-bind:class="styles[back_color]" >
+        <div class="widget am-cf " v-bind:class="styles[back_color]" v-on:click="url && AM_ContentChange(url)">
             <div class="widget-statistic-header">{{title}}</div>
             <div class="widget-statistic-body">
                 <div class="widget-statistic-value">{{number}}</div>
@@ -15,7 +15,7 @@
 <script>
     //定义hblock组件
     Vue.component('hblock', {
-        props: ['title','number','describe','back_color','icon'],
+        props: ['title','number','describe','back_color','icon','url'],
         template: '#hblock',
         data: function(){
             return {
@@ -28,6 +28,10 @@
                     "credit":"am-icon-credit-card-alt",
                 },
             };
+        },
+        methods : {
+            //页面切换
+            {include file="_block/vuejs/AM_ContentChange"/}                       
         },
         created :function(){
             
