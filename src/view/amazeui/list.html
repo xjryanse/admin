@@ -140,19 +140,21 @@
                             that.dataList = data.data;
                             console.log(that.dataList);
                             //数据加载完成重设表格列宽
-                            that.$nextTick(function () {
-                                //主聊天框滚动到最底部
-                                var widths = getTableWidth('main_table');
-                                //测试
-                                console.log( '拉取列表开始' );
-                                console.log( widths );
-                                console.log($('#mainTableHeader th'));
-                                $('#mainTableHeader th').width(function(i,e){
-                                    console.log(widths[i]);
-                                    return widths[i];
-                                });
-                                console.log( getTableWidth('mainTableHeader') );
-                            })
+                            if( that.dataList.total ){
+                                that.$nextTick(function () {
+                                    //主聊天框滚动到最底部
+                                    var widths = getTableWidth('main_table');
+                                    //测试
+                                    console.log( '拉取列表开始' );
+                                    console.log( widths );
+                                    console.log($('#mainTableHeader th'));
+                                    $('#mainTableHeader th').width(function(i,e){
+                                        console.log(widths[i]);
+                                        return widths[i];
+                                    });
+                                    console.log( getTableWidth('mainTableHeader') );
+                                })
+                            }
                         }
                     });
                 },
