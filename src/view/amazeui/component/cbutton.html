@@ -1,0 +1,104 @@
+<!-- 按钮组件 -->
+<template id="cbutton">
+    <!--layerPage-->
+    <a href="javascript:;" v-on:click="layerPage()" v-if="type=='layerPage'">
+        <button type="button" class="am-btn am-btn-default" v-bind:class=" btn_style ? styles[btn_style] : ''">
+            <span class="am-icon-plus"></span> {{button_name}}    {{type}}
+        </button>
+    </a>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('cbutton', {
+        props: ['type','button_name','url','height','width','form_data','btn_style'],
+        template: '#cbutton',
+        data: function(){
+            return {
+                //按钮样式
+                'styles':{
+                    "default" :"am-btn-default",
+                    "primary":"am-btn-primary",
+                    "secondary":"am-btn-secondary",
+                    "warning":"am-btn-warning",
+                    "danger":"am-btn-danger",
+                    "success":"am-btn-success",
+                    "link":"am-btn-link",
+                },
+            };
+        },
+        methods : {
+            /**
+             * 普通弹窗
+             * @param {type} url        url
+             * @param {type} formData   表单数据
+             * @param {type} width      宽度
+             * @param {type} height     高度
+             * @param {type} refresh    刷新与否
+             * @returns {undefined}
+             */
+            layerPage : function ( ){
+                //弹层
+                var layerIndex  = layer.load(2);                
+                var that        = this;
+                //url
+                var url         = this.url;
+                //表单数据
+                var formData    = this.form_data;
+                //高度
+                var width       = this.width;
+                //宽度
+                var height      = this.height;
+
+                $.ajax({
+                    url:  url,
+                    type: 'POST',
+                    data :formData,
+                    beforeSend: function( xhr ) { 
+                        xhr.setRequestHeader('X-Requested-With', {toString: function(){ return ''; }}); 
+                    }, 
+                    success: function (data) {
+                        console.log(data);
+                        //关闭弹层
+                        layer.close(layerIndex);
+                        layer.open({
+                            type: 1,
+                            skin: 'layui-layer-rim', //加上边框
+                            area: [width, height], //宽高
+                            end : function () {
+
+                            },
+                            content: data
+                        });                            
+                    }
+                });
+            },
+            /**
+             * Iframe弹窗
+             * @param {type} url        url
+             * @param {type} formData   表单数据
+             * @param {type} width      宽度
+             * @param {type} height     高度
+             * @param {type} refresh    刷新与否
+             * @returns {undefined}
+             */
+            layerUrlPage : function ( url ,width,height,refresh){
+                var that = this;
+                layer.open({
+                    type: 2,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: [width, height], //宽高
+                    end : function () {
+                        if(refresh){
+                            that.getLists( );
+                        }
+                    },
+                    content: url
+                });
+            },
+        },
+        created :function(){
+            console.log('cbutton开始执行');
+        }
+    });
+</script>
