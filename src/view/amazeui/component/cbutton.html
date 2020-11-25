@@ -5,9 +5,10 @@
         <!--layerPage   ：加载弹窗页面-->
         <!--fullScreen  ：全屏和退出全屏-->
         <a href="javascript:;" 
-                v-on:click=" type=='layerPage' && doLayerPage()"
-                v-on:click=" type=='fullScreen' && doFullScreen()"
-           >
+                v-on:click="type=='layerPage' && doLayerPage()"
+                v-on:click="type=='fullScreen' && doFullScreen()"
+                v-if="type=='layerPage' || type=='fullScreen'"
+            >
             <button type="button" class="am-btn am-btn-default" 
                     v-bind:class=" btn_style ? styles[btn_style] : ''"
                     v-bind:class=" size ? sizes[size] : ''"
