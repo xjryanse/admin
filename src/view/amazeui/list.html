@@ -28,7 +28,7 @@
                                     </div>
                                     <!--数据表格区-->
 <!--                                    <div class="am-u-sm-12" style="overflow:auto;height:calc(70vh)">-->
-                                    <div class="am-u-sm-12" style="overflow:auto;height:calc(70vh)">
+                                    <div class="am-u-sm-12" >
                                         <!--选项卡-->
                                         {include file="xjryanse/amazeui/list/typeTab"/}
                                         <!--表格-->
@@ -124,21 +124,35 @@
                 {include file="xjryanse/amazeui/vuejs/ajaxOperate"/}
                 //获取数据列表
                 getLists : function () {
-                    var e = this;
+                    var that = this;
                     //弹层
                     var layerIndex = layer.load(2);
                     $.ajax({
                         url: '{:url('',$paramInherit)}',
                         type: 'POST',
-                        data: e.queryData,
+                        data: that.queryData,
                         success: function (data) {
                             layer.close(layerIndex);
                             console.log(data);
                             if (data.code != 0) {
                                 layer.msg(data.message);
                             }
-                            e.dataList = data.data;
-                            console.log(e.dataList);
+                            that.dataList = data.data;
+                            console.log(that.dataList);
+                            //数据加载完成重设表格列宽
+                            that.$nextTick(function () {
+                                //主聊天框滚动到最底部
+                                var widths = getTableWidth('main_table');
+                                //测试
+                                console.log( '拉取列表开始' );
+                                console.log( widths );
+                                console.log($('#mainTableHeader th'));
+                                $('#mainTableHeader th').width(function(i,e){
+                                    console.log(widths[i]);
+                                    return widths[i];
+                                });
+                                console.log( getTableWidth('mainTableHeader') );
+                            })
                         }
                     });
                 },
