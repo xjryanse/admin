@@ -28,9 +28,11 @@
                     <!--操作-->
                     <block v-for="(operate,k) in {$tmpListKey}.columnInfo.operateInfo">
                         <!--编辑-->
-                        <a href="javascript:;" v-if="operate.operate_key == 'edit'" v-on:click="editLayerPage('{:url('edit',$paramInherit)}?id='+item.id)">
-                            <i class="am-icon-pencil"></i> {{operate['operate_name']}}
-                        </a>
+                        <cbutton v-if="operate.operate_key == 'edit'" type="tableOperate"
+                            icon='pencil' width = "90%"  height = "90%" 
+                            v-bind:button_name="operate['operate_name']" 
+                            v-bind:url= "'{:url('edit',$paramInherit)}?id='+item.id" 
+                        ></cbutton>
                         <!--删除-->
                         <a href="javascript:;" class="tpl-table-black-operation-del" v-if="operate.operate_key == 'delete'" v-on:click="deleteItem(item)">
                             <i class="am-icon-trash"></i> {{operate['operate_name']}}

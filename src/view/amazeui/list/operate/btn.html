@@ -3,12 +3,11 @@
         <!--列表弹窗-->
         <a href="javascript:;" v-if="btn.o_type == 'listpop'" v-on:click="btnLayerPage(btn,{$tmpItemValueName})">
             <i class="am-icon-pencil"></i> {{btn.name}}
-        </a>
+        </a>        
         <!-- listoperate：列表操作-->
         <a href="javascript:;" v-if="btn.o_type == 'listoperate'" v-on:click="dataAjax(btn,{$tmpItemValueName})">
             <i class="am-icon-pencil"></i> {{btn.name}}
         </a>
-
         <!--        jump：本页跳链-->
         <!--     mainpop：本页弹窗-->
         <!--       blank：新窗口-->
