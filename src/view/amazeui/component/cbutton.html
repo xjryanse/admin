@@ -18,7 +18,7 @@
         </a>
         
         <!--表格中的操作按钮-->
-        <a href="javascript:;" v-on:click="layerPage()" v-if="type=='tableOperate'">
+        <a href="javascript:;" v-on:click="doLayerPage()" v-if="type=='tableOperate'">
             <i v-bind:class=" icon ? icons[icon] : 'am-icon-plus'"></i> {{button_name}}
         </a>
     </block>
