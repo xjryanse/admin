@@ -7,7 +7,7 @@
             <div class="row-content am-cf">
                 <div class="row">
                     <!--主模块区域-->
-                    <div :class="'am-u-sm-12 am-u-md-' + dataList.columnInfo.block_width">
+                    <div v-bind:class="'am-u-sm-12 am-u-md-' + dataList.columnInfo.block_width" v-if="dataList.columnInfo">
                         <div class="widget am-cf">
                             <div class="widget-head am-cf">
                                 <div class="widget-title  am-cf">{{dataList.columnInfo.name}}</div>
