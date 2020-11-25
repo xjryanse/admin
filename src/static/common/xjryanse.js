@@ -70,6 +70,7 @@ function contentChange(itemId, url,callback) {
         }
     });
 }
+
 /**
  * 压缩图片
  * @param {type} file
@@ -108,4 +109,30 @@ function compressImg(file,callback) {
             callback(files); // 回调
         }
     }
+}
+
+//全屏
+fullscreen=function(){
+    var docE = document.documentElement;
+    if (docE.requestFullScreen) {
+        docE.requestFullScreen();
+    } else if (docE.mozRequestFullScreen) {
+        docE.mozRequestFullScreen();
+    } else if (docE.webkitRequestFullScreen) {
+        docE.webkitRequestFullScreen();
+    }
+//    layer.msg('按ESC退出全屏');
+}
+
+//退出全屏
+exitFullscreen=function(){
+    var docE = document;
+    if (docE.exitFullscreen) {
+        docE.exitFullscreen();
+    } else if (docE.mozCancelFullScreen) {
+        docE.mozCancelFullScreen();
+    } else if (docE.webkitCancelFullScreen) {
+        docE.webkitCancelFullScreen();
+    }
+//    layer.msg('已退出全屏');
 }
