@@ -8,6 +8,16 @@ header {
   z-index: 1200;
   position: relative;
 }
+body::-webkit-scrollbar {
+    display: none;
+}
+.page-container {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    bottom:0px;
+    right:0px;
+}
 .tpl-header-logo {
   width: 240px;
   height: 57px;
@@ -264,14 +274,22 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
   color: #fff!important;
 }
 .left-sidebar {
-  transition: all 0.4s ease-in-out;
-  width: 240px;
-  min-height: 100%;
-  padding-top: 57px;
-  position: absolute;
-  z-index: 1104;
-  top: 0;
-  left: 0px;
+    transition: all 0.4s ease-in-out;
+    width: 240px;
+    padding-top: 57px;  
+    z-index: 1104;
+    top: 0;
+    left: 0px;
+    position: fixed;
+    overflow: hidden;
+    height: 100vh;
+}
+.left-menu{
+    bottom:0px;
+    top:0px;
+    width:257px;    /**加了一个滚动条的宽度**/
+    overflow: auto;
+    height:calc(100vh - 225px );
 }
 .left-sidebar.xs-active {
   left: 0px;
@@ -450,9 +468,13 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
 .widget {
   width: 100%;
   min-height: 148px;
-  margin-bottom: 20px;
   border-radius: 0;
   position: relative;
+}
+/**主窗口**/
+.widget-main {
+    height:calc(100vh - 100px );
+    overflow:auto;
 }
 .widget-head {
   width: 100%;
@@ -472,7 +494,7 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
   width: 100%;
 }
 .row-content {
-  padding: 20px;
+  padding: 10px;
 }
 .widget-fluctuation-description-text {
   margin-top: 4px;
@@ -685,8 +707,9 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
 }
 @media screen and (min-width: 641px) {
   [class*=am-u-] {
-    padding-left: 10px;
-    padding-right: 10px;
+      padding:10px;
+/*    padding-left: 10px;
+    padding-right: 10px;*/
   }
 }
 @media screen and (max-width: 641px) {
