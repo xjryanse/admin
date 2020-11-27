@@ -157,6 +157,10 @@
                         //临时名称：字段名+时间戳
                         var tmpName = item.name + LoadTimeStamp;
                         UEdit[ tmpName ] = UE.getEditor( tmpName );
+                        //限制固定高度，比较美观
+                        UEdit[ tmpName ].ready(function() {
+                            this.setHeight(500);
+                        });
                         UEdit[ tmpName ].addListener("blur",function(){
                             //赋值到绑定数据
                             that.inputData[item.name] = UEdit[ tmpName ].getContent();
