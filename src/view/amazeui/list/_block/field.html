@@ -47,11 +47,10 @@
             </a>
             <!--开关-->
             <block v-if = "field.type=='switch'">
-                <div class="tpl-switch">
+                <div class="tpl-switch" style="position:relative;">
                     <input type="checkbox" class="ios-switch bigswitch tpl-switch-btn" v-model="item[field.name]" v-on:click="item[field.name] = Number(!item[field.name]);updateItem(item)">
                     <div class="tpl-switch-btn-view" style="display:inline-block">
-                        <div>
-                        </div>
+                        <div></div>
                     </div>
                 </div>
             </block>

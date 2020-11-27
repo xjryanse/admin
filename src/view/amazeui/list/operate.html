@@ -3,18 +3,20 @@
         <div class="am-btn-group am-btn-group-xs" v-if="dataList.columnInfo">
             <block v-for="(operate,k) in dataList.columnInfo.operateInfo">
                 <!--新增-->
-                <cbutton v-if="operate.operate_key == 'add'" type='layerPage'  
+                <cbutton v-if="operate.operate_key == 'add'" type='layerPageFull'  
                          icon='plus' width = "90%"  height = "90%" 
                          btn_style="primary" size="small" 
                          v-bind:button_name="operate['operate_name']" 
-                         v-bind:url= "'{:url('/admin/system/edit',array_merge($paramInherit,['admKey'=>'column']))}?id=' + dataList.columnInfo.id" 
+                         v-bind:url= "'{:url('add',array_merge($paramInherit,request()->param()))}'" 
                     ></cbutton>
                 <!--导入-->
+                <!--
                 <a href="javascript:;" v-if="operate.operate_key == 'import'">
                     <button type="button" class="am-btn am-btn-default am-btn-secondary">
                         <span class="am-icon-cloud-upload"></span> {{operate['operate_name']}}
                     </button>
                 </a>
+                -->
                 <!--导出-->
                 <a href="{:url('export',$paramInherit)}" target="_blank" v-if="operate.operate_key == 'export'">
                     <button type="button" class="am-btn am-btn-default am-btn-warning">

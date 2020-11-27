@@ -3,7 +3,7 @@
     <div class="row-content am-cf">
         <div class="row" >
             <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
-                <div class="widget am-cf" >
+                <div class="widget widget-main am-cf" >
                     <div class="widget-head am-cf">
                         <div class="widget-title am-fl"></div>
                         <div class="widget-function am-fr">
@@ -104,7 +104,7 @@
                 var that = this;
                 that.columnHeader.listInfo.forEach(function(item,index){
                     //动态树
-                    if(item.type=="dyntree"){
+                    if(item.type=="dyntree" && ((item.is_add && that.formType == 'add') || (item.is_edit && that.formType == 'edit'))){
                         var tmpData = $("#"+item.name).attr('checks');    
                         //TODO寻求直接绑定到dom上的方法20201104
                         that.inputData[ item.name ] = tmpData.split( ',' );
