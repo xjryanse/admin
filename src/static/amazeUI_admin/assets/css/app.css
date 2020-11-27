@@ -8,15 +8,21 @@ header {
   z-index: 1200;
   position: relative;
 }
+/**有bug：layer弹层跑位*/
+/*body {
+    zoom: 0.8;
+    -moz-transform: scale(0.8);
+    -moz-transform-origin: 0 0;
+}*/
 body::-webkit-scrollbar {
     display: none;
 }
 .page-container {
     position: fixed;
     width: 100%;
-    height: 100vh;
-    bottom:0px;
-    right:0px;
+    height: 100%;
+    top:0px;
+    left:0px;
 }
 .tpl-header-logo {
   width: 240px;
@@ -282,12 +288,12 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
     left: 0px;
     position: fixed;
     overflow: hidden;
-    height: 100vh;
+    height: 100%;
 }
 .left-menu{
     bottom:0px;
     top:0px;
-    width:257px;    /**加了一个滚动条的宽度**/
+    width:256px;    /**加了一个滚动条的宽度**/
     overflow: auto;
     height:calc(100vh - 225px );
 }

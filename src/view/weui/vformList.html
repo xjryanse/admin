@@ -28,6 +28,18 @@
                     </div>
                 </div>
             {/if}
+            <!--inputType可设置number，动态；只能数字-->
+            {if $vo.type== 'number'}
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input " id="{$tmpVoId}" name="{$vo.field}" type="text" 
+                               maxlength="{$vo.maxLength|default='99'}" 
+                               v-model='inputData.{$tmpVoField}' {if !$vo.is_edit} readonly {else /} placeholder="请输入{$vo.label}" {/if} 
+                               oninput = "value=value.replace(/[^\d]/g,'')">
+                    </div>
+                </div>
+            {/if}
             <!--手机号码-->
             {if $vo.type== 'phone'}
                 <div class="weui-cell">

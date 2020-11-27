@@ -381,8 +381,8 @@
   color: black;
 }
 .theme-white .tpl-table-black thead > tr > th {
-  font-size: 14px;
-  padding: 6px;
+/*  font-size: 14px;
+  padding: 6px;*/
 }
 .theme-white .tpl-table-black tbody > tr > td {
   font-size: 14px;
