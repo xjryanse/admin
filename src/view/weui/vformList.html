@@ -52,7 +52,7 @@
                                name="{$vo.field}" 
                                type="{$vo.inputType|default='text'}" 
                                v-model='inputData.{$tmpVoField}' {if !$vo.is_edit} readonly {else /} placeholder="请输入{$vo.label}" {/if} 
-                               oninput = "value=value.replace(/[^\d]/g,'')">
+                               oninput = "value=value.replace(/[^\dX]/g,'')">
                     </div>
                 </div>
             {/if}        
