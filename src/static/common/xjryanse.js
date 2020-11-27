@@ -148,3 +148,47 @@ getTableWidth = function(tableId){
     });
     return widths;
 }
+
+//上一个链接，用于back
+var frLastUrl = '';     //上一个链接
+var frThisUrl = '';     //本页面链接
+//主内容改变
+function mainContentChange(url){
+    //异步加载首页内容
+    ajaxContentChange("mainContent",url );
+}
+/**
+ * 带加载的跳转
+ * @returns {undefined}
+ */
+function jumpWithLoading( url ){
+    $('.loading').show();
+    frLastUrl   = frThisUrl;
+    frThisUrl   = url;
+//        window.location.href = url;
+    mainContentChange( url );
+}
+/**
+ * 带加载的返回
+ * @returns {undefined}
+ */
+function backWithLoading(){
+    $('.loading').show();
+    mainContentChange( frLastUrl );
+}
+/**
+ * 兼容ios回退刷新问题
+ * @returns {undefined}
+ */
+$(function () {
+    var isPageHide = false;
+    window.addEventListener('pageshow', function () {
+        if (isPageHide) {
+        window.location.reload();
+        }
+    });
+    window.addEventListener('pagehide', function () {
+        isPageHide = true;
+    });
+});    
+
