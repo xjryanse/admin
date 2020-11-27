@@ -191,4 +191,18 @@ $(function () {
         isPageHide = true;
     });
 });    
+/*
+ * url参数替换
+ * @param {type} url    带待替换的url,例如，包含{$controller}
+ * @param {type} data   键值对，例如{'controller':'admin'}
+ * @returns {Array|btn.url|type}
+ */
+function urlDataReplace( url , data )
+{
+    //正则替换
+    $.each(data,function (key, value) {
+        url = url.replace( '{$'+ key +'}' ,value);
+    });
 
+    return url;
+}

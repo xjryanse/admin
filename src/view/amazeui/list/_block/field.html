@@ -39,11 +39,11 @@
             </block>
             <!--链接图片-->
             <a :href="item[field.name]" v-if = "field.type=='image'" target="_blank">
-                <img :src="item[field.name]" width="80">
+                <img :src="item[field.name]" width="field.min_width">
             </a>
             <!--上传图片-->
             <a :href="item[field.name]['file_path']" v-if = "field.type=='uplimage' && item[field.name]"  target="_blank">
-                <img :src="item[field.name]['file_path']" width="80">
+                <img :src="item[field.name]['file_path']" v-bind:width="field.min_width">
             </a>
             <!--开关-->
             <block v-if = "field.type=='switch'">

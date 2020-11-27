@@ -138,17 +138,8 @@
                             //数据加载完成重设表格列宽
                             if( that.dataList.total ){
                                 that.$nextTick(function () {
-                                    //主聊天框滚动到最底部
-                                    var widths = getTableWidth('main_table');
-                                    //测试
-                                    console.log( '拉取列表开始' );
-                                    console.log( widths );
-                                    console.log($('#mainTableHeader th'));
-                                    $('#mainTableHeader th').width(function(i,e){
-                                        console.log(widths[i]);
-                                        return widths[i] ;
-                                    });
-                                    console.log( getTableWidth('mainTableHeader') );
+                                    //表体和表头宽度对齐
+                                    matchTableHeaderWidth('main_table','mainTableHeader','th');
                                 })
                             }
                         }
@@ -222,6 +213,7 @@
                     that.ajaxOperate( "{:url('update',$paramInherit)}",item,"");
                 },
                 //页面切换
+                /*
                 contentChange : function(url){
                     $.ajax({
                         url: url,
@@ -235,6 +227,7 @@
                         }
                     });
                 },
+                */
                 /**
                  * 普通弹窗
                  * @param {type} url        url
@@ -305,13 +298,15 @@
                 btnLayerPage : function (btn,data,refresh){
                     console.log(btn);
                     console.log(data);
-                    var url = btn.url;
-                    //正则替换
-                    $.each(data,function (key, value) {
-                        var tmp = url.replace( '{$'+ key +'}' ,value);
-                        url = tmp;
-                    });
-                    console.log( url );
+                    var url = urlDataReplace( btn.url, data );
+//                    
+//                    var url = btn.url;
+//                    //正则替换
+//                    $.each(data,function (key, value) {
+//                        var tmp = url.replace( '{$'+ key +'}' ,value);
+//                        url = tmp;
+//                    });
+//                    console.log( url );
                     //url弹窗
                     this.layerPage(url,[],'95%','95%',refresh);
                 },
@@ -325,10 +320,14 @@
                     console.log( btn );
                     console.log( data );
                     //子块内的操作，正则替换参数：使用主表数据currentSelectItem
-                    $.each( this.currentSelectItem,function (key, value) {
-                        var tmp = btn.url.replace( '{$'+ key +'}' ,value);
-                        btn.url = tmp;
-                    });
+//                    $.each( this.currentSelectItem,function (key, value) {
+//                        var tmp = btn.url.replace( '{$'+ key +'}' ,value);
+//                        btn.url = tmp;
+//                    });
+//                    
+                    //正则替换参数
+                    btn.url = urlDataReplace( btn.url, this.currentSelectItem );
+
                     var that = this;
                     if(btn.confirm){
                         //弹窗确认信息
