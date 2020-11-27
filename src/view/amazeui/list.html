@@ -43,7 +43,7 @@
 
                     <!--参数：块宽度-->
                     <div class="am-u-sm-12 am-u-md-{$vo.block_width}">
-                        <div class="widget am-cf">
+                        <div class="widget am-cf" >
                             <div class="widget-head am-cf">
                                 <div class="widget-title am-fl">{$vo.title|default="title未命名"}</div>
                                 <div class="widget-function am-fr">
@@ -51,19 +51,17 @@
                                 </div>
                             </div>
                             <!--列表-->
-                            {if $vo.show_type == 'list'}
-                                <div style="overflow:auto;">
+                            <div style="height: {$vo.block_height}vh; overflow: auto;">
+                                {if $vo.show_type == 'list'}
                                     <!--表格-->
                                     {php}
                                         $tmpListKey = $vo['table_name'].$vo['id'];
                                         $tmpListFields = explode(',',$vo['fields']);
                                     {/php}
                                     {include file="xjryanse/amazeui/list/data_sub"/}
-                                </div>
-                            {/if}
-                            <!--信息-->
-                            {if $vo.show_type == 'info'}
-                                <div style="overflow:auto;">
+                                {/if}
+                                <!--信息-->
+                                {if $vo.show_type == 'info'}
                                     <!--表格-->
                                     {php}
                                         $tmpTableName       = $vo['table_name'];            
@@ -73,13 +71,13 @@
                                         $tmpListFields      = explode(',',$vo['fields']);
                                     {/php}
                                     {include file="xjryanse/amazeui/list/data_info"/}
-                                </div>
-                            {/if}
-                            <table class="am-table tpl-table-black" v-if="{$tmpListKey}.columnInfo">
+                                {/if}
+                            </div>
+                            <table class="am-table tpl-table-black">
                                 <tr class="gradeX" style="white-space: nowrap;">
                                     <!--操作按钮-->
                                     <td>
-                                        <div class="tpl-table-black-operation">
+                                        <div class="tpl-table-black-operation" v-if="{$tmpListKey}.columnInfo">
                                             <!--按钮-->
                                             {php} $tmpBtnColumnInfoName = 'dataList.columnInfo.blockInfo['. $tmpBlockKey .']';  {/php}
                                             {php} $tmpItemValueName = $tmpListKey.".data";  {/php}
