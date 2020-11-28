@@ -12,6 +12,8 @@
                 //关闭弹层
                 layer.close( layerIndex );
                 if(data.code == 0){
+                    //强制刷新
+                    that.$forceUpdate();
                     layer.msg(data.message, {icon: 1, time: 1000});
                     //回调函数
                 } else {
