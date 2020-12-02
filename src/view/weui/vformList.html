@@ -48,7 +48,7 @@
                         <input class="weui-input " id="{$tmpVoId}" name="{$vo.field}" type="text" 
                                maxlength="{$vo.maxLength|default='99'}" 
                                v-model='inputData.{$tmpVoField}' {if !$vo.is_edit} readonly {else /} placeholder="请输入{$vo.label}" {/if} 
-                               oninput = "value=value.replace(/[^\d]./g,'')">
+                               oninput = "value=value.replace(/[^\d\.]/g,'')">
                     </div>
                 </div>
             {/if}            

@@ -1,0 +1,84 @@
+<!--isDetail为true时使用-->
+<!--字段类型：普通输入框-->
+<div v-if="[fieldName].type == 'text' || [fieldName].type == 'listedit' ">
+    <p>{{{$tmpValueName}[[fieldName].name]}}</p>
+</div>
+<!--字段类型：文本输入框-->
+<!--                        <div v-if="[fieldName].type == 'textarea'">-->
+<div v-if="[fieldName].type == 'textarea'">
+    <p>{{{$tmpValueName}[[fieldName].name]}}</p>
+</div>
+<!--字段类型：多选框-->
+<div v-if="[fieldName].type == 'check'">
+    <label class="am-checkbox-inline" v-for="(tmpOption,k) in [fieldName].option.option">
+        <p>{{{$tmpValueName}[[fieldName].name]}}</p>
+    </label>
+</div>
+<!--字段类型：普通枚举-->
+<div v-if="[fieldName].type == 'enum'">
+    <p>{{[fieldName].option[{$tmpValueName}[[fieldName].name]]}}</p>
+</div>
+<!--字段类型：动态枚举-->
+<div  v-if="[fieldName].type == 'dynenum'">
+    <p>{{[fieldName].option.option[{$tmpValueName}[[fieldName].name]]}}</p>
+</div>
+<!--字段类型：动态树-->
+<div  v-if="[fieldName].type == 'dyntree'">
+    <p>{{{$tmpValueName}[[fieldName].name]}}</p>
+</div>
+
+<!--字段类型：date日期-->
+<div  v-if="[fieldName].type == 'date'">
+    <p>{{{$tmpValueName}[[fieldName].name]}}</p>
+</div>
+
+<!--字段类型：上传图片-->
+<div v-if="[fieldName].type == 'uplimage'">
+    <div class="am-form-group am-form-file">
+        <div class="tpl-form-file-img" style="width:250px;">
+            <img :src="{$tmpValueName}[[fieldName].name]['file_path']" v-if="{$tmpValueName}[[fieldName].name]" style="max-width:100%;" >
+        </div>
+    </div>
+</div>
+<!--字段类型：编辑器-->
+<div  v-if="[fieldName].type == 'editor'">
+    <p>{{{$tmpValueName}[[fieldName].name]}}</p>
+</div>
+<!--字段类型：开关-->
+<div  v-if="[fieldName].type == 'switch'">
+    <p>{{{$tmpValueName}[[fieldName].name]}}</p>
+</div>
+<!--字段类型：块编辑-->
+<div v-if="[fieldName].type == 'tplset'">
+    <table width="100%" class="am-table am-table-compact am-text-nowrap tpl-table-black " id="example-r">
+        <thead>
+            <tr class="gradeX">
+                <!--根据option_cov的键值结果进行替换-->
+                <th v-for="(tmpOption,k) in [fieldName].option.option[0]">{{[fieldName].option.option_cov[k]}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="gradeX"  v-for="(tmpOption,k) in [fieldName].option.option">
+                <td v-for="(subData,key) in tmpOption" >
+                    <!--主名称-->
+                    <span v-if="key=='keyName'">{{subData}}</span>
+                    <span v-else-if="key=='total'">{{tplSetCalTotal(tmpOption,'prize')}}</span>
+                    <input v-else-if="subData.length !=0" type="text" placeholder="" v-model="tmpOption[key][[fieldName].option.to_field]"
+                           onmouseover="$('.listEditInput').addClass('borderHide');$(this).removeClass('borderHide')" 
+                           @blur="subUpdate([fieldName].option.to_table, tmpOption[key] );"
+                           class="tpl-form-input listEditInput" style="width: 100%;">
+                    <span v-else>——</span>
+                </td>
+            </tr>
+            <tr class="gradeX">
+                <td v-for="(items,key) in [fieldName].option.option[0]" >
+                    <!--主名称-->
+                    <span v-if="key=='keyName'">合计</span>
+                    <span v-else-if="key=='total'">{{tplSetCalAllTotal([fieldName].option.option ,'prize' )}}</span>
+                    <span v-else>{{tplSetCalColTotal([fieldName].option.option , key ,'prize' )}}</span>
+                </td>
+            </tr>
+            <!-- more data -->
+        </tbody>
+    </table>
+</div>
