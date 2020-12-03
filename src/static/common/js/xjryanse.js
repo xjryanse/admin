@@ -206,3 +206,58 @@ function urlDataReplace( url , data )
 
     return url;
 }
+/**
+ * 弹窗页面(不包含js的单页面)
+ * @param {type} url        url
+ * @param {type} formData   表单数据
+ * @param {type} width      宽度
+ * @param {type} height     高度
+ * @returns {layerPage}
+ */
+function layerPage( url, formData, width, height )
+{
+    //弹层
+    var layerIndex  = layer.load(2);
+    $.ajax({
+        url:  url,
+        type: 'POST',
+        data :formData,
+        beforeSend: function( xhr ) { 
+            xhr.setRequestHeader('X-Requested-With', {toString: function(){ return ''; }}); 
+        }, 
+        success: function (data) {
+            console.log(data);
+            
+            //关闭弹层
+            layer.close(layerIndex);
+            layer.open({
+                type: 1,
+                skin: 'layui-layer-rim', //加上边框
+                area: [width, height], //宽高
+                end : function () {
+
+                },
+                content: data
+            });                            
+        }
+    });   
+}
+/**
+ * 弹窗包含了css和js的页面
+ * @param {type} url    
+ * @param {type} width  
+ * @param {type} height
+ * @returns {undefined}
+ */
+function layerPageFull( url,width,height)
+{
+    layer.open({
+        type: 2,
+        skin: 'layui-layer-rim', //加上边框
+        area: [width, height], //宽高
+        end : function () {
+
+        },
+        content: url
+    });
+}

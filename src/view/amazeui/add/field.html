@@ -5,6 +5,11 @@
     <p v-if="isDetail">{{{$tmpValueName}[[fieldName].name]}}</p>
     <small>{{[fieldName].remark}}</small>
 </div>
+<!--字段类型：密码输入框-->
+<div v-if="[fieldName].type == 'password'">
+    <input type="password" class="tpl-form-input" :readonly="[fieldName].is_edit == 0" placeholder="请输入" v-model="{$tmpValueName}[[fieldName].name]" v-if="!isDetail">
+    <small>{{[fieldName].remark}}</small>
+</div>
 <!--字段类型：文本输入框-->
 <!--                        <div v-if="[fieldName].type == 'textarea'">-->
 <div v-if="[fieldName].type == 'textarea'">
