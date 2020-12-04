@@ -3,9 +3,9 @@
      v-if="field.search_type != -1 && field.is_list == 1"
      v-if="field.type=='text' || field.type=='enum' || field.type=='dynenum'"
      >
-    <!--输入框-->
-    <div class="am-form-group tpl-table-list-select" v-if = "field.type=='text'" >
-        <input type="text" class="am-form-field" :placeholder="field.label" v-model="queryData[field.name]">
+    <!--输入框{{field}}-->
+    <div class="am-form-group tpl-table-list-select" v-if = "field.type=='text' || field.type=='listedit'" >
+        <input type="text" class="am-form-field" v-bind:placeholder="field.label" v-model="queryData[field.name]">
     </div>
     <!--枚举框-->
     <div class="am-form-group tpl-table-list-select" v-if = "field.type=='enum'">
