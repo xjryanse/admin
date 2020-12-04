@@ -150,8 +150,7 @@ getTableWidth = function(tableId){
 }
 
 //上一个链接，用于back
-var frLastUrl = '';     //上一个链接
-var frThisUrl = '';     //本页面链接
+var frUrlStack = [];    //url数组栈（用于单页面多次返回）
 //主内容改变
 function mainContentChange(url){
     //异步加载首页内容
@@ -163,8 +162,7 @@ function mainContentChange(url){
  */
 function jumpWithLoading( url ){
     $('.loading').show();
-    frLastUrl   = frThisUrl;
-    frThisUrl   = url;
+    frUrlStack.push(url);
 //        window.location.href = url;
     mainContentChange( url );
 }
@@ -174,7 +172,7 @@ function jumpWithLoading( url ){
  */
 function backWithLoading(){
     $('.loading').show();
-    mainContentChange( frLastUrl );
+    mainContentChange( frUrlStack.pop());
 }
 /**
  * 兼容ios回退刷新问题
