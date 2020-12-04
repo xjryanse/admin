@@ -144,7 +144,8 @@ getTableWidth = function(tableId){
     var cols = rows[0].cells;
     var widths = [];
     $.each( cols ,function (index, element) {
-        widths.push(element.clientWidth);
+//        widths.push(element.clientWidth);
+        widths.push(element.getBoundingClientRect().width);
     });
     return widths;
 }

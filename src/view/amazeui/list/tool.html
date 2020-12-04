@@ -5,10 +5,18 @@
             v-on:click="searchMore()"
             >筛选</button>
 </div>
-<!--刷新-->
+<!--刷新 页面-->
+    <!--
+        <div class="am-btn-group">
+            <button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-repeat" type="button" 
+                    v-on:click="contentChange('AM_Content{$tmpTime}','{:request()->url()}')"
+                    >刷新</button>
+        </div>
+    -->
+<!--刷新 数据-->
 <div class="am-btn-group">
     <button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-repeat" type="button" 
-            v-on:click="contentChange('AM_Content','{:request()->url()}')"
+            v-on:click="getLists()"
             >刷新</button>
 </div>
 <!--全屏-->

@@ -1,6 +1,6 @@
 <div style="overflow:hidden;">
     <table class="tpl-table-black am-table-bordered" 
-           id ="mainTableHeader"
+           id ="mainTableHeader{$tmpTime}"
            v-if="{$tmpListKey}.columnInfo" style="font-size:12px;">
         <thead>
             <tr>
@@ -13,7 +13,7 @@
 </div>
 <div style="overflow:auto;height:60vh;">
     <table class="am-table am-table-compact am-table-striped tpl-table-black am-table-bordered" 
-           id ="main_table"
+           id ="main_table{$tmpTime}"
            v-if="{$tmpListKey}.columnInfo" style="font-size:12px;">
         <tbody>
             <tr v-if="{$tmpListKey}.data.length == 0" >
