@@ -89,7 +89,7 @@
                                id="{$tmpVoId}" name="{$vo.field}" 
                                type="{$vo.inputType|default='text'}" 
                                v-model='inputData.{$tmpVoField}' placeholder="请选择" 
-                               onchange="App.inputData[this.name]=this.value;" >
+                               onchange="App.inputData.{$tmpVoField}=this.value;" >
                     </div>
                 </div>
             {/if}
