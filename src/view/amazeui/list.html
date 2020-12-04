@@ -1,6 +1,7 @@
+{php}$tmpVueAppId = request()->module().request()->controller().request()->action().time();{/php}
 {php}$tmpTime = time();{/php}
 <body style="height:100%;">
-    <div id="vue_list{:request()->module()}{:request()->controller()}{:request()->param('admKey')}{$tmpTime}">
+    <div id="{$tmpVueAppId}">
         <!-- 内容区域 -->
         <!-- 内容区域 -->
         <div>
@@ -100,7 +101,7 @@
         $('.listEditInput').addClass('borderHide');
         
         var app = new Vue({
-            el: '#vue_list{:request()->module()}{:request()->controller()}{:request()->param('admKey')}{$tmpTime}',
+            el: '#{$tmpVueAppId}',
             data: {
                     'dataList' : [],
                     'queryData': {:json_encode(request()->param())},
@@ -210,22 +211,6 @@
                     //调用公共异步请求函数
                     that.ajaxOperate( "{:url('update',$paramInherit)}",item,"");
                 },
-                //页面切换
-                /*
-                contentChange : function(url){
-                    $.ajax({
-                        url: url,
-                        type: 'POST',
-                        data:formData,
-                        beforeSend: function( xhr ) { 
-                            xhr.setRequestHeader('X-Requested-With', {toString: function(){ return ''; }}); 
-                        }, 
-                        success: function (data) {
-                            $('#AM_Content').html(data);
-                        }
-                    });
-                },
-                */
                 /**
                  * 普通弹窗
                  * @param {type} url        url
