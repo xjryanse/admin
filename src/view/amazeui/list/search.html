@@ -1,4 +1,8 @@
-<div class="am-u-sm-12 am-u-md-6 am-u-lg-2" style="float:left" v-for="(field,i) in dataList.columnInfo.listInfo" v-if="field.search_type != -1">
+<div class="am-u-sm-12 am-u-md-6 am-u-lg-2" style="float:left" 
+     v-for="(field,i) in dataList.columnInfo.listInfo" 
+     v-if="field.search_type != -1 && field.is_list == 1"
+     v-if="field.type=='text' || field.type=='enum' || field.type=='dynenum'"
+     >
     <!--输入框-->
     <div class="am-form-group tpl-table-list-select" v-if = "field.type=='text'" >
         <input type="text" class="am-form-field" :placeholder="field.label" v-model="queryData[field.name]">
@@ -17,7 +21,6 @@
             <option :value="j" v-for="(items,j) in field.option.option">{{items}}</option>
         </select>
     </div>
-    
 </div>
 
 <div class="am-u-sm-12 am-u-md-6 am-u-lg-2" style="float:left" >
