@@ -152,6 +152,8 @@ getTableWidth = function(tableId){
 
 //上一个链接，用于back
 var frUrlStack = [];    //url数组栈（用于单页面多次返回）
+var frLastUrl = '';       //上次url
+var frThisUrl = '';       //本次url
 //主内容改变
 function mainContentChange(url){
     //异步加载首页内容
@@ -163,7 +165,9 @@ function mainContentChange(url){
  */
 function jumpWithLoading( url ){
     $('.loading').show();
-    frUrlStack.push(url);
+    frLastUrl   = frThisUrl;
+    frThisUrl   = url;    
+    frUrlStack.push( frLastUrl );
 //        window.location.href = url;
     mainContentChange( url );
 }
