@@ -14,14 +14,36 @@
                         <form class="am-form tpl-form-border-form tpl-form-border-br" @submit.prevent="submit" id="myForm">
                             <!--只显示is_add字段；按后台配置宽度显示-->
                             <block v-for="(field,i) in columnHeader.listInfo" v-if="(field.is_add && formType == 'add') || (field.is_edit && formType == 'edit')">
-                                <div class="am-form-group" :class=" 'am-u-sm-' + field.form_col"  v-if="field.type !='hidden'">
+                                <div class="am-form-group" :class=" 'am-u-sm-' + field.form_col"  v-if="field.type !='hidden' && field.type !='union'">
                                     <label for="user-name" class="am-form-label">{{field.label}}</label>
-                                    <div>
+                                    <div>                                        
                                         <!--添加字段区-->
                                         {php} $tmpValueName = "inputData";{/php}
                                         {include file="xjryanse/amazeui/add/field" fieldName="field" /}
                                     </div>
                                 </div>
+                                <!--联表类型数据：union-->
+                                <div class="am-form-group" :class=" 'am-u-sm-' + field.form_col"  v-if="field.type =='union'">
+                                     <hr>
+                                    <label for="user-name" class="am-form-label">{{field.label}}</label>
+                                    <div>
+                                        <!--子级表的循环-->
+                                        <block v-for="(subField,j) in field.table_info.listInfo">
+                                            {{subField}}
+                                            <div class="am-form-group" :class=" 'am-u-sm-' + subField.form_col"  v-if="field.type !='hidden' && field.type !='union'">
+                                                <label for="user-name" class="am-form-label">{{subField.label}}</label>
+                                                <div>
+                                                    <!--添加字段区-->
+                                                    {php} $tmpValueName = "inputData";{/php}
+                                                    {include file="xjryanse/amazeui/add/field" fieldName="field" /}
+                                                </div>
+                                            </div>
+                                        </block>
+                                        <!--子级表的循环结束-->
+                                    </div>
+                                </div>
+                                <!--联表类型数据结束：union-->
+                                <!--隐藏域-->
                                 <input v-if="field.type =='hidden'" type="hidden" v-model="inputData[field.name]">
                             </block>
                             <div class="am-form-group" v-if="!isDetail">
@@ -37,7 +59,8 @@
     </div>
 </div>
 
-
+<!-- 字段模板 -->
+{include file="xjryanse/amazeui/component/cfield"/}
 <script>
     var UEdit = [];    //ueditor对象实例
     //模块加载时的时间戳

@@ -1,9 +1,7 @@
 <!--需要$tmpValueName-->
 <!--字段类型：普通输入框-->
 <div v-if="[fieldName].type == 'text' || [fieldName].type == 'listedit' ">
-    <input type="text" class="tpl-form-input" :readonly="[fieldName].is_edit == 0" placeholder="请输入" v-model="{$tmpValueName}[[fieldName].name]" v-if="!isDetail">
-    <p v-if="isDetail">{{{$tmpValueName}[[fieldName].name]}}</p>
-    <small>{{[fieldName].remark}}</small>
+    <cfield v-bind:type="[fieldName].type" v-model="{$tmpValueName}[[fieldName].name]" v-bind:remark="[fieldName].remark"></cfield>
 </div>
 <!--字段类型：密码输入框-->
 <div v-if="[fieldName].type == 'password'">

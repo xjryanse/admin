@@ -1,0 +1,29 @@
+<!-- 字段组件 -->
+<template id="cfield">
+    <!--layerPage-->
+    <block>
+        <!--文本-->
+        <div v-if="type == 'text' || type == listedit">
+            <input type="text" class="tpl-form-input" v-model="value" v-on:change="$emit('input', $event.target.value)">
+            <small>{{remark}}</small>
+        </div>
+        
+    </block>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('cfield', {
+        props: ['type','value','remark'],
+        template: '#cfield',
+        data: function(){
+
+        },
+        methods : {
+            
+        },
+        created :function(){
+
+        }
+    });
+</script>
