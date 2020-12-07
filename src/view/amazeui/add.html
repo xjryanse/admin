@@ -58,6 +58,10 @@
 
 <!-- 字段模板 -->
 {include file="xjryanse/amazeui/component/cfield"/}
+<!-- 价格模板 -->
+{include file="xjryanse/amazeui/component/ctplset"/}
+
+
 <script>
     var UEdit = [];    //ueditor对象实例
     //模块加载时的时间戳
@@ -130,103 +134,7 @@
                         that.inputData[ item.name ] = tmpData.split( ',' );
                     }
                 });
-            },
-            //模板设定，计算总价：data格式
-//            {
-//                "keyName": "商标租用价",
-//                "plate": {
-//                        "id": "5143732902235736157",
-//                        "app_id": "5116224059889159898",
-//                        "company_id": "5116226883423308145",
-//                        "pid": "",
-//                        "goods_id": "5136132095000709267",
-//                        "prize_type": "",
-//                        "prize_key": "plateTmRentPrize",
-//                        "prize_name": "",
-//                        "belong_role": "",
-//                        "belong_user_id": "",
-//                        "prize": "11",
-//                        "sort": 1000,
-//                        "status": 1,
-//                        "has_used": 0,
-//                        "is_lock": 0,
-//                        "is_delete": 0,
-//                        "remark": "",
-//                        "creater": "5116456681068300574",
-//                        "updater": "",
-//                        "create_time": "2020-11-26 17:35:31",
-//                        "update_time": "2020-11-28 09:30:59"
-//                },
-//                "seller": {
-//                        "id": "5136132095084594594",
-//                        "app_id": "5116224059889159898",
-//                        "company_id": "5116226883423308145",
-//                        "pid": "",
-//                        "goods_id": "5136132095000709267",
-//                        "prize_type": "",
-//                        "prize_key": "sellerTmRentPrize",
-//                        "prize_name": "卖家商标租用报价",
-//                        "belong_role": "buyer",
-//                        "belong_user_id": "",
-//                        "prize": "2",
-//                        "sort": 1000,
-//                        "status": 1,
-//                        "has_used": 0,
-//                        "is_lock": 0,
-//                        "is_delete": 0,
-//                        "remark": "",
-//                        "creater": "5135631036092253709",
-//                        "updater": "",
-//                        "create_time": "2020-11-05 18:12:38",
-//                        "update_time": "2020-11-28 09:31:25"
-//                },
-//                "total": []
-//        }
-            //模板设定计算值
-            tplSetCalTotal( data ,field ){
-                var calValue = 0 ;
-                $.each(data,function(index,item ){
-                    if(index != 'total' && item[field]){
-                        calValue = Number(calValue) + Number(item[field]);
-                    }
-                });
-                return calValue;
-            },
-            /**
-             * 模板设定计算单列合计值
-             * data:二维数组（表格）
-             */
-            tplSetCalColTotal( data , key ,field ){
-                var calValue = 0 ;
-                $.each(data,function(indexInfo,itemInfo ){
-                    $.each(itemInfo,function(index,item ){
-                        if(index ==  key  && item[field]){
-                            calValue = Number(calValue) + Number(item[field]);
-                        }
-                    });
-                });
-                return calValue;
-            },
-            /**
-             * 模板设定计算全部合计值
-             * data:二维数组（表格）
-             */
-            tplSetCalAllTotal( data , field ){
-                var calValue = 0 ;
-                $.each(data,function(indexInfo,itemInfo ){
-                    $.each(itemInfo,function(index,item ){
-                        if(item[field]){
-                            calValue = Number(calValue) + Number(item[field]);
-                        }
-                    });
-                });
-                return calValue;
-            },
-            
-            //模板字段设定
-            {include file="xjryanse/amazeui/vuejs/SColumnTplset"/}
-            //子数据项更新
-            {include file="xjryanse/amazeui/vuejs/subUpdate"/}
+            },            
         },
         computed : {
             
@@ -250,19 +158,6 @@
                         });
                     })
                 }
-                //tplset模板set
-                if(item.type=="tplset"){
-                    console.log(item);
-                    //获取
-                    that.SColumnTplset( that.columnHeader.table_name, item.id, that.inputData.id, function( data ){
-                        console.log(data);
-                        var tmpOption = that.columnHeader.listInfo[index];
-                        //解决不生效问题
-                        tmpOption.option.option = data;
-                        //解决不生效问题
-                        that.$set( that.columnHeader.listInfo,index, tmpOption );
-                    });
-                }
                 //编辑器
                 if(item.type=="editor"){
                     that.$nextTick(function () {
@@ -280,6 +175,8 @@
                     });
                 }
             })
+            //强制渲染
+            this.$forceUpdate();
         }
     });
 </script>
