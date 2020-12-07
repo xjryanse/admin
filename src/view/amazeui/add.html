@@ -29,14 +29,11 @@
                                     <div>
                                         <!--子级表的循环-->
                                         <block v-for="(subField,j) in field.table_info.listInfo">
-                                            {{subField}}
-                                            <div class="am-form-group" :class=" 'am-u-sm-' + subField.form_col"  v-if="field.type !='hidden' && field.type !='union'">
+                                            <div class="am-form-group" :class=" 'am-u-sm-' + subField.form_col"  v-if="subField.type !='hidden' && subField.type !='union'">
                                                 <label for="user-name" class="am-form-label">{{subField.label}}</label>
-                                                <div>
-                                                    <!--添加字段区-->
-                                                    {php} $tmpValueName = "inputData";{/php}
-                                                    {include file="xjryanse/amazeui/add/field" fieldName="field" /}
-                                                </div>
+                                                <!--子级表的字段-->
+<!--                                                    <cfield v-bind:type="subField.type" v-model="inputData.[ subField.name ]" v-bind:remark=" subField.remark"></cfield>-->
+                                                    <cfield v-bind:type="subField.type" v-model="inputData[field.name][subField.name]" v-bind:remark=" subField.remark"></cfield>
                                             </div>
                                         </block>
                                         <!--子级表的循环结束-->

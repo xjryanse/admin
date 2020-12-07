@@ -3,11 +3,18 @@
     <!--layerPage-->
     <block>
         <!--文本-->
-        <div v-if="type == 'text' || type == listedit">
+        <block v-if="type == 'text' || type == 'listedit' ">
             <input type="text" class="tpl-form-input" v-model="value" v-on:change="$emit('input', $event.target.value)">
-            <small>{{remark}}</small>
-        </div>
-        
+        </block>
+        <!--密码-->
+        <block v-if="type == 'password'">
+            <input type="password" class="tpl-form-input" v-model="value" v-on:change="$emit('input', $event.target.value)">
+        </block>
+        <!--文本框-->
+        <block v-if="type == 'textarea'">
+            <textarea class="" rows="10" placeholder="请输入" v-model="value" v-on:change="$emit('input', $event.target.value)"></textarea>
+        </block>
+        <small>{{remark}}</small>
     </block>
 </template>
 

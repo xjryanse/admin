@@ -5,14 +5,12 @@
 </div>
 <!--字段类型：密码输入框-->
 <div v-if="[fieldName].type == 'password'">
-    <input type="password" class="tpl-form-input" :readonly="[fieldName].is_edit == 0" placeholder="请输入" v-model="{$tmpValueName}[[fieldName].name]" v-if="!isDetail">
-    <small>{{[fieldName].remark}}</small>
+    <cfield v-bind:type="[fieldName].type" v-model="{$tmpValueName}[[fieldName].name]" v-bind:remark="[fieldName].remark"></cfield>
 </div>
 <!--字段类型：文本输入框-->
 <!--                        <div v-if="[fieldName].type == 'textarea'">-->
 <div v-if="[fieldName].type == 'textarea'">
-    <textarea class="" rows="10" placeholder="请输入" :readonly="[fieldName].is_edit == 0" v-model="{$tmpValueName}[[fieldName].name]" v-if="!isDetail"></textarea>
-    <p v-if="isDetail">{{{$tmpValueName}[[fieldName].name]}}</p>
+    <cfield v-bind:type="[fieldName].type" v-model="{$tmpValueName}[[fieldName].name]" v-bind:remark="[fieldName].remark"></cfield>
 </div>
 <!--字段类型：多选框-->
 <div v-if="[fieldName].type == 'check'">
