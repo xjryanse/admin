@@ -1,0 +1,40 @@
+<!-- 编辑器组件 -->
+<template id="ceditor">
+    <!--layerPage-->
+    <block>
+        <script type="text/plain" v-bind:id="name + LoadTimeStamp">{{value}}</script>
+    </block>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('ceditor', {
+        //名称，值
+        props: { name: String, value: String},
+        template: '#ceditor',
+        data: function(){
+            return {
+                //加载时间
+                "LoadTimeStamp" : parseInt((new Date).getTime()),
+            };
+        },
+        created :function(){
+            console.log('ceditor组件开始');
+            var that = this;
+            that.$nextTick(function () {
+                //临时名称：字段名+时间戳
+                var tmpName = that.name + that.LoadTimeStamp;
+                var UEdit;
+                UEdit = UE.getEditor( tmpName );
+                UEdit.ready(function() {
+                    this.setHeight(500);
+                });
+                UEdit.addListener("blur",function(){
+                    //赋值到绑定数据
+                    that.$emit('input', UEdit.getContent());
+                });
+            });
+            that.$forceUpdate();
+        },
+    });
+</script>

@@ -56,17 +56,16 @@
     </div>
 </div>
 
-<!-- 字段模板 -->
+<!-- ok字段模板 -->
 {include file="xjryanse/amazeui/component/cfield"/}
-<!-- 价格模板 -->
+<!-- ok价格模板 -->
 {include file="xjryanse/amazeui/component/ctplset"/}
-
+<!-- 编辑器模板 -->
+{include file="xjryanse/amazeui/component/ceditor"/}
+<!-- 上传图片模板 -->
+{include file="xjryanse/amazeui/component/cuplimage"/}
 
 <script>
-    var UEdit = [];    //ueditor对象实例
-    //模块加载时的时间戳
-    var LoadTimeStamp = parseInt((new Date).getTime());
-    
     var app = new Vue({
         el: '#vue_add{:request()->module()}{:request()->controller()}{:request()->param('admKey')}',
         data: {
@@ -103,26 +102,6 @@
                     });
                 });
             },
-            //上传图片
-            uplPic : function ( e,name ){
-                var that = this;
-                var formData = new FormData();
-                formData.append('file', $(e.target)[0].files[0]); // 文件数据
-                if(!$(e.target)[0].files[0]){
-                    return false;
-                }
-                $.ajax({
-                    url: '{:config("xiesemi.picUplApiUrl")}',
-                    type: 'POST',
-                    cache: false,
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                }).done(function(result) {
-                    Vue.set(that.inputData, name, result.data);
-                    console.log('上传完成');
-                });
-            },
             //参数刷新
             paramRefresh(){
                 var that = this;
@@ -157,22 +136,6 @@
                             console.log('text changed!!!');
                         });
                     })
-                }
-                //编辑器
-                if(item.type=="editor"){
-                    that.$nextTick(function () {
-                        //临时名称：字段名+时间戳
-                        var tmpName = item.name + LoadTimeStamp;
-                        UEdit[ tmpName ] = UE.getEditor( tmpName );
-                        //限制固定高度，比较美观
-                        UEdit[ tmpName ].ready(function() {
-                            this.setHeight(500);
-                        });
-                        UEdit[ tmpName ].addListener("blur",function(){
-                            //赋值到绑定数据
-                            that.inputData[item.name] = UEdit[ tmpName ].getContent();
-                        })
-                    });
                 }
             })
             //强制渲染

@@ -53,21 +53,12 @@
 </div>
 
 <!--字段类型：上传图片-->
-<div  v-if="[fieldName].type == 'uplimage'">
-    <div class="am-form-group am-form-file">
-        <div class="tpl-form-file-img" style="width:250px;">
-            <img :src="{$tmpValueName}[[fieldName].name]['file_path']" v-if="{$tmpValueName}[[fieldName].name]" style="max-width:100%;" >
-        </div>
-        <button type="button" class="am-btn am-btn-danger am-btn-sm" v-if="!{$tmpValueName}[[fieldName].name]">
-            <i class="am-icon-cloud-upload"></i> 添加图片
-        </button>
-        <input id="doc-form-file" type="file" multiple="" @change="uplPic($event,[fieldName].name)" :readonly="[fieldName].is_edit == 0" >
-    </div>
-</div>
+<!--上传图片框-->
+<cuplimage v-bind:name="[fieldName].name" v-model="{$tmpValueName}[[fieldName].name]" v-if="[fieldName].type == 'uplimage'"></cuplimage>
+
 <!--字段类型：编辑器-->
-<div  v-if="[fieldName].type == 'editor'">
-    <script :name="[fieldName].name" :id="[fieldName].name + LoadTimeStamp" type="text/plain">{{{$tmpValueName}[[fieldName].name]}}</script>
-</div>
+<ceditor v-bind:name="[fieldName].name" v-model="{$tmpValueName}[[fieldName].name]" v-if="[fieldName].type == 'editor'"></ceditor>
+
 <!--字段类型：开关-->
 <div  v-if="[fieldName].type == 'switch'">
     <div class="tpl-switch">

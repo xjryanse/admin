@@ -24,25 +24,27 @@
                     </button>
                 </a>
             </block>
-            <!--数据：表信息-->
-            <cbutton type='layerPageFull'  button_name='表' icon='reddit' width = "90%"  height = "90%" btn_style="primary" size="small" 
-                     v-bind:url= "'{:url('/admin/system/edit',array_merge($paramInherit,['admKey'=>'column']))}?id=' + dataList.columnInfo.id" 
-                ></cbutton>
-            <!--数据：字段信息-->
-            <cbutton type='layerPage'  button_name='字段' icon='reddit' width = "90%"  height = "90%" btn_style="primary" size="small" 
-                     url= '{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnList']))}' 
-                     v-bind:form_data = {column_id:dataList.columnInfo.id} 
-                ></cbutton>
-            <!--数据：按钮信息-->
-            <cbutton type='layerPage'  button_name='按钮' icon='reddit' width = "90%"  height = "90%" btn_style="success"
-                     url= '{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnBtn']))}' 
-                     v-bind:form_data = {column_id:dataList.columnInfo.id} 
-                ></cbutton>
-            <!--数据：块信息-->
-            <cbutton type='layerPage'  button_name='数据块' icon='reddit' width = "90%"  height = "90%" btn_style="success"
-                     url= '{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnBlock']))}' 
-                     v-bind:form_data = {column_id:dataList.columnInfo.id} 
-                ></cbutton>
+            {if $admUser['admin_type'] == 'super'}
+                <!--数据：表信息-->
+                <cbutton type='layerPageFull'  button_name='表' icon='reddit' width = "90%"  height = "90%" btn_style="primary" size="small" 
+                         v-bind:url= "'{:url('/admin/system/edit',array_merge($paramInherit,['admKey'=>'column']))}?id=' + dataList.columnInfo.id" 
+                    ></cbutton>
+                <!--数据：字段信息-->
+                <cbutton type='layerPage'  button_name='字段' icon='reddit' width = "90%"  height = "90%" btn_style="primary" size="small" 
+                         url= '{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnList']))}' 
+                         v-bind:form_data = {column_id:dataList.columnInfo.id} 
+                    ></cbutton>
+                <!--数据：按钮信息-->
+                <cbutton type='layerPage'  button_name='按钮' icon='reddit' width = "90%"  height = "90%" btn_style="success"
+                         url= '{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnBtn']))}' 
+                         v-bind:form_data = {column_id:dataList.columnInfo.id} 
+                    ></cbutton>
+                <!--数据：块信息-->
+                <cbutton type='layerPage'  button_name='数据块' icon='reddit' width = "90%"  height = "90%" btn_style="success"
+                         url= '{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnBlock']))}' 
+                         v-bind:form_data = {column_id:dataList.columnInfo.id} 
+                    ></cbutton>
+            {/if}
         </div>
     </div>
 </div>
