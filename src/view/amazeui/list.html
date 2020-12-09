@@ -31,8 +31,7 @@
                                 <!--选项卡-->
                                 {include file="xjryanse/amazeui/list/typeTab"/}
                                 <!--表格-->
-                                {php}$tmpListKey = 'dataList';{/php}
-                                {include file="xjryanse/amazeui/list/data"/}
+                                <xjr-table @on_item_select="onItemSelect"></xjr-table>
                             </div>
                         </form>
                     </div>
@@ -94,6 +93,11 @@
         </div>
     </div>
 
+<!-- 表格 -->
+{include file="xjryanse/amazeui/component/xjr-table"/}
+<!-- 表格字段 -->
+{include file="xjryanse/amazeui/component/xjr-table-td"/}
+    
     <script>
         /**
          * 列表编辑框不可见
@@ -282,14 +286,6 @@
                     console.log(btn);
                     console.log(data);
                     var url = urlDataReplace( btn.url, data );
-//                    
-//                    var url = btn.url;
-//                    //正则替换
-//                    $.each(data,function (key, value) {
-//                        var tmp = url.replace( '{$'+ key +'}' ,value);
-//                        url = tmp;
-//                    });
-//                    console.log( url );
                     //url弹窗
                     this.layerPage(url,[],'95%','95%',refresh);
                 },
@@ -391,11 +387,11 @@
                     this.getLists();
                 },
                 //获取分页查询数据，common/list/data中使用
-                getPageLists( page){
-                    this.queryData.page=page;
-                    //获取菜单
-                    this.getLists();                
-                },
+//                getPageLists( page){
+//                    this.queryData.page=page;
+//                    //获取菜单
+//                    this.getLists();                
+//                },
                 //搜索更多的选框
                 searchMore() {
                     //慢慢地切入和淡出
@@ -412,13 +408,6 @@
                         exitFullscreen();
                     }                    
                 },
-                //获取日期时间
-                vGetDateTime( value ,formatt){
-                    if(formatt == ''){
-                        formatt = 'yyyy-MM-dd';
-                    }
-                    return getDateTime(value,formatt);
-                }
             },
             created: function () {
                 //获取菜单

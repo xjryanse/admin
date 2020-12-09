@@ -1,0 +1,228 @@
+<!-- 列表的字段组件 -->
+<template id="xjr-table">
+    <!--layerPage-->
+    <!--字段明细-->
+    <block>
+        <!--表头-->
+        <div style="overflow:hidden;">
+            <table class="tpl-table-black am-table-bordered" 
+                   ref="mainTableHeader"
+                   v-if="column_info" style="font-size:12px;">
+                <thead>
+                    <tr>
+                        <th style="min-width:10px;"></th>
+                        <th v-for="(field,i) in column_info.listInfo" v-if="field.is_list">{{field.label}}</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <!--表体-->
+        <div style="overflow:auto;height:60vh;" v-if="list_data">
+            <table class="am-table am-table-compact am-table-striped tpl-table-black am-table-bordered" 
+                   ref="mainTable"
+                   v-if="column_info" style="font-size:12px;">
+                <tbody>
+                    <tr v-if="list_data.length == 0" >
+                        <td colspan=99 style="text-align:center;"> 暂无数据 </td>
+                    </tr>
+                    <tr class="gradeX" style="white-space: nowrap;" v-for="(item,i) in list_data" v-if="item">
+                        <!--必有的单选框-->
+                        <td style="width:20px;text-overflow: ellipsis; overflow: hidden; display: table-cell; vertical-align: middle; min-width: 30px; max-width: 100px; text-align: center;">
+                            <label class="am-radio">
+                                <input type="radio" name="id" v-bind:value="item['id']" data-am-ucheck @click="onItemSelect(item)">
+                            </label>
+                        </td>
+                        <!--字段明细-->
+                        <td v-for="(field,j) in column_info.listInfo" v-if="field.is_list" 
+                            style="text-overflow:ellipsis;overflow:hidden;display:table-cell;vertical-align:middle;"
+                            v-bind:style="{ 'min-width' : field.min_width + 'px', 'max-width': field.width + 'px', 'text-align': field.list_style }"
+                        >
+                            <xjr-table-td v-bind:field="field" v-bind:item="item" @search_data="searchData" v-if=""></xjr-table-td>
+                        </td>
+                        <!--操作按钮-->
+                        <td style="text-overflow: ellipsis; overflow: hidden; display: table-cell; vertical-align: middle; min-width: 30px; max-width: 100px; text-align: center;">
+                            <div class="tpl-table-black-operation" style="float:right;">
+                                <!--操作-->
+                                <block v-for="(operate,k) in column_info.operateInfo">
+                                    <!--编辑-->
+                                    <cbutton v-if="operate.operate_key == 'edit'" type="tableOperateFull"
+                                        icon='pencil' width = "90%"  height = "90%" 
+                                        v-bind:button_name="operate['operate_name']" 
+                                        v-bind:url= "'{:url('edit',$paramInherit)}?id='+item.id" 
+                                    ></cbutton>
+                                    <!--删除-->
+                                    <a href="javascript:;" class="tpl-table-black-operation-del" 
+                                       v-if="operate.operate_key == 'delete'" 
+                                       v-bind:title="operate['operate_name']"
+                                       v-on:click="deleteItem(item)">
+                                        <i class="am-icon-trash"></i>
+                                    </a>
+                                    <!--复制-->
+                                    <a href="javascript:;" 
+                                       v-if="operate.operate_key == 'copy'" 
+                                       v-bind:title="operate['operate_name']"
+                                       v-on:click="copyItem(item)">
+                                        <i class="am-icon-copy"></i>
+                                    </a>
+                                </block>
+                                <!--按钮-->
+                                <block v-for="(btn,k) in column_info.btnInfo">
+                                    <!--列表弹窗-->
+                                    <a href="javascript:;" v-if="btn.o_type == 'listpop'" v-on:click="btnLayerPage(btn,item)">
+                                        <i class="am-icon-pencil"></i> {{btn.name}}
+                                    </a>        
+                                    <!-- listoperate：列表操作-->
+                                    <a href="javascript:;" v-if="btn.o_type == 'listoperate'" v-on:click="dataAjax(btn,item)">
+                                        <i class="am-icon-pencil"></i> {{btn.name}}
+                                    </a>
+                                    <!--        jump：本页跳链-->
+                                    <!--     mainpop：本页弹窗-->
+                                    <!--       blank：新窗口-->
+                                    <!--     listpop：列表弹窗-->
+                                    <!-- listoperate：列表操作-->
+                                </block>                                
+                            </div>
+                        </td>                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--分页-->
+        <!--【页码】-->
+        <div class="am-fr" v-if="paginate_data && paginate_data.current_page">
+            {{paginate_data.current_page}}
+            <ul class="am-pagination tpl-pagination">
+                <!--前一页:当前页码大于1显示-->
+                <li v-if="paginate_data.current_page > 1"><a href="javascript:;" v-on:click="getPageLists(paginate_data.current_page *1 -1)">«</a></li>
+                <!--第一页:当前页码大于1显示-->
+                <li v-if="paginate_data.current_page > 1"><a href="javascript:;" v-on:click="getPageLists(1)" >1</a></li>
+                <!--……-->
+                <li v-if="paginate_data.current_page > 3"><a href="javascript:;">…</a></li>
+                <!--上一页:当前页码-1后大于1显示-->
+                <li v-if="paginate_data.current_page * 1 -1 >1"><a href="javascript:;" v-on:click="getPageLists(paginate_data.current_page *1 -1)">{{paginate_data.current_page-1}}</a></li>
+                <!--当前页-->
+                <li class="am-active"><a href="javascript:;">{{paginate_data.current_page}}</a></li>
+                <!--下一页: 当前页码+1后，小于最后一页码显示-->
+                <li v-if="paginate_data.current_page * 1 + 1 < paginate_data.last_page * 1 "><a href="javascript:;" v-on:click="getPageLists(paginate_data.current_page * 1 + 1 )">{{paginate_data.current_page *1+1}}</a></li>
+                <!--……-->
+                <li v-if="paginate_data.current_page * 1 + 2 < paginate_data.last_page"><a href="javascript:;">…</a></li>
+                <!--末页: 当前页码小于末页码显示-->
+                <li v-if="paginate_data.current_page < paginate_data.last_page * 1 "><a href="javascript:;" v-on:click="getPageLists(paginate_data.last_page )">{{paginate_data.last_page}}</a></li>
+                <!--下一页-->
+                <li v-if="paginate_data.current_page < paginate_data.last_page * 1 "><a href="javascript:;" v-on:click="getPageLists(paginate_data.current_page * 1 + 1 )">»</a></li>
+                <li>共{{paginate_data.total}}条</li>
+                <li>{{paginate_data.per_page}}条/页</li>
+            </ul>
+        </div>
+    </block>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('xjr-table', {
+        //列表信息:列表编辑：项目 column_info列信息；data数据(不含分页的)；分页数据
+        props: { },
+        template: '#xjr-table',
+        data: function(){
+            return {
+                "queryData" :{},
+                "paginate_data":{}
+            };
+        },
+        computed : {
+            //字段信息
+            column_info : function(){
+                return this.paginate_data.columnInfo;
+            },
+            //列表数据
+            list_data : function(){
+                return this.paginate_data.data;
+            },
+        },
+        methods : {
+            //获取数据
+            getLists : function () {
+                console.log(this.queryData);
+                var that = this;
+                //弹层
+                var layerIndex = layer.load(2);
+                $.ajax({
+                    url: '{:url('',$paramInherit)}',
+                    type: 'POST',
+                    data: that.queryData,
+                    success: function (data) {
+                        layer.close(layerIndex);
+                        console.log(data);
+                        if (data.code != 0) {
+                            layer.msg(data.message);
+                        }
+
+                        that.paginate_data  = data.data;
+                        //请求页码设置为1，方便查询
+                        that.queryData.page = 1;
+                        //数据加载完成重设表格列宽
+                        if( data.data.total ){
+                            that.$nextTick(function () {
+                                var widths = that.getMainTableWidth();
+                                //表体和表头对齐
+                                $(this.$refs.mainTableHeader).find("th").attr('width',function(i,e){
+                                    console.log(widths[i]);
+                                    return widths[i] ;
+                                });
+                            })
+                        }
+                    }
+                });
+            },
+            //获取表体动态宽度(用于表头表体分离)
+            getMainTableWidth(){
+                var rows = this.$refs.mainTable.rows;
+                var cols = rows[0].cells;
+                var widths = [];
+                $.each( cols ,function (index, element) {
+                    widths.push(element.getBoundingClientRect().width);
+                });               
+                return widths;
+            },
+            //获取分页查询数据，common/list/data中使用
+            getPageLists( page){
+                console.log(page);
+                this.queryData.page = page;
+                //获取菜单
+                this.getLists();                
+            },
+            /**
+             * 按钮弹窗
+             * @param {type} btn    按钮
+             * @param {type} data   数据
+             * @returns {undefined}
+             */
+            btnLayerPage (btn,data,refresh){
+                console.log(btn);
+                console.log(data);
+                var url = urlDataReplace( btn.url, data );
+                //url弹窗
+                layerPage(url,[],'95%','95%',refresh);
+            },            
+            //单选框选中
+            onItemSelect (value){
+                this.$emit('on_item_select',value);                   
+            },
+            //搜索数据
+            searchData : function (key,value)
+            {
+                //添加搜索数据
+                this.queryData[key] = value;
+                //恢复第一页搜索
+                this.queryData.page = 1;
+                //搜索
+                this.getLists();
+            },            
+        },
+        created :function(){
+            console.log('xjr-table组件开始');
+            this.getLists();
+        }
+    });
+</script>

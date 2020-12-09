@@ -1,0 +1,106 @@
+<!-- 列表的字段组件 -->
+<template id="xjr-table-td">
+    <!--layerPage-->
+    <!--字段明细-->
+    <block>
+        <!--普通文本-->
+        <block v-if = "field.type=='text'">
+            <!--点击直接搜索-->
+            <a href="javascript:;" v-if="field.search_type == 'equal'" v-bind:title="'点击搜索'+item[field.name]" v-on:click="searchData(field.name,item[field.name])">{{item[field.name]}}</a>
+            <span v-else>{{item[field.name]}}</span>
+        </block>
+        <!--编辑器-->
+        <div v-if = "field.type=='editor'" v-html="item[field.name]"></div>
+        <!--日期时间-->
+        <block v-if = "field.type == 'date'">
+            <span v-if = "item[field.name] && item[field.name] !='0000-00-00 00:00:00'">{{vGetDateTime(item[field.name],field.option)}}</span>
+        </block>
+        <!--普通枚举-->
+        <block v-if = "field.type=='enum'">
+            <!--可在列表编辑-->
+            <block v-if = "field.is_list_edit">
+                <!--可以在列表进行修改-->
+                <select v-model="item[field.name]" class="listEditInput" v-on:change="listEditUpdate(item)" onmouseover="$('.listEditInput').addClass('borderHide');$(this).removeClass('borderHide')"> 
+                    <option v-for="(tmpOption,k) in field.option" v-bind:value="k" >{{tmpOption}}</option> 
+                </select>
+            </block>
+            <!--不可在列表编辑-->
+            <block v-else>
+                <!--点击直接搜索-->
+                <a href="javascript:;" v-if="field.search_type == 'equal'" :title="'点击搜索'+ field.option[item[field.name]]" v-on:click="searchData(field.name,item[field.name])">{{field.option[item[field.name]]}}</a>
+                <span v-else>{{field.option[item[field.name]]}}</span>
+            </block>
+        </block>
+        <!--动态枚举-->
+        <block v-if = "field.type=='dynenum' && field.option.option">
+            <!--点击直接搜索-->
+            <a href="javascript:;" v-if="field.search_type == 'equal'" :title="'点击搜索'+ field.option.option[item[field.name]]" v-on:click="searchData(field.name,item[field.name])">{{field.option.option[item[field.name]]}}</a>
+            <span v-else>{{field.option.option[item[field.name]]}}</span>
+        </block>
+        <!--链接图片-->
+        <a v-bind:href="item[field.name]" v-if = "field.type=='image'" target="_blank">
+            <img v-bind:src="item[field.name]" width="field.min_width">
+        </a>
+        <!--上传图片-->
+        <a v-bind:href="item[field.name]['file_path']" v-if = "field.type=='uplimage' && item[field.name]"  target="_blank">
+            <img v-bind:src="item[field.name]['file_path']" v-bind:width="field.min_width">
+        </a>
+        <!--开关-->
+        <block v-if = "field.type=='switch'">
+            <div class="tpl-switch" style="position:relative;">
+                <input type="checkbox" class="ios-switch bigswitch tpl-switch-btn" v-model="item[field.name]" v-on:click="item[field.name] = Number(!item[field.name]);updateItem(item)">
+                <div class="tpl-switch-btn-view" style="display:inline-block">
+                    <div></div>
+                </div>
+            </div>
+        </block>
+        <!--listedit列表编辑-->
+        <input v-if = "field.type=='listedit'" type="text" class="tpl-form-input listEditInput" placeholder="" 
+                style="width:100%;"
+               v-model="item[field.name]" v-on:change="listEditUpdate(item)" onmouseover="$('.listEditInput').addClass('borderHide');$(this).removeClass('borderHide')">
+        <!--勾选框-->
+        <block v-if = "field.type=='check'">
+            <block v-for="(tmpOption,k) in field.option.option">
+                <block v-for="(optionData,l) in item[field.name]">
+                    <span v-if="optionData == tmpOption['id']" style="padding:2px;">{{tmpOption[field.option.value]}}</span>
+                </block>
+            </block>
+        </block>
+        <!--动态树：name值固定（tree组件所需的name）-->
+        <block v-if = "field.type=='dyntree' ">
+            <block v-for="(tmpOption,k) in field.option.option">
+                <block v-for="(optionData,l) in item[field.name]">
+                    <span v-if="optionData == tmpOption['id']" style="padding:2px;">{{tmpOption.name}}</span>
+                </block>
+            </block>
+        </block>        
+    </block>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('xjr-table-td', {
+        //列表信息:列表编辑：项目
+        props: { field : Array ,item : Array},
+        template: '#xjr-table-td',
+        data: function(){
+            return {};
+        },
+        methods : {
+            //获取日期时间
+            vGetDateTime( value ,formatt){
+                if(formatt == ''){
+                    formatt = 'yyyy-MM-dd';
+                }
+                return getDateTime(value,formatt);
+            },
+            //搜索数据
+            searchData (key,value){
+                this.$emit('search_data',key,value);
+            }
+        },
+        created :function(){
+
+        }
+    });
+</script>
