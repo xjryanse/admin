@@ -152,8 +152,7 @@ getTableWidth = function(tableId){
 
 //上一个链接，用于back
 var frUrlStack = [];    //url数组栈（用于单页面多次返回）
-var frLastUrl = '';       //上次url
-var frThisUrl = '';       //本次url
+var thisUrl = '';
 //主内容改变
 function mainContentChange(url){
     //异步加载首页内容
@@ -165,10 +164,12 @@ function mainContentChange(url){
  */
 function jumpWithLoading( url ){
     $('.loading').show();
-    frLastUrl   = frThisUrl;
-    frThisUrl   = url;    
-    frUrlStack.push( frLastUrl );
 //        window.location.href = url;
+    if (thisUrl){
+        frUrlStack.push( thisUrl );
+    }
+    thisUrl = url;
+    console.log(frUrlStack);    
     mainContentChange( url );
 }
 /**
@@ -177,7 +178,9 @@ function jumpWithLoading( url ){
  */
 function backWithLoading(){
     $('.loading').show();
-    mainContentChange( frUrlStack.pop());
+    thisUrl = frUrlStack.pop();
+    mainContentChange( thisUrl );
+    console.log(frUrlStack);
 }
 /**
  * 兼容ios回退刷新问题

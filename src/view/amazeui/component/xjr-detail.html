@@ -1,0 +1,86 @@
+<!-- 列表的字段组件 -->
+<template id="xjr-detail">
+    <!--layerPage-->
+    <!--字段明细 v-if="field.name == field_name"-->
+    <block>
+        <block v-for="(field_name, index) in fields">
+            <div class="am-form-group am-u-sm-12" v-for="(field,i) in list_info" v-if="field.name == field_name">
+                <label class="am-u-sm-3 am-form-label">{{field.label}}</label>
+                <!--字段类型：普通输入框-->
+                <div v-if="field.type == 'text' || field.type == 'listedit' ">
+                    <p>{{data[field.name]}}</p>
+                </div>
+                <!--字段类型：文本输入框-->
+                <!--                        <div v-if="field.type == 'textarea'">-->
+                <div v-if="field.type == 'textarea'">
+                    <p>{{data[field.name]}}</p>
+                </div>
+                <!--字段类型：多选框-->
+                <div v-if="field.type == 'check'">
+                    <label class="am-checkbox-inline" v-for="(tmpOption,k) in field.option.option">
+                        <p>{{data[field.name]}}</p>
+                    </label>
+                </div>
+                <!--字段类型：普通枚举-->
+                <div v-if="field.type == 'enum'">
+                    <p>{{field.option[data[field.name]]}}</p>
+                </div>
+                <!--字段类型：动态枚举-->
+                <div  v-if="field.type == 'dynenum'">
+                    <p>{{field.option.option[data[field.name]]}}</p>
+                </div>
+                <!--字段类型：动态树-->
+                <div  v-if="field.type == 'dyntree'">
+                    <p>{{data[field.name]}}</p>
+                </div>
+
+                <!--字段类型：date日期-->
+                <div  v-if="field.type == 'date'">
+                    <p>{{data[field.name]}}</p>
+                </div>
+
+                <!--字段类型：上传图片-->
+                <div v-if="field.type == 'uplimage'">
+                    <div class="am-form-group am-form-file">
+                        <div class="tpl-form-file-img" style="width:250px;">
+                            <img :src="data[field.name]['file_path']" v-if="data[field.name]" style="max-width:100%;" >
+                        </div>
+                    </div>
+                </div>
+                <!--字段类型：编辑器-->
+                <div  v-if="field.type == 'editor'">
+                    <p>{{data[field.name]}}</p>
+                </div>
+                <!--字段类型：开关-->
+                <div  v-if="field.type == 'switch'">
+                    <p>{{data[field.name]}}</p>
+                </div>                
+            </div>
+        </block>
+    </block>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('xjr-detail', {
+        //列表信息:列表编辑：项目 column_info列信息；data数据(不含分页的)；分页数据
+        props: { list_info : Array, fields : Object ,data:Array},
+        template: '#xjr-detail',
+        data: function(){
+            return {
+                "queryData" :{},
+                "paginate_data":{}
+            };
+        },
+        computed : {
+
+        },
+        methods : {
+        
+        },
+        created :function(){
+            this.fields = JSON.parse(this.fields);
+            console.log('xjr-detail组件开始');
+        }
+    });
+</script>

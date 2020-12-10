@@ -1,0 +1,46 @@
+<!-- 简单的表格组件 -->
+<template id="xjr-table-simple">
+    <!--layerPage-->
+    <!--字段明细  v-if="field.is_list && field.name == field_name" -->
+    <block>
+        <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black " v-if="column_info">
+            <tr>
+                <th v-for="(field,i) in column_info.listInfo" v-if="field.is_list && fields.indexOf(field.name) != -1">{{field.label}}</th>
+            </tr>
+            <tr v-if="data.length == 0" >
+                <td colspan=99 style="text-align:center;"> 暂无数据 </td>
+            </tr>
+            <tr class="gradeX" style="white-space: nowrap;" v-for="(item,i) in data" v-if="data.length">
+                <td v-for="(field,j) in column_info.listInfo" v-if="field.is_list && fields.indexOf(field.name) != -1" style="text-overflow:ellipsis;overflow:hidden;text-align:center;">
+                    <!--普通文本-->
+                    <block v-if = "field.type=='text' || field.type=='listedit'">{{item[field.name]}}</block>
+                    <!--枚举-->
+                    <block v-if = "field.type=='enum'">{{field.option[item[field.name]]}}</block>
+                    <!--动态枚举-->
+                    <block v-if = "field.type=='dynenum'">{{field.option.option[item[field.name]]}}</block>
+                </td>
+            </tr>            
+        </table>
+    </block>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('xjr-table-simple', {
+        //列表信息:列表编辑：项目 column_info列信息；data数据(不含分页的)；分页数据
+        props: { 'column_info':Array,fields : Object ,'data':Array},
+        template: '#xjr-table-simple',
+        data: function(){
+            
+        },
+        computed : {
+            
+        },
+        methods : {
+     
+        },
+        created :function(){
+            this.fields = JSON.parse(this.fields);            
+        }
+    });
+</script>

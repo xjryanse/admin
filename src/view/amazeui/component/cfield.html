@@ -2,18 +2,24 @@
 <template id="cfield">
     <!--layerPage-->
     <block>
-        <!--文本-->
-        <block v-if="type == 'text' || type == 'listedit' ">
-            <input type="text" class="tpl-form-input" v-model="value" v-on:change="$emit('input', $event.target.value)">
-        </block>
-        <!--密码-->
-        <block v-if="type == 'password'">
-            <input type="password" class="tpl-form-input" v-model="value" v-on:change="$emit('input', $event.target.value)">
-        </block>
-        <!--文本框-->
-        <block v-if="type == 'textarea'">
-            <textarea class="" rows="10" placeholder="请输入" v-model="value" v-on:change="$emit('input', $event.target.value)"></textarea>
-        </block>
+        <!--文本text-->
+        <!--文本listedit-->
+        <input v-if="type == 'text' || type == 'listedit' "
+                   type="text" class="tpl-form-input" v-model="value" v-on:change="$emit('input', $event.target.value)">
+        <!--密码password-->
+        <input v-if="type == 'password'"
+               type="password" class="tpl-form-input" v-model="value" v-on:change="$emit('input', $event.target.value)">
+        <!--文本框textarea-->
+        <textarea v-if="type == 'textarea'"
+                class="" rows="10" placeholder="请输入" v-model="value" v-on:change="$emit('input', $event.target.value)"></textarea>
+        <!--开关switch-->
+        <div class="tpl-switch" v-if="type == 'switch'">
+            <input type="checkbox" 
+                class="ios-switch bigswitch tpl-switch-btn" 
+                v-model="value" 
+                v-on:click="$emit('input', Number(!value))">
+            <div class="tpl-switch-btn-view"><div></div></div>
+        </div>
         <small>{{remark}}</small>
     </block>
 </template>

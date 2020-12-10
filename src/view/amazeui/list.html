@@ -7,10 +7,10 @@
         <div>
             <div class="row-content am-cf">
                 <!--主模块区域-->
-                <div v-bind:class="'am-u-sm-12 am-u-md-' + dataList.columnInfo.block_width" v-if="dataList.columnInfo">
+                <div v-bind:class="'am-u-sm-12 am-u-md-' + columnInfo.block_width" v-if="columnInfo">
                     <div class="widget widget-main am-cf">
                         <div class="widget-head am-cf">
-                            <div class="widget-title  am-cf">{{dataList.columnInfo.name}}</div>
+                            <div class="widget-title  am-cf">{{columnInfo.name}}</div>
                         </div>
                         <form class="am-form tpl-form-border-form tpl-form-border-br">
                             <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
@@ -26,77 +26,27 @@
                                 {include file="xjryanse/amazeui/list/search"/}
                             </div>
                             <!--数据表格区-->
-<!--                                    <div class="am-u-sm-12" style="overflow:auto;height:calc(70vh)">-->
                             <div class="am-u-sm-12" style="overflow: hidden;">
-                                <!--选项卡-->
-                                {include file="xjryanse/amazeui/list/typeTab"/}
+                                <!--选项卡 根据请求参数是否有typeTab进行判断-->
+                                <xjr-type-tab type_tab="{:request()->param('typeTab','')}" 
+                                              v-bind:list_info="dataList.columnInfo.listInfo"
+                                              @search_data="searchData" v-if="'{:request()->param('typeTab','')}'"></xjr-type-tab>
                                 <!--表格-->
-                                <xjr-table @on_item_select="onItemSelect"></xjr-table>
+                                <xjr-table @on_item_select="onItemSelect" ref="xjr_table"></xjr-table>
                             </div>
                         </form>
                     </div>
-                </div>
+                </div>                
                 <!--子模块区域-->
-                {volist name="columnInfo.blockInfo" id = "vo"}
-                    <!--循环变量主键-->
-                    {php}$tmpBlockKey = $key;{/php}
-
-                    <!--参数：块宽度-->
-                    <div class="am-u-sm-12 am-u-md-{$vo.block_width}">
-                        <div class="widget am-cf" >
-                            <div class="widget-head am-cf">
-                                <div class="widget-title am-fl">{$vo.title|default="title未命名"}</div>
-                                <div class="widget-function am-fr">
-                                    <a href="javascript:;" class="am-icon-cog"></a>
-                                </div>
-                            </div>
-                            <!--列表-->
-                            <div style="height: {$vo.block_height}vh; overflow: auto;">
-                                {if $vo.show_type == 'list'}
-                                    <!--表格-->
-                                    {php}
-                                        $tmpListKey = $vo['table_name'].$vo['id'];
-                                        $tmpListFields = explode(',',$vo['fields']);
-                                    {/php}
-                                    {include file="xjryanse/amazeui/list/data_sub"/}
-                                {/if}
-                                <!--信息-->
-                                {if $vo.show_type == 'info'}
-                                    <!--表格-->
-                                    {php}
-                                        $tmpTableName       = $vo['table_name'];            
-                                        $tmpListKey         = $vo['table_name'].$vo['id'];
-                                        $tmpTableNameKey    = $vo['table_name'].$vo['id'].'TableName';
-                                        $tmpListTablesInfo  = $vo['tablesInfo'];
-                                        $tmpListFields      = explode(',',$vo['fields']);
-                                    {/php}
-                                    {include file="xjryanse/amazeui/list/data_info"/}
-                                {/if}
-                            </div>
-                            <table class="am-table tpl-table-black">
-                                <tr class="gradeX" style="white-space: nowrap;">
-                                    <!--操作按钮-->
-                                    <td>
-                                        <div class="tpl-table-black-operation" v-if="{$tmpListKey}.columnInfo">
-                                            <!--按钮-->
-                                            {php} $tmpBtnColumnInfoName = 'dataList.columnInfo.blockInfo['. $tmpBlockKey .']';  {/php}
-                                            {php} $tmpItemValueName = $tmpListKey.".data";  {/php}
-                                            {include file="xjryanse/amazeui/list/operate/btn"/}
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                {/volist}
+                <xjr-block v-for="(block,k) in columnInfo.blockInfo" 
+                           v-bind:block_info="block"
+                           v-bind:main_data="currentSelectItem"></xjr-block>
             </div>
         </div>
     </div>
 
-<!-- 表格 -->
-{include file="xjryanse/amazeui/component/xjr-table"/}
-<!-- 表格字段 -->
-{include file="xjryanse/amazeui/component/xjr-table-td"/}
+    <!-- 组件列表 -->
+    {include file="xjryanse/amazeui/components"/}
     
     <script>
         /**
@@ -108,19 +58,13 @@
             el: '#{$tmpVueAppId}',
             data: {
                     'dataList' : [],
+                    'columnInfo' : {:json_encode($columnInfo)},
                     'queryData': {:json_encode(request()->param())},
                     'isDetail' : true,
                     //主表当前选中字段
                     'currentSelectItem' : [],
-                //块级变量
-                {volist name="columnInfo.blockInfo" id = "vo"}
-                    {$vo.table_name}{$vo.id} : [],
-                    {$vo.table_name}{$vo.id}TableName : '',
-                {/volist}
             },
             methods: {
-                //通用ajax请求方法
-                {include file="xjryanse/amazeui/vuejs/ajaxOperate"/}
                 //获取数据列表
                 getLists : function () {
                     var that = this;
@@ -147,73 +91,6 @@
                             }
                         }
                     });
-                },
-                //更新数据
-                updateItem : function (e) {
-                    var that = this;
-                    console.log(e);
-                    //弹层
-                    var layerIndex = layer.load(2);
-                    //发异步删除数据
-                    $.ajax({
-                        url:"{:url('update',$paramInherit)}",
-                        type:'POST',
-                        data: e,
-                        success:function(data){
-                            //关闭弹层
-                            layer.close(layerIndex);
-                            if(data.code == 0){
-                                layer.msg(data.message, {icon: 1, time: 1000});
-                            } else {
-                                layer.msg(data.message, {icon: 2});
-                            }
-                        }
-                    });
-                },            
-                //删除数据
-                deleteItem : function (e) {
-                    var that = this;
-                    console.log(e);
-                    layer.confirm('该操作不可恢复，确认要删除吗？', function (index) {
-                        //弹层
-                        var layerIndex = layer.load(2);
-                        //发异步删除数据
-                        $.ajax({
-                            url:"{:url('del',$paramInherit)}",
-                            type:'POST',
-                            data: {
-                                'id': e.id
-                            },
-                            success:function(data){
-                                //关闭弹层
-                                layer.close(layerIndex);
-                                if(data.code == 0){
-                                    layer.msg(data.message, {icon: 1, time: 1000},function(){
-                                        that.getLists( );
-                                    });
-                                } else {
-                                    layer.msg(data.message, {icon: 2});
-                                }
-                            }
-                        });
-                    });
-                },
-                //复制数据
-                copyItem : function (e) {
-                    var that = this;
-                    console.log(e);
-                    layer.confirm('确认复制该条数据？', function (index) {
-                        var data    = {'id': e.id};
-                        //调用公共异步请求函数
-                        that.ajaxOperate( "{:url('copy',$paramInherit)}",data,"getLists");
-                    });
-                },              
-                //列表编辑
-                listEditUpdate : function ( item ) {
-                    var that = this;
-                    console.log( item );
-                    //调用公共异步请求函数
-                    that.ajaxOperate( "{:url('update',$paramInherit)}",item,"");
                 },
                 /**
                  * 普通弹窗
@@ -277,121 +154,21 @@
                     });
                 },
                 /**
-                 * 按钮弹窗
-                 * @param {type} btn    按钮
-                 * @param {type} data   数据
-                 * @returns {undefined}
-                 */
-                btnLayerPage : function (btn,data,refresh){
-                    console.log(btn);
-                    console.log(data);
-                    var url = urlDataReplace( btn.url, data );
-                    //url弹窗
-                    this.layerPage(url,[],'95%','95%',refresh);
-                },
-                /**
-                 * ajax请求
-                 * @param {type} btn    按钮
-                 * @param {type} data   数据
-                 * @returns {undefined}
-                 */
-                dataAjax : function ( btn, data, refresh ){
-                    console.log( btn );
-                    console.log( data );
-                    //子块内的操作，正则替换参数：使用主表数据currentSelectItem
-//                    $.each( this.currentSelectItem,function (key, value) {
-//                        var tmp = btn.url.replace( '{$'+ key +'}' ,value);
-//                        btn.url = tmp;
-//                    });
-//                    
-                    //正则替换参数
-                    btn.url = urlDataReplace( btn.url, this.currentSelectItem );
-
-                    var that = this;
-                    if(btn.confirm){
-                        //弹窗确认信息
-                        layer.confirm( btn.confirm , function (index) {
-                            //调用公共异步请求函数
-                            that.ajaxOperate( btn.url , data ,"getLists");
-                        });
-                    } else {
-                        //调用公共异步请求函数
-                        that.ajaxOperate( btn.url , data ,"getLists");
-                    }
-                },
-                /**
-                 * 编辑弹窗
-                 * @param {type} btn    按钮
-                 * @param {type} data   数据
-                 * @returns {undefined}
-                 */
-                editLayerPage : function (url){
-                    this.layerIframePage(url, '70%','95%',true);
-                },
-                /**
                  * 单选中事件的搜索
                  */
                 onItemSelect :function( item ){
-                    console.log(item);
                     this.currentSelectItem = item;
-                    //循环加载各块级数据
-                    var that = this;                    
-                    {volist name="columnInfo.blockInfo" id = "vo"}
-                        {if ($vo['status'] == 1)}
-                            //优先识别字段，字段未找到再匹配表名：从ydzb_system_column_block_table_fields表中拿数据
-                            var tablesInfo{$key} = {:json_encode($vo['tablesInfo'])};
-                            console.log(item['{$vo.table_name}']);
-                            if(item['{$vo.table_name}'] && !tablesInfo{$key}[item['{$vo.table_name}']]){
-                                layer.msg('请联系开发人员配置数据表'+ item['{$vo.table_name}']);
-                                return false;
-                            }
-                            //弹层
-                            var layerIndex{$key} = layer.load(2);
-                            console.log(tablesInfo{$key}[item['{$vo.table_name}']]);
-                            //识别table_name是否有字段，有字段则从明细的表中拿数据，没字段则认为ydzb_system_column_block中table_name为定死的表
-                            var tableName{$key}  = item['{$vo.table_name}'] ? tablesInfo{$key}[item['{$vo.table_name}']]['table_name'] : '{$vo.table_name}';
-                            var tableField{$key} = item['{$vo.table_name}'] ? tablesInfo{$key}[item['{$vo.table_name}']]['table_field'] : '{$vo.table_field}';
-                            var mainField{$key}  = item['{$vo.table_name}'] ? item[tablesInfo{$key}[item['{$vo.table_name}']]['main_field']] : item['{$vo.main_field}'];
-
-                            $.ajax({
-                                url:"{:url('data',$paramInherit)}",
-                                type:'POST',
-                                data: {
-                                    'show_type'     : "{$vo.show_type}",
-                                    'table_name'    :  tableName{$key} ,
-                                    'table_field'   : tableField{$key},
-                                    'main_field'    : mainField{$key},
-                                },
-                                success:function(data){
-                                    //关闭弹层
-                                    layer.close(layerIndex{$key});   
-                                    if(data.code == 0){
-                                        //数据
-                                        that.{$vo['table_name']}{$vo['id']} = data.data;
-                                        //表名
-                                        that.{$vo['table_name']}{$vo['id']}TableName = data.data.columnInfo;//data_info中使用
-                                    }
-                                }
-                            });
-                        {/if}
-                    {/volist}
                 },
                 //搜索数据
                 searchData : function (key,value)
                 {
-                    //添加搜索数据
-                    this.queryData[key] = value;
-                    //恢复第一页搜索
-                    this.queryData.page = 1;
-                    //搜索
-                    this.getLists();
+                    this.$refs.xjr_table.searchData(key,value);
                 },
-                //获取分页查询数据，common/list/data中使用
-//                getPageLists( page){
-//                    this.queryData.page=page;
-//                    //获取菜单
-//                    this.getLists();                
-//                },
+                //全局搜索数据
+                searchList : function ()
+                {
+                    this.$refs.xjr_table.searchList(this.queryData);
+                },                
                 //搜索更多的选框
                 searchMore() {
                     //慢慢地切入和淡出

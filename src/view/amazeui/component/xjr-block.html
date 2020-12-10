@@ -1,0 +1,155 @@
+<!-- 数据块组件 -->
+<template id="xjr-block">
+    <!--layerPage-->
+    <div class="am-u-sm-12" v-bind:class=" block_info.block_width ? 'am-u-md-'+ block_info.block_width: ''">
+        <div class="widget am-cf" >
+            <!--【块标题】-->
+            <div class="widget-head am-cf">
+                <div class="widget-title am-fl">{{block_info.title}}</div>
+                <div class="widget-function am-fr">
+                    <a href="javascript:;" class="am-icon-cog"></a>
+                </div>
+            </div>
+            <!--【块主体】-->
+            <div style="overflow: auto;"
+                 v-bind:style="{ height: block_info.block_height + 'vh' }">
+                <!--列表-->
+                <block v-if="block_info.show_type == 'list'">
+                    <xjr-table-simple v-bind:column_info="block_data.columnInfo"
+                        v-bind:fields="block_info.fields"
+                        v-bind:data="block_data.data"
+                      ></xjr-table-simple>
+                </block>
+                <!--信息-->
+                <block v-if="block_info.show_type == 'info'">
+                    <block v-if="block_data.columnInfo && block_data.data" >
+                        <!--是动态表，则遍历每个表名-->
+                        <block v-if="block_info.tablesInfo && block_info.tablesInfo.length !=0" >
+                            <!--是动态表，则遍历每个表名，与获取的数据表名相符，则渲染页面-->
+                            <block v-if="tableField.table_name == block_data.columnInfo.table_name"
+                                   v-for="(tableField,index) in block_info.tablesInfo" >
+                                <xjr-detail v-bind:list_info="block_data.columnInfo.listInfo" 
+                                        v-bind:fields="tableField.fields.split(',')"
+                                        v-bind:data="block_data.data"
+                                    ></xjr-detail>
+                            </block>
+                        </block>
+                        <block v-else>
+                            <xjr-detail v-bind:list_info="block_data.columnInfo.listInfo" 
+                                v-bind:fields="block_info.fields.split(',')"
+                                v-bind:data="block_data.data"
+                            ></xjr-detail>     
+                        </block>
+                    </block>
+                </block>
+            </div>
+            <!--【操作按钮信息】-->
+            <table class="am-table tpl-table-black">
+                <tr class="gradeX" style="white-space: nowrap;">
+                    <!--操作按钮-->
+                    <td>
+                        <div class="tpl-table-black-operation" v-if="block_data.columnInfo">
+                            <block v-for="(btn,k) in block_info.btnInfo">
+                                <!--列表弹窗-->
+                                <xjr-button operate="btnLayerPage" icon="pencil" width = "90%"  height = "90%" button_cate="ahref"
+                                    v-if="btn.o_type == 'listpop'"
+                                    v-bind:button_name  =   "btn.name"
+                                    v-bind:url          =   "btn.url" 
+                                    v-bind:data         =   "block_data.data" 
+                                ></xjr-button>
+                                <!-- listoperate：列表操作-->
+                                <xjr-button operate="listOperate" icon="pencil" width = "90%"  height = "90%" button_cate="ahref" show_name="true"
+                                            v-if="btn.o_type == 'listoperate'"
+                                            v-bind:button_name  =   "btn.name"
+                                            v-bind:url          =   "btn.url" 
+                                            v-bind:data         =   "main_data" 
+                                            v-bind:form_data    =   "block_data.data" 
+                                            v-bind:confirm      =   "btn.confirm"
+                                        ></xjr-button>                                                  
+
+                                <!--        jump：本页跳链-->
+                                <!--     mainpop：本页弹窗-->
+                                <!--       blank：新窗口-->
+                                <!--     listpop：列表弹窗-->
+                                <!-- listoperate：列表操作-->
+                            </block>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('xjr-block', {
+        //block_info：块信息；主数据
+        props: {block_info : Array, main_data:Array },
+        template: '#xjr-block',
+        data: function(){
+            return {
+                //块数据
+                "block_data" : {},
+                //动态表的表名
+                "dynTableName" : ''
+            };
+        },
+        watch:{
+            //主数据变化即触发
+            main_data: {
+                handler(newName, oldName) {
+                    //状态判断
+                    console.log(newName);
+                    if(this.block_info.status != 1 || newName.length == 0){
+                        return false;
+                    }
+                    //动态表的信息
+                    var tablesInfo      = this.block_info.tablesInfo;                    
+                    var blockTableName  = this.block_info.table_name;
+                    var blockTableField = this.block_info.table_field;
+                    var blockMainField  = this.block_info.main_field;
+                    if(newName[blockTableName] && !tablesInfo[newName[blockTableName]]){
+                        layer.msg('请联系开发人员配置数据表'+ newName[blockTableName]);
+                        return false;
+                    }
+                    
+                    var tableName  = newName[ blockTableName ] ? tablesInfo[newName[ blockTableName ]]['table_name']    : blockTableName;
+                    var tableField = newName[ blockTableName ] ? tablesInfo[newName[ blockTableName ]]['table_field']   : blockTableField;
+                    var mainField  = newName[ blockTableName ] ? newName[tablesInfo[newName[ blockTableName ]]['main_field']] : newName[blockMainField];
+
+                    //弹层
+                    var layerIndex = layer.load(2);
+                    var that = this;
+                    $.ajax({
+                        url:"{:url('data',$paramInherit)}",
+                        type:'POST',
+                        data: {
+                            'show_type'     : that.block_info.show_type,
+                            'table_name'    : tableName ,
+                            'table_field'   : tableField,
+                            'main_field'    : mainField,
+                        },
+                        success:function(data){
+                            //关闭弹层
+                            layer.close(layerIndex);
+                            if(data.code == 0){
+                                //数据
+                                that.block_data = data.data;
+                                console.log(that.block_data);
+                            }
+                        }
+                    });
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            }
+        },
+        methods : {
+            
+        },
+        created :function(){
+            this.block_info = JSON.parse(this.block_info);
+        }
+    });
+</script>

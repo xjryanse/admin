@@ -14,7 +14,7 @@
                         <form class="am-form tpl-form-border-form tpl-form-border-br" @submit.prevent="submit" id="myForm">
                             <!--只显示is_add字段；按后台配置宽度显示-->
                             <block v-for="(field,i) in columnHeader.listInfo" v-if="(field.is_add && formType == 'add') || (field.is_edit && formType == 'edit')">
-                                <div class="am-form-group" :class=" 'am-u-sm-' + field.form_col"  v-if="field.type !='hidden' && field.type !='union'">
+                                <div class="am-form-group" v-bind:class=" 'am-u-sm-' + field.form_col"  v-if="field.type !='hidden' && field.type !='union'">
                                     <label for="user-name" class="am-form-label">{{field.label}}</label>
                                     <div>                                        
                                         <!--添加字段区-->
@@ -22,18 +22,28 @@
                                         {include file="xjryanse/amazeui/add/field" fieldName="field" /}
                                     </div>
                                 </div>
-                                <!--联表类型数据：union-->
-                                <div class="am-form-group" :class=" 'am-u-sm-' + field.form_col"  v-if="field.type =='union'">
+                                <!--联表类型数据：union：编辑框才有-->
+                                <div class="am-form-group" v-bind:class=" 'am-u-sm-' + field.form_col"  v-if="field.type =='union'">
                                      <hr>
-                                    <label for="user-name" class="am-form-label">{{field.label}}</label>
+                                    <label for="user-name" class="am-form-label">【{{field.label}}】</label>
                                     <div>
                                         <!--子级表的循环-->
                                         <block v-for="(subField,j) in field.table_info.listInfo">
-                                            <div class="am-form-group" :class=" 'am-u-sm-' + subField.form_col"  v-if="subField.type !='hidden' && subField.type !='union'">
+                                            <div class="am-form-group" 
+                                                 v-bind:class=" 'am-u-sm-' + subField.form_col"  
+                                                 v-if="subField.type !='hidden'">
                                                 <label for="user-name" class="am-form-label">{{subField.label}}</label>
+
                                                 <!--子级表的字段-->
 <!--                                                    <cfield v-bind:type="subField.type" v-model="inputData.[ subField.name ]" v-bind:remark=" subField.remark"></cfield>-->
                                                     <cfield v-bind:type="subField.type" v-model="inputData[field.name][subField.name]" v-bind:remark=" subField.remark"></cfield>
+                                                    <!--模板设定-->
+                                                    <div v-if="subField.type == 'tplset'">
+                                                        <ctplset v-bind:option="subField.option" 
+                                                            v-bind:table_name="field.table_info.table_name" 
+                                                            v-bind:data_id="inputData[field.name]['id']" 
+                                                            v-bind:column_list_id="subField.id"></ctplset>
+                                                    </div>
                                             </div>
                                         </block>
                                         <!--子级表的循环结束-->
@@ -81,15 +91,16 @@
                 //参数刷新
                 this.paramRefresh();
                 //表单参数赋值
-                let formData = JSON.stringify(this.inputData);
-                console.log(formData);
+                var that = this;
+                console.log(that.inputData);
                 layer.confirm('确认提交？', function (index) {
                     //弹层
                     var layerIndex = layer.load(2);
                     $.ajax({
                         url: '{$formUrl}',
+                        contentType:'application/json;charset=utf-8',
                         type: 'POST',
-                        data: JSON.parse(formData) ,
+                        data: JSON.stringify(that.inputData) ,
                         success: function (data) {
                             //关闭弹层
                             layer.close(layerIndex);                            
@@ -110,7 +121,9 @@
                     if(item.type=="dyntree" && ((item.is_add && that.formType == 'add') || (item.is_edit && that.formType == 'edit'))){
                         var tmpData = $("#"+item.name).attr('checks');    
                         //TODO寻求直接绑定到dom上的方法20201104
-                        that.inputData[ item.name ] = tmpData.split( ',' );
+                        if(tmpData){
+                            that.inputData[ item.name ] = tmpData.split( ',' );
+                        }
                     }
                 });
             },            

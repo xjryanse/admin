@@ -1,18 +1,9 @@
 <!--需要$tmpValueName-->
 <!--字段类型：普通输入框-->
-<div v-if="[fieldName].type == 'text' || [fieldName].type == 'listedit' ">
-    <cfield v-bind:type="[fieldName].type" v-model="{$tmpValueName}[[fieldName].name]" v-bind:remark="[fieldName].remark"></cfield>
-</div>
 <!--字段类型：密码输入框-->
-<div v-if="[fieldName].type == 'password'">
-    <cfield v-bind:type="[fieldName].type" v-model="{$tmpValueName}[[fieldName].name]" v-bind:remark="[fieldName].remark"></cfield>
-</div>
 <!--字段类型：文本输入框-->
-<!--                        <div v-if="[fieldName].type == 'textarea'">-->
-<div v-if="[fieldName].type == 'textarea'">
-    <cfield v-bind:type="[fieldName].type" v-model="{$tmpValueName}[[fieldName].name]" v-bind:remark="[fieldName].remark"></cfield>
-</div>
-
+<!--字段类型：开关-->
+<cfield v-bind:type="[fieldName].type" v-model="{$tmpValueName}[[fieldName].name]" v-bind:remark="[fieldName].remark"></cfield>
 
 <!--字段类型：多选框-->
 <div v-if="[fieldName].type == 'check'">
@@ -59,20 +50,7 @@
 <!--字段类型：编辑器-->
 <ceditor v-bind:name="[fieldName].name" v-model="{$tmpValueName}[[fieldName].name]" v-if="[fieldName].type == 'editor'"></ceditor>
 
-<!--字段类型：开关-->
-<div  v-if="[fieldName].type == 'switch'">
-    <div class="tpl-switch">
-        <input type="checkbox" 
-            v-bind:readonly="[fieldName].is_edit == 0" 
-            class="ios-switch bigswitch tpl-switch-btn" 
-            v-model="{$tmpValueName}[[fieldName].name]" 
-            v-on:click="{$tmpValueName}[[fieldName].name] = Number(!{$tmpValueName}[[fieldName].name])">
-        <div class="tpl-switch-btn-view">
-            <div>
-            </div>
-        </div>
-    </div>
-</div>
+
 <!--字段类型：块编辑-->
 <div v-if="[fieldName].type == 'tplset'">
     <ctplset v-bind:option="[fieldName].option" 

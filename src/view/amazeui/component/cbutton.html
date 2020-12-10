@@ -42,7 +42,17 @@
 <script>
     //定义hblock组件
     Vue.component('cbutton', {
-        props: ['type','button_name','url','height','width','form_data','btn_style','icon','size'],
+        props: { 
+            type        : String, //layerPage-页面弹窗； layerPageFull：全页面弹窗  fullScreen-全屏；tableOperate-表格操作；tableOperateFull-表格操作全页面
+            button_name : String, //按钮名称
+            url         : String, //url
+            height      : String, //弹窗高度
+            width       : String, //弹窗宽度
+            form_data   : Array,  //表单提交数据 
+            btn_style   : String,   //按钮样式
+            icon        : String,   //图标
+            size        : String,   //尺寸
+        },
         template: '#cbutton',
         data: function(){
             return {

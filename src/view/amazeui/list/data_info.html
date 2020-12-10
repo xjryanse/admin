@@ -12,6 +12,11 @@
                             {include file="xjryanse/amazeui/add/detail" fieldName="field"  /}
                         </div>
                     {/volist}
+                    {:json_encode($tmpListFields)}
+                    <xjr-detail v-bind:list_info="{$tmpTableNameKey}.listInfo" 
+                                fields={:json_encode($tmpListFields)}
+                                v-bind:data="{$tmpValueName}"
+                            ></xjr-detail>
                 </block>
         {/volist}
     {else /}
@@ -21,7 +26,13 @@
                 <label class="am-u-sm-3 am-form-label">{{field.label}}</label>
                 <!--用详情-->
                 {include file="xjryanse/amazeui/add/detail" fieldName="field"  /}
-            </div>
+            </div>        
         {/volist}
+        {{{$tmpListKey}.columnInfo.listInfo}}
+        <xjr-detail v-bind:list_info="{$tmpListKey}.columnInfo.listInfo" 
+                    fields={:json_encode($tmpListFields)}
+                    v-bind:data="{$tmpValueName}"
+                ></xjr-detail>        
+        
     {/notempty}
 </block>

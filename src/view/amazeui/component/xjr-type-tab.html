@@ -1,0 +1,31 @@
+<!-- 列表的字段组件 -->
+<template id="xjr-type-tab">
+    <block>
+        <ul class="am-tabs-nav am-nav am-nav-tabs" v-for="(field,i) in list_info" v-if="field.name == type_tab ">
+            <li><a href="javascript:;" @click="searchData('{$typeTab}','')">全部</a></li>
+            <li v-for="(item,j) in field.option"><a href="javascript:;" @click="searchData( type_tab ,j)">{{item}}</a></li>
+        </ul>
+    </block>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('xjr-type-tab', {
+        //列表信息:列表编辑：项目 column_info列信息；data数据(不含分页的)；分页数据
+        props: { type_tab : String, list_info : Object },
+        template: '#xjr-type-tab',
+        data: function(){
+        },
+        computed : {
+
+        },
+        methods : {
+            //搜索数据
+            searchData (key,value){
+                this.$emit('search_data',key,value);
+            }        
+        },
+        created :function(){
+        }
+    });
+</script>
