@@ -8,14 +8,14 @@
 <!--字段类型：多选框-->
 <div v-if="[fieldName].type == 'check'">
     <label class="am-checkbox-inline" v-for="(tmpOption,k) in [fieldName].option.option">
-        <input type="checkbox" :value="tmpOption.id" :readonly="[fieldName].is_edit == 0" v-model="{$tmpValueName}[[fieldName].name]"> {{tmpOption[[fieldName].option.value]}}
+        <input type="checkbox" v-bind:value="tmpOption.id" v-bind:readonly="[fieldName].is_edit == 0" v-model="{$tmpValueName}[[fieldName].name]"> {{tmpOption[[fieldName].option.value]}}
     </label>
 </div>
 <!--字段类型：普通枚举-->
 <div v-if="[fieldName].type == 'enum'">
     <!--字段类型：普通枚举-->
-    <select v-model="{$tmpValueName}[[fieldName].name]"  :id="[fieldName].name" :name="[fieldName].name"
-            :readonly="[fieldName].is_edit == 0" data-am-selected="{searchBox: 1}" style="display: none;"
+    <select v-model="{$tmpValueName}[[fieldName].name]"  v-bind:id="[fieldName].name" v-bind:name="[fieldName].name"
+            v-bind:readonly="[fieldName].is_edit == 0" data-am-selected="{searchBox: 1}" style="display: none;"
             onchange="console.log(this.value);app.{$tmpValueName}[this.name]=this.value;">
         <option value="" >请选择</option> 
         <option v-for="(tmpOption,k) in [fieldName].option" :value="k" >{{tmpOption}}</option> 
@@ -24,15 +24,19 @@
 <!--字段类型：动态枚举-->
 <div  v-if="[fieldName].type == 'dynenum'">
     <!--需要用js赋值一下，没有绑定。不知道为啥-->
-    <select v-model="{$tmpValueName}[[fieldName].name]" :readonly="[fieldName].is_edit == 0" data-am-selected="{searchBox: 1}" 
-            :id="[fieldName].name" :name="[fieldName].name" style="display: none;" onchange="console.log(this.value);app.{$tmpValueName}[this.name]=this.value;"> 
+    <select v-model="{$tmpValueName}[[fieldName].name]" v-bind:readonly="[fieldName].is_edit == 0" data-am-selected="{searchBox: 1}" 
+            v-bind:id="[fieldName].name" :name="[fieldName].name" style="display: none;" onchange="console.log(this.value);app.{$tmpValueName}[this.name]=this.value;"> 
         <option value="" >请选择</option> 
         <option v-for="(tmpOption,k) in [fieldName].option.option" :value="k" >{{tmpOption}}</option> 
     </select>
 </div>
 <!--字段类型：动态树-->
 <div  v-if="[fieldName].type == 'dyntree'">
-    <textarea style="width: 100%;overflow:hidden;" rows=5 :checks="{$tmpValueName}[[fieldName].name]" :id="[fieldName].name" :name="[fieldName].name" type="text" readonly onchange="console.log('465465')"></textarea>
+    <!--动态树-->
+    <cdyntree v-bind:lists="[fieldName].option.option"
+              v-bind:pid ="{$tmpValueName}[[fieldName].option.linkage] ? {$tmpValueName}[[fieldName].option.linkage] : '' "
+              v-model="{$tmpValueName}[[fieldName].name]"
+            ></cdyntree>
 </div>
 
 <!--字段类型：date日期-->

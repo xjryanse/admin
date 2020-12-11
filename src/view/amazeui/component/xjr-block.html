@@ -5,10 +5,17 @@
         <div class="widget am-cf" >
             <!--【块标题】-->
             <div class="widget-head am-cf">
-                <div class="widget-title am-fl">{{block_info.title}}</div>
-                <div class="widget-function am-fr">
-                    <a href="javascript:;" class="am-icon-cog"></a>
+                <div class="widget-title am-fl">{{block_info.title}}
+                    <xjr-button operate="layerPage" icon="laptop" width = "90%"  height = "90%" button_cate="ahref"
+                                v-bind:url=" '/admin/'+ block_data.columnInfo.controller +'/list/admKey/' + block_data.columnInfo.table_key "
+                                v-if='block_data.columnInfo'
+                                v-bind:form_data="queryData"
+                        button_name  =   "更多"
+                    ></xjr-button>
                 </div>
+<!--                <div class="widget-function am-fr">
+                    <a href="javascript:;" class="am-icon-cog"></a>
+                </div>-->
             </div>
             <!--【块主体】-->
             <div style="overflow: auto;"
@@ -92,7 +99,9 @@
                 //块数据
                 "block_data" : {},
                 //动态表的表名
-                "dynTableName" : ''
+                "dynTableName" : '',
+                //查询条件
+                "queryData":{}
             };
         },
         watch:{
@@ -117,6 +126,10 @@
                     var tableName  = newName[ blockTableName ] ? tablesInfo[newName[ blockTableName ]]['table_name']    : blockTableName;
                     var tableField = newName[ blockTableName ] ? tablesInfo[newName[ blockTableName ]]['table_field']   : blockTableField;
                     var mainField  = newName[ blockTableName ] ? newName[tablesInfo[newName[ blockTableName ]]['main_field']] : newName[blockMainField];
+                    
+                    //用于块详情查询条件
+                    this.queryData = {};
+                    this.queryData[ tableField ] = mainField;
 
                     //弹层
                     var layerIndex = layer.load(2);
@@ -149,7 +162,6 @@
             
         },
         created :function(){
-            this.block_info = JSON.parse(this.block_info);
         }
     });
 </script>

@@ -5,7 +5,7 @@
     <block>
         <block v-for="(field_name, index) in fields">
             <div class="am-form-group am-u-sm-12" v-for="(field,i) in list_info" v-if="field.name == field_name">
-                <label class="am-u-sm-3 am-form-label">{{field.label}}</label>
+                <label class="am-u-sm-3 am-form-label" v-if="field.type != 'tplset'">{{field.label}}</label>
                 <!--字段类型：普通输入框-->
                 <div v-if="field.type == 'text' || field.type == 'listedit' ">
                     <p>{{data[field.name]}}</p>
@@ -43,7 +43,7 @@
                 <div v-if="field.type == 'uplimage'">
                     <div class="am-form-group am-form-file">
                         <div class="tpl-form-file-img" style="width:250px;">
-                            <img :src="data[field.name]['file_path']" v-if="data[field.name]" style="max-width:100%;" >
+                            <img v-bind:src="data[field.name]['file_path']" v-if="data[field.name]" style="max-width:100%;" >
                         </div>
                     </div>
                 </div>
@@ -55,6 +55,13 @@
                 <div  v-if="field.type == 'switch'">
                     <p>{{data[field.name]}}</p>
                 </div>                
+                <!--字段类型：块编辑-->
+                <div v-if="field.type == 'tplset'">
+                    <ctplset v-bind:option="field.option" 
+                        v-bind:table_name="field.table_name" 
+                        v-bind:data_id="data.id" 
+                        v-bind:column_list_id="field.id"></ctplset>
+                </div>
             </div>
         </block>
     </block>
@@ -79,7 +86,6 @@
         
         },
         created :function(){
-            this.fields = JSON.parse(this.fields);
             console.log('xjr-detail组件开始');
         }
     });

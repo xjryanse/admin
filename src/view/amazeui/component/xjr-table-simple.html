@@ -31,7 +31,8 @@
         props: { 'column_info':Array,fields : Object ,'data':Array},
         template: '#xjr-table-simple',
         data: function(){
-            
+            return {
+            };
         },
         computed : {
             
@@ -40,7 +41,6 @@
      
         },
         created :function(){
-            this.fields = JSON.parse(this.fields);            
         }
     });
 </script>

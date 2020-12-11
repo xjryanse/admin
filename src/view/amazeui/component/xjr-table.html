@@ -49,13 +49,14 @@
                                     <xjr-button operate="layerIframePage" icon="pencil" width = "90%"  height = "90%" button_cate="ahref"
                                                 v-if="operate.operate_key == 'edit'"
                                                 v-bind:button_name  ="operate['operate_name']"
-                                                v-bind:url          = "'{:url('admin/jump/edit',$paramInherit)}?id='+item.id + '&table_name=' + column_info.table_name " 
+                                                v-bind:url          = "edit_url + '?id=' + item.id" 
                                                 v-bind:data         = "item" 
+                                                @get_lists ="getLists"
                                             ></xjr-button>
                                     <!--删除-->
                                     <xjr-button operate="deleteItem" icon="trash" width = "90%"  height = "90%" button_cate="ahref"
                                                 btn_class   = "tpl-table-black-operation-del" 
-                                                url         = "{:url('del',$paramInherit)}"                                                 
+                                                v-bind:url          = "delete_url" 
                                                 v-if="operate.operate_key == 'delete'" 
                                                 v-bind:button_name  ="operate['operate_name']"
                                                 v-bind:data         = "item" 
@@ -63,7 +64,7 @@
                                             ></xjr-button>
                                     <!--复制-->
                                     <xjr-button operate="copyItem" icon="copy" width = "90%"  height = "90%" button_cate="ahref"
-                                                url                 = "{:url('copy',$paramInherit)}" 
+                                                v-bind:url          = "copy_url" 
                                                 v-if="operate.operate_key == 'copy'" 
                                                 v-bind:button_name  ="operate['operate_name']"
                                                 v-bind:data         = "item" 
@@ -132,13 +133,23 @@
     //定义hblock组件
     Vue.component('xjr-table', {
         //列表信息:列表编辑：项目 column_info列信息；data数据(不含分页的)；分页数据
-        props: { },
+        //edit_url编辑页面路径；copy_url复制接口路径；delete_url删除接口路径
+        props: { query_data :Array, edit_url :String, copy_url :String,delete_url :String},
         template: '#xjr-table',
         data: function(){
             return {
-                "queryData" :{},
                 "paginate_data":{}
             };
+        },
+        watch:{
+            //主数据变化即触发
+            query_data : {
+                handler(newName, oldName) {
+                   this.getLists();
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            }
         },
         computed : {
             //字段信息
@@ -153,14 +164,14 @@
         methods : {
             //获取数据
             getLists : function () {
-                console.log(this.queryData);
+                console.log(this.query_data);
                 var that = this;
                 //弹层
                 var layerIndex = layer.load(2);
                 $.ajax({
                     url: '{:url('',$paramInherit)}',
                     type: 'POST',
-                    data: that.queryData,
+                    data: that.query_data,
                     success: function (data) {
                         layer.close(layerIndex);
                         console.log(data);
@@ -170,23 +181,28 @@
 
                         that.paginate_data  = data.data;
                         //请求页码设置为1，方便查询
-                        that.queryData.page = 1;
+                        that.query_data.page = 1;
                         //数据加载完成重设表格列宽
                         if( data.data.total ){
                             that.$nextTick(function () {
-                                var widths = that.getMainTableWidth();
-                                //表体和表头对齐
-                                $(this.$refs.mainTableHeader).find("th").attr('width',function(i,e){
-                                    console.log(widths[i]);
-                                    return widths[i] ;
-                                });
-                            })
+                                setTimeout(function () {
+                                    var widths = that.getMainTableWidth();
+                                    //表体和表头对齐
+                                    $(that.$refs.mainTableHeader).find("th").attr('width',function(i,e){
+                                        console.log(widths[i]);
+                                        return widths[i] ;
+                                    });
+                                },200);
+                            });
                         }
                     }
                 });
             },
             //获取表体动态宽度(用于表头表体分离)
             getMainTableWidth(){
+                if(!this.$refs.mainTable){
+                    return false;
+                }
                 var rows = this.$refs.mainTable.rows;
                 var cols = rows[0].cells;
                 var widths = [];
@@ -198,7 +214,7 @@
             //获取分页查询数据，common/list/data中使用
             getPageLists( page){
                 console.log(page);
-                this.queryData.page = page;
+                this.query_data.page = page;
                 //获取菜单
                 this.getLists();                
             },
@@ -211,22 +227,22 @@
             {
                 console.log('xjr-table searchData 开始');
                 //添加搜索数据
-                this.queryData[key] = value;
+                this.query_data[key] = value;
                 //恢复第一页搜索
-                this.queryData.page = 1;
+                this.query_data.page = 1;
                 //搜索
                 this.getLists();
             },
             //搜索按钮搜索
-            searchList( queryData ){
-                this.queryData = queryData;
+            searchList( query_data ){
+                this.query_data = query_data;
                 //搜索
                 this.getLists();
             },
         },
         created :function(){
             console.log('xjr-table组件开始');
-            this.getLists();
+//            this.getLists();
         }
     });
 </script>

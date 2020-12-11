@@ -94,7 +94,8 @@
         props: { option : Array, table_name : String, column_list_id : String, data_id : String },
         template: '#ctplset',
         data: function(){
-
+            return {
+            };
         },
         methods : {
             //模板设定计算值
@@ -136,7 +137,7 @@
                     });
                 });
                 return calValue;
-            },     
+            },
             //表格数据块
             SColumnTplset : function( tableName, columnListId, dataId, callback ){
                 var that= this;
@@ -161,6 +162,9 @@
             },
             //表格数据块
             subUpdate : function( tableName, itemData ){
+                console.log(tableName);
+                console.log(itemData);
+                
                 var that= this;
                 //弹层
                 var layerIndex = layer.load(2);

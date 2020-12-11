@@ -4,7 +4,7 @@
     <div id="{$tmpVueAppId}">
         <!-- 内容区域 -->
         <!-- 内容区域 -->
-        <div>
+        <div class="main-background">
             <div class="row-content am-cf">
                 <!--主模块区域-->
                 <div v-bind:class="'am-u-sm-12 am-u-md-' + columnInfo.block_width" v-if="columnInfo">
@@ -29,10 +29,15 @@
                             <div class="am-u-sm-12" style="overflow: hidden;">
                                 <!--选项卡 根据请求参数是否有typeTab进行判断-->
                                 <xjr-type-tab type_tab="{:request()->param('typeTab','')}" 
-                                              v-bind:list_info="dataList.columnInfo.listInfo"
+                                              v-bind:list_info="columnInfo.listInfo"
                                               @search_data="searchData" v-if="'{:request()->param('typeTab','')}'"></xjr-type-tab>
                                 <!--表格-->
-                                <xjr-table @on_item_select="onItemSelect" ref="xjr_table"></xjr-table>
+                                <xjr-table ref="xjr_table" 
+                                           edit_url   = "{:url('edit',$paramInherit)}"
+                                           copy_url   = "{:url('copy',$paramInherit)}"
+                                           delete_url = "{:url('del',$paramInherit)}"
+                                           v-bind:query_data="queryData"
+                                    @on_item_select="onItemSelect"></xjr-table>
                             </div>
                         </form>
                     </div>
@@ -44,9 +49,10 @@
             </div>
         </div>
     </div>
-
+    
     <!-- 组件列表 -->
     {include file="xjryanse/amazeui/components"/}
+    
     
     <script>
         /**
@@ -57,102 +63,17 @@
         var app = new Vue({
             el: '#{$tmpVueAppId}',
             data: {
-                    'dataList' : [],
-                    'columnInfo' : {:json_encode($columnInfo)},
-                    'queryData': {:json_encode(request()->param())},
-                    'isDetail' : true,
-                    //主表当前选中字段
-                    'currentSelectItem' : [],
+                'columnInfo' : {:json_encode($columnInfo)},
+                'queryData': {:json_encode(request()->param())},
+                'isDetail' : true,
+                //主表当前选中字段
+                'currentSelectItem' : [],
             },
             methods: {
-                //获取数据列表
-                getLists : function () {
-                    var that = this;
-                    //弹层
-                    var layerIndex = layer.load(2);
-                    $.ajax({
-                        url: '{:url('',$paramInherit)}',
-                        type: 'POST',
-                        data: that.queryData,
-                        success: function (data) {
-                            layer.close(layerIndex);
-                            console.log(data);
-                            if (data.code != 0) {
-                                layer.msg(data.message);
-                            }
-                            that.dataList = data.data;
-                            console.log(that.dataList);
-                            //数据加载完成重设表格列宽
-                            if( that.dataList.total ){
-                                that.$nextTick(function () {
-                                    //表体和表头宽度对齐
-                                    matchTableHeaderWidth('main_table{$tmpTime}','mainTableHeader{$tmpTime}','th');
-                                })
-                            }
-                        }
-                    });
-                },
-                /**
-                 * 普通弹窗
-                 * @param {type} url        url
-                 * @param {type} formData   表单数据
-                 * @param {type} width      宽度
-                 * @param {type} height     高度
-                 * @param {type} refresh    刷新与否
-                 * @returns {undefined}
-                 */
-                layerPage : function ( url ,formData,width,height,refresh){
-                    //弹层
-                    var layerIndex = layer.load(2);                
-                    var that = this;
-                    $.ajax({
-                        url: url,
-                        type: 'POST',
-                        data :formData,
-                        beforeSend: function( xhr ) { 
-                            xhr.setRequestHeader('X-Requested-With', {toString: function(){ return ''; }}); 
-                        }, 
-                        success: function (data) {
-                            console.log(data)
-                            //关闭弹层
-                            layer.close(layerIndex);                            
-                            layer.open({
-                                type: 1,
-                                skin: 'layui-layer-rim', //加上边框
-                                area: [width, height], //宽高
-                                end : function () {
-                                    if(refresh){
-                                        that.getLists( );
-                                    }
-                                },
-                                content: data
-                            });                            
-                        }
-                    });
-                },
-                /**
-                 * Iframe弹窗
-                 * @param {type} url        url
-                 * @param {type} formData   表单数据
-                 * @param {type} width      宽度
-                 * @param {type} height     高度
-                 * @param {type} refresh    刷新与否
-                 * @returns {undefined}
-                 */
-                layerIframePage : function ( url ,width,height,refresh){
-                    var that = this;
-                    layer.open({
-                        type: 2,
-                        skin: 'layui-layer-rim', //加上边框
-                        area: [width, height], //宽高
-                        end : function () {
-                            if(refresh){
-                                that.getLists( );
-                            }
-                        },
-                        content: url
-                    });
-                },
+                //用于触发主表数据刷新
+                getLists(){
+                    this.$refs.xjr_table.getLists();                    
+                },                
                 /**
                  * 单选中事件的搜索
                  */
@@ -165,8 +86,7 @@
                     this.$refs.xjr_table.searchData(key,value);
                 },
                 //全局搜索数据
-                searchList : function ()
-                {
+                searchList : function (){
                     this.$refs.xjr_table.searchList(this.queryData);
                 },                
                 //搜索更多的选框
@@ -183,19 +103,11 @@
                         fullscreen();
                     } else {
                         exitFullscreen();
-                    }                    
+                    }
                 },
             },
             created: function () {
-                //获取菜单
-                this.getLists();
-                //下一个点击事件
-                this.$nextTick(function () {
-                    $(document).ready(function () {
-                        console.log('hehe');
-                        $("#temptest").freezeHeader();
-                    })
-                })
+
             }
         });
     </script>

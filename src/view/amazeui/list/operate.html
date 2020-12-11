@@ -1,14 +1,15 @@
 <div class="am-form-group">
     <div class="am-btn-toolbar">
-        <div class="am-btn-group am-btn-group-xs" v-if="dataList.columnInfo">
-            <block v-for="(operate,k) in dataList.columnInfo.operateInfo">
+        <div class="am-btn-group am-btn-group-xs" v-if="columnInfo">
+            <block v-for="(operate,k) in columnInfo.operateInfo">
                 <!--新增-->
-                <cbutton v-if="operate.operate_key == 'add'" type='layerPageFull'  
-                         icon='plus' width = "90%"  height = "90%" 
-                         btn_style="primary" size="small" 
-                         v-bind:button_name="operate['operate_name']" 
-                         v-bind:url= "'{:url('add',array_merge($paramInherit,request()->param()))}'" 
-                    ></cbutton>
+                <xjr-button operate="layerIframePage" icon="plus" width = "90%"  height = "90%" button_cate="button" 
+                            btn_style="primary" size="small" 
+                            url          = "'{:url('add',array_merge($paramInherit,request()->param()))}'" 
+                            v-if="operate.operate_key == 'add'"
+                            v-bind:button_name  ="operate['operate_name']"
+                            @get_lists ="getLists"
+                        ></xjr-button>
                 <!--导入-->
                 <!--
                 <a href="javascript:;" v-if="operate.operate_key == 'import'">
@@ -18,32 +19,41 @@
                 </a>
                 -->
                 <!--导出-->
-                <a href="{:url('export',$paramInherit)}" target="_blank" v-if="operate.operate_key == 'export'">
-                    <button type="button" class="am-btn am-btn-default am-btn-warning">
-                        <span class="am-icon-cloud-download"></span> {{operate['operate_name']}}
-                    </button>
-                </a>
+                <xjr-button operate="newPage" icon="cloud-download" width = "90%"  height = "90%" button_cate="button" 
+                            btn_style="warning" size="small" 
+                            url          = "{:url('export',$paramInherit)}" 
+                            v-if="operate.operate_key == 'export'"
+                            v-bind:button_name  ="operate['operate_name']"
+                        ></xjr-button>
             </block>
             {if $admUser['admin_type'] == 'super'}
                 <!--数据：表信息-->
-                <cbutton type='layerPageFull'  button_name='表' icon='reddit' width = "90%"  height = "90%" btn_style="primary" size="small" 
-                         v-bind:url= "'{:url('/admin/system/edit',array_merge($paramInherit,['admKey'=>'column']))}?id=' + dataList.columnInfo.id" 
-                    ></cbutton>
+                <xjr-button operate="layerIframePage" icon="reddit" width = "90%"  height = "90%" button_cate="button" 
+                            btn_style="primary" size="small" 
+                            button_name  ="表"
+                            v-bind:url= "'{:url('/admin/system/edit',array_merge($paramInherit,['admKey'=>'column']))}?id=' + columnInfo.id"
+                        ></xjr-button>
                 <!--数据：字段信息-->
-                <cbutton type='layerPage'  button_name='字段' icon='reddit' width = "90%"  height = "90%" btn_style="primary" size="small" 
-                         url= '{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnList']))}' 
-                         v-bind:form_data = {column_id:dataList.columnInfo.id} 
-                    ></cbutton>
+                <xjr-button operate="layerPage" icon="reddit" width = "90%"  height = "90%" button_cate="button" 
+                            btn_style="primary" size="small" 
+                            url     = "{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnList']))}"
+                            button_name  ="字段"
+                            v-bind:form_data = {column_id:columnInfo.id} 
+                        ></xjr-button>
                 <!--数据：按钮信息-->
-                <cbutton type='layerPage'  button_name='按钮' icon='reddit' width = "90%"  height = "90%" btn_style="success"
-                         url= '{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnBtn']))}' 
-                         v-bind:form_data = {column_id:dataList.columnInfo.id} 
-                    ></cbutton>
+                <xjr-button operate="layerPage" icon="reddit" width = "90%"  height = "90%" button_cate="button" 
+                            btn_style="success" size="small" 
+                            url     = "{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnBtn']))}"
+                            button_name  ="按钮"
+                            v-bind:form_data = {column_id:columnInfo.id} 
+                        ></xjr-button>                
                 <!--数据：块信息-->
-                <cbutton type='layerPage'  button_name='数据块' icon='reddit' width = "90%"  height = "90%" btn_style="success"
-                         url= '{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnBlock']))}' 
-                         v-bind:form_data = {column_id:dataList.columnInfo.id} 
-                    ></cbutton>
+                <xjr-button operate="layerPage" icon="reddit" width = "90%"  height = "90%" button_cate="button" 
+                            btn_style="success" size="small" 
+                            url     = "{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnBlock']))}"
+                            button_name  ="数据块"
+                            v-bind:form_data = {column_id:columnInfo.id} 
+                        ></xjr-button>
             {/if}
         </div>
     </div>

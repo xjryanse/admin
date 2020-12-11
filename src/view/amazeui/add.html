@@ -66,14 +66,8 @@
     </div>
 </div>
 
-<!-- ok字段模板 -->
-{include file="xjryanse/amazeui/component/cfield"/}
-<!-- ok价格模板 -->
-{include file="xjryanse/amazeui/component/ctplset"/}
-<!-- 编辑器模板 -->
-{include file="xjryanse/amazeui/component/ceditor"/}
-<!-- 上传图片模板 -->
-{include file="xjryanse/amazeui/component/cuplimage"/}
+<!-- 组件列表 -->
+{include file="xjryanse/amazeui/components"/}
 
 <script>
     var app = new Vue({
@@ -88,8 +82,6 @@
         methods: {
             //表单提交
             submit : function () {
-                //参数刷新
-                this.paramRefresh();
                 //表单参数赋值
                 var that = this;
                 console.log(that.inputData);
@@ -112,47 +104,13 @@
                         }
                     });
                 });
-            },
-            //参数刷新
-            paramRefresh(){
-                var that = this;
-                that.columnHeader.listInfo.forEach(function(item,index){
-                    //动态树
-                    if(item.type=="dyntree" && ((item.is_add && that.formType == 'add') || (item.is_edit && that.formType == 'edit'))){
-                        var tmpData = $("#"+item.name).attr('checks');    
-                        //TODO寻求直接绑定到dom上的方法20201104
-                        if(tmpData){
-                            that.inputData[ item.name ] = tmpData.split( ',' );
-                        }
-                    }
-                });
-            },            
+            },      
         },
         computed : {
             
         },
         created: function () {
-            var that = this;
-            that.columnHeader.listInfo.forEach(function(item,index){
-                //动态树
-                if(item.type=="dyntree"){
-                    that.$nextTick(function () {
-                        console.log(item);
-                        var defaults = {
-                            zNodes: item.option.option,
-                            height: 300
-                        };
-                        console.log( defaults );
-//                        $("#"+item.name).drawMultipleTree(defaults);         
-                        $("#"+item.name).treeSelect(defaults);    
-                        $("#"+item.name).bind('input propertychange',function(){
-                            console.log('text changed!!!');
-                        });
-                    })
-                }
-            })
-            //强制渲染
-            this.$forceUpdate();
+
         }
     });
 </script>
