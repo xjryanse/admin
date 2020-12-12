@@ -1,0 +1,21 @@
+<!-- 字段组件 -->
+<template id="we-header">
+    <!--layerPage-->
+    <block>
+        <!--顶部标签，带返回值-->
+        <!--导航-->
+        <div class="weui-header bg-white">
+            <div class="weui-header-left"><a class="icon icon-109 f-black" style="color: black;" href="javascript:;" onclick="backWithLoading()"></a></div>
+            <h1 class="f-black">{{value}}</h1>
+            <div class="weui-header-right"><a class="icon icon-27 f-black" style="color: black;" href="javascript:;" onclick="jumpWithLoading('{:url('web/home/index',$paramInherit)}')"></a></div>
+        </div>
+    </block>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('we-header', {
+        props: ['value'],
+        template: '#we-header',
+    });
+</script>
