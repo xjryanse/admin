@@ -5,7 +5,7 @@
                 <!--新增-->
                 <xjr-button operate="layerIframePage" icon="plus" width = "90%"  height = "90%" button_cate="button" 
                             btn_style="primary" size="small" 
-                            url          = "'{:url('add',array_merge($paramInherit,request()->param()))}'" 
+                            url          = "{:url('add',array_merge($paramInherit,request()->param()))}" 
                             v-if="operate.operate_key == 'add'"
                             v-bind:button_name  ="operate['operate_name']"
                             @get_lists ="getLists"
