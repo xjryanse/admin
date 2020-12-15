@@ -45,7 +45,8 @@
                 <!--子模块区域-->
                 <xjr-block v-for="(block,k) in columnInfo.blockInfo" 
                            v-bind:block_info="block"
-                           v-bind:main_data="currentSelectItem"></xjr-block>
+                           v-bind:main_data="currentSelectItem"
+                           @get_lists="getLists"></xjr-block>
             </div>
         </div>
     </div>

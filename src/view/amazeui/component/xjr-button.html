@@ -41,6 +41,9 @@
             btn_style   : String,   //按钮样式
             icon        : String,   //图标
             size        : String,   //尺寸
+            //用于确认框输入简短信息
+            prompt      : String,   //输入层字段名
+            prompt_default : String,   //输入层字段默认值
         },
         template: '#xjr-button',
         data: function(){
@@ -85,33 +88,17 @@
              */
             doBtnClick(){
                 //iframe页面
-                if(this.operate === 'layerIframePage'){
-                    this.doLayerPageFull();
-                }
-                //弹窗页面
-                if(this.operate === 'layerPage'){
-                    this.doLayerPage();
-                }
-                //删除数据
-                if(this.operate === 'deleteItem'){
-                    this.deleteItem();
-                }
-                //复制数据
-                if(this.operate === 'copyItem'){
-                    this.copyItem();
-                }
-                //列表操作
-                if(this.operate === 'listOperate'){
-                    this.listOperate();
-                }
-                //新页面
-                if(this.operate === 'newPage'){
-                    this.newPage();
-                }
-                if(this.operate === 'fullScreen')
-                {
-                    this.doFullScreen();
-                }
+                var reflects = {
+                    "layerIframePage"   :"doLayerPageFull",
+                    "layerPage"         :"doLayerPage",
+                    "deleteItem"        :"deleteItem",
+                    "copyItem"          :"copyItem",
+                    "listOperate"       :"listOperate",
+                    "newPage"           :"newPage",
+                    "fullScreen"        :"fullScreen"
+                };
+                //动态执行方法名
+                eval("this." + reflects[this.operate] + "()"); 
             },
             /**
              * 新页面
@@ -140,7 +127,7 @@
                 var width       = this.width;
                 //宽度
                 var height      = this.height;
-
+                var that = this;
                 $.ajax({
                     url:  url,
                     type: 'GET',
@@ -157,7 +144,8 @@
                             skin: 'layui-layer-rim', //加上边框
                             area: [width, height], //宽高
                             end : function () {
-
+                                //需要刷新父页面时
+                                that.$emit('get_lists');
                             },
                             content: data
                         });                            
@@ -189,7 +177,7 @@
                     area: [width, height], //宽高
                     end : function () {
                         //刷新主界面数据
-                        that.$emit('get_lists');                   
+                        that.$emit('get_lists');
                     },
                     content: url
                 });
@@ -197,15 +185,37 @@
             //列表操作
             listOperate(){
                 var that = this;
+                //需要确认框信息
                 if( that.confirm ){
-                    //弹窗确认信息
-                    layer.confirm( that.confirm , function (index) {
-                        //调用公共异步请求函数
-                        that.ajaxOperate( that.getUrl() , that.form_data ,"getLists");
-                    });
+                    if( that.prompt ){
+                        //输入层
+                        layer.prompt({title: that.confirm, formType: 2,value:that.prompt_default}, function(pass, index){
+                            that.form_data[ that.prompt ] = pass;
+                            console.log(that.form_data);
+                            //调用公共异步请求函数
+                            that.ajaxOperate( that.getUrl() , that.form_data ,function(){
+                                //调用父组件刷新方法
+                                that.$emit('get_lists');
+                            });
+                            //关闭弹窗
+                            layer.close(index);
+                        });
+                    } else{
+                        //弹窗确认信息
+                        layer.confirm( that.confirm , function (index) {
+                            //调用公共异步请求函数
+                            that.ajaxOperate( that.getUrl() , that.form_data ,function(){
+                                //调用父组件刷新方法
+                                that.$emit('get_lists');
+                            });
+                        });
+                    }
                 } else {
                     //调用公共异步请求函数
-                    that.ajaxOperate( that.getUrl() , that.form_data ,"getLists");
+                    that.ajaxOperate( that.getUrl() , that.form_data ,function(){
+                        //调用父组件刷新方法
+                        that.$emit('get_lists');
+                    });
                 }
             },            
             deleteItem(){

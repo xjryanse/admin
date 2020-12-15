@@ -49,41 +49,45 @@
                         </block>
                     </block>
                 </block>
-            </div>
-            <!--【操作按钮信息】-->
-            <table class="am-table tpl-table-black">
-                <tr class="gradeX" style="white-space: nowrap;">
-                    <!--操作按钮-->
-                    <td>
-                        <div class="tpl-table-black-operation" v-if="block_data.columnInfo">
-                            <block v-for="(btn,k) in block_info.btnInfo">
-                                <!--列表弹窗-->
-                                <xjr-button operate="btnLayerPage" icon="pencil" width = "90%"  height = "90%" button_cate="ahref"
-                                    v-if="btn.o_type == 'listpop'"
-                                    v-bind:button_name  =   "btn.name"
-                                    v-bind:url          =   "btn.url" 
-                                    v-bind:data         =   "block_data.data" 
-                                ></xjr-button>
-                                <!-- listoperate：列表操作-->
-                                <xjr-button operate="listOperate" icon="pencil" width = "90%"  height = "90%" button_cate="ahref" show_name="true"
-                                            v-if="btn.o_type == 'listoperate'"
-                                            v-bind:button_name  =   "btn.name"
-                                            v-bind:url          =   "btn.url" 
-                                            v-bind:data         =   "main_data" 
-                                            v-bind:form_data    =   "block_data.data" 
-                                            v-bind:confirm      =   "btn.confirm"
-                                        ></xjr-button>                                                  
+                <!--【操作按钮信息】-->
+                <table class="am-table tpl-table-black" v-if="block_info.btnInfo && block_info.btnInfo.length > 0">
+                    <tr class="gradeX" style="white-space: nowrap;">
+                        <!--操作按钮-->
+                        <td>
+                            <div class="tpl-table-black-operation" v-if="block_data.columnInfo">
+                                <block v-for="(btn,k) in block_info.btnInfo">
+                                    <!--列表弹窗-->
+                                    <xjr-button operate="btnLayerPage" icon="pencil" width = "90%"  height = "90%" button_cate="ahref"
+                                        v-if="btn.o_type == 'listpop'"
+                                        v-bind:button_name  =   "btn.name"
+                                        v-bind:url          =   "btn.url" 
+                                        v-bind:data         =   "block_data.data" 
+                                    ></xjr-button>
+                                    <!-- listoperate：列表操作-->
+                                    <xjr-button operate="listOperate" icon="pencil" width = "90%"  height = "90%" button_cate="ahref" show_name="true"
+                                                v-if="btn.o_type == 'listoperate'"
+                                                v-bind:button_name  =   "btn.name"
+                                                v-bind:url          =   "btn.url" 
+                                                v-bind:data         =   "main_data" 
+                                                v-bind:form_data    =   "block_data.data" 
+                                                v-bind:confirm      =   "btn.confirm"
+                                                v-bind:prompt       =   "btn.prompt"
+                                                v-bind:prompt_default=   "btn.prompt_default"
+                                                @get_lists          =   "getLists"
+                                            ></xjr-button>
 
-                                <!--        jump：本页跳链-->
-                                <!--     mainpop：本页弹窗-->
-                                <!--       blank：新窗口-->
-                                <!--     listpop：列表弹窗-->
-                                <!-- listoperate：列表操作-->
-                            </block>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+                                    <!--        jump：本页跳链-->
+                                    <!--     mainpop：本页弹窗-->
+                                    <!--       blank：新窗口-->
+                                    <!--     listpop：列表弹窗-->
+                                    <!-- listoperate：列表操作-->
+                                </block>
+                            </div>
+                        </td>
+                    </tr>
+                </table>                
+                
+            </div>
         </div>
     </div>
 </template>
@@ -159,7 +163,9 @@
             }
         },
         methods : {
-            
+            getLists : function(){
+                this.$emit('get_lists');
+            }
         },
         created :function(){
         }
