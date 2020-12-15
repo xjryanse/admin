@@ -4,43 +4,42 @@
     <!--字段明细 v-if="field.name == field_name"-->
     <block>
         <block v-for="(field_name, index) in fields">
-            <div class="am-form-group am-u-sm-12" v-for="(field,i) in list_info" v-if="field.name == field_name">
-                <label class="am-u-sm-3 am-form-label" v-if="field.type != 'tplset'">{{field.label}}</label>
+            <div class="am-form-group am-u-sm-12" style="padding:0px;"
+                 v-for="(field,i) in list_info" v-if="field.name == field_name">
+                <label class="am-u-sm-4" v-if="field.type != 'tplset'">{{field.label}}</label>
                 <!--字段类型：普通输入框-->
-                <div v-if="field.type == 'text' || field.type == 'listedit' ">
-                    <p>{{data[field.name]}}</p>
+                <div v-if="field.type == 'text' || field.type == 'listedit' " class="am-u-sm-8">
+                    {{data[field.name]}}
                 </div>
                 <!--字段类型：文本输入框-->
                 <!--                        <div v-if="field.type == 'textarea'">-->
-                <div v-if="field.type == 'textarea'">
-                    <p>{{data[field.name]}}</p>
+                <div v-if="field.type == 'textarea'" class="am-u-sm-8">
+                    {{data[field.name]}}
                 </div>
                 <!--字段类型：多选框-->
-                <div v-if="field.type == 'check'">
+                <div v-if="field.type == 'check'" class="am-u-sm-8">
                     <label class="am-checkbox-inline" v-for="(tmpOption,k) in field.option.option">
-                        <p>{{data[field.name]}}</p>
+                        {{data[field.name]}}
                     </label>
                 </div>
                 <!--字段类型：普通枚举-->
-                <div v-if="field.type == 'enum'">
-                    <p>{{field.option[data[field.name]]}}</p>
+                <div v-if="field.type == 'enum'" class="am-u-sm-8">
+                    {{field.option[data[field.name]]}}
                 </div>
                 <!--字段类型：动态枚举-->
-                <div  v-if="field.type == 'dynenum'">
-                    <p>{{field.option.option[data[field.name]]}}</p>
+                <div  v-if="field.type == 'dynenum'" class="am-u-sm-8">
+                    {{field.option.option[data[field.name]]}}
                 </div>
                 <!--字段类型：动态树-->
-                <div  v-if="field.type == 'dyntree'">
-                    <p>{{data[field.name]}}</p>
+                <div  v-if="field.type == 'dyntree'" class="am-u-sm-8">
+                    {{data[field.name]}}
                 </div>
-
                 <!--字段类型：date日期-->
-                <div  v-if="field.type == 'date'">
-                    <p>{{data[field.name]}}</p>
+                <div  v-if="field.type == 'date'" class="am-u-sm-8">
+                    {{data[field.name]}}
                 </div>
-
                 <!--字段类型：上传图片-->
-                <div v-if="field.type == 'uplimage'">
+                <div v-if="field.type == 'uplimage'" class="am-u-sm-8">
                     <div class="am-form-group am-form-file">
                         <div class="tpl-form-file-img" style="width:250px;">
                             <img v-bind:src="data[field.name]['file_path']" v-if="data[field.name]" style="max-width:100%;" >
@@ -48,15 +47,15 @@
                     </div>
                 </div>
                 <!--字段类型：编辑器-->
-                <div  v-if="field.type == 'editor'">
-                    <p>{{data[field.name]}}</p>
+                <div  v-if="field.type == 'editor'" class="am-u-sm-8">
+                    {{data[field.name]}}
                 </div>
                 <!--字段类型：开关-->
-                <div  v-if="field.type == 'switch'">
-                    <p>{{data[field.name]}}</p>
+                <div  v-if="field.type == 'switch'" class="am-u-sm-8">
+                    {{data[field.name]}}
                 </div>                
                 <!--字段类型：块编辑-->
-                <div v-if="field.type == 'tplset'">
+                <div v-if="field.type == 'tplset'" class="am-u-sm-12">
                     <ctplset v-bind:option="field.option" 
                         v-bind:table_name="field.table_name" 
                         v-bind:data_id="data.id" 

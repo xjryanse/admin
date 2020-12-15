@@ -5,15 +5,18 @@
             <div class="tpl-user-card-title">
                 {{user_info.nickname}}
             </div>
+            <!--
             <div class="achievement-subheading">
                 月度最佳员工
             </div>
+            -->
             <img class="headimg" v-bind:src="user_info.headimg.file_path" v-if="user_info.headimg" >
             <img class="headimg" src="__STATIC__/defaultHeader.jpg" v-else>            
             <div class="achievement-description">
-                禁言小张在
+                {{user_info.nickname}}
+                <!--在
                 <strong>30天内</strong> 禁言了
-                <strong>200多</strong>人。
+                <strong>200多</strong>人。-->
             </div>
         </div>
     </div>
