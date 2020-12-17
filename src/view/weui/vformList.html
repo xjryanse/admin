@@ -17,82 +17,18 @@
                 <div class="f14" style="background-color: #f2f2f2;padding:5px 10px;color:#999999">{$vo.label|raw}</div>
             {/if}
             {if $vo.type== 'hidden'}
-                <input id="{$tmpVoId}" name="{$vo.field}" type="hidden" v-model="inputData.{$tmpVoField}">
+                <we-field type="{$vo['type']}" v-model="inputData.{$tmpVoField}"></we-field>
             {/if}
             <!--inputType可设置number，动态；普通文本-->
-            {if $vo.type== 'text'}
+            {if in_array($vo['type'],['text','number','prize','phone','idno','date','citypicker'])}
                 <div class="weui-cell">
                     <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
                     <div class="weui-cell__bd">
-                        <input class="weui-input " id="{$tmpVoId}" name="{$vo.field}" type="{$vo.inputType|default='text'}" v-model='inputData.{$tmpVoField}' {if !$vo.is_edit} readonly {else /} placeholder="请输入{$vo.label}" {/if} >
+                        <we-field type="{$vo['type']}" v-model="inputData.{$tmpVoField}" remark="请输入{$vo.label}" maxlength="{$vo.maxLength|default='99'}"></we-field>
                     </div>
                 </div>
             {/if}
-            <!--inputType可设置number，动态；只能数字-->
-            {if $vo.type== 'number'}
-                <div class="weui-cell">
-                    <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
-                    <div class="weui-cell__bd">
-                        <input class="weui-input " id="{$tmpVoId}" name="{$vo.field}" type="text" 
-                               maxlength="{$vo.maxLength|default='99'}" 
-                               v-model='inputData.{$tmpVoField}' {if !$vo.is_edit} readonly {else /} placeholder="请输入{$vo.label}" {/if} 
-                               oninput = "value=value.replace(/[^\d]/g,'')">
-                    </div>
-                </div>
-            {/if}
-            <!--价格，数字加小数点-->
-            {if $vo.type== 'prize'}
-                <div class="weui-cell">
-                    <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
-                    <div class="weui-cell__bd">
-                        <input class="weui-input " id="{$tmpVoId}" name="{$vo.field}" type="text" 
-                               maxlength="{$vo.maxLength|default='99'}" 
-                               v-model='inputData.{$tmpVoField}' {if !$vo.is_edit} readonly {else /} placeholder="请输入{$vo.label}" {/if} 
-                               oninput = "value=value.replace(/[^\d\.]/g,'')">
-                    </div>
-                </div>
-            {/if}            
-            <!--手机号码-->
-            {if $vo.type== 'phone'}
-                <div class="weui-cell">
-                    <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
-                    <div class="weui-cell__bd">
-                        <input class="weui-input " maxlength="11" 
-                               id="{$tmpVoId}"
-                               name="{$vo.field}" 
-                               type="{$vo.inputType|default='text'}" 
-                               v-model='inputData.{$tmpVoField}' {if !$vo.is_edit} readonly {else /} placeholder="请输入{$vo.label}" {/if} 
-                               oninput = "value=value.replace(/[^\d]/g,'')">
-                    </div>
-                </div>
-            {/if}
-            <!--身份证号-->
-            {if $vo.type== 'idno'}
-                <div class="weui-cell">
-                    <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
-                    <div class="weui-cell__bd">
-                        <input class="weui-input " maxlength="18" 
-                               id="{$tmpVoId}"
-                               name="{$vo.field}" 
-                               type="{$vo.inputType|default='text'}" 
-                               v-model='inputData.{$tmpVoField}' {if !$vo.is_edit} readonly {else /} placeholder="请输入{$vo.label}" {/if} 
-                               oninput = "value=value.replace(/[^\dX]/g,'')">
-                    </div>
-                </div>
-            {/if}        
-            <!-- 日期 -->
-            {if $vo.type== 'date'}
-                <div class="weui-cell">
-                    <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
-                    <div class="weui-cell__bd">
-                        <input class="weui-input txtright picker-input dateinput"
-                               id="{$tmpVoId}" name="{$vo.field}" 
-                               type="{$vo.inputType|default='text'}" 
-                               v-model='inputData.{$tmpVoField}' placeholder="请选择" 
-                               onchange="App.inputData.{$tmpVoField}=this.value;" >
-                    </div>
-                </div>
-            {/if}
+
             <!--单选框，可绑定事件-->
             {if $vo.type== 'radio'}
                 <div class="weui-cell">
@@ -166,22 +102,16 @@
                     </div>
                 {/if}
             {/if}
-            <!--citypicker 选择地址-->
-            {if $vo.type== 'citypicker'}
+            <!--inputType可设置number，动态；普通文本-->
+            {if in_array($vo['type'],['fileDownload'])}
                 <div class="weui-cell">
                     <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
                     <div class="weui-cell__bd">
-                        <input class="weui-input" id="{$tmpVoId}" name="{$vo.field}" type="{$vo.inputType|default='text'}" readonly placeholder="选择地区" onchange="App.inputData[this.name]=this.value;">
+                        <a href="{$vo['default']}" target="_blank">下载</a>
                     </div>
-                    <!-----需配合如下js使用
-                    <script>
-                        $("#{$vo.field}").cityPicker({
-                          title: "请选择地址"
-                        });
-                    </script>
-                    ----->
                 </div>
             {/if}
+            
             <!--短信验证码-->
             {if $vo.type== 'smsCode'}        
                 <div class="weui-cell">

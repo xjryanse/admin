@@ -2,17 +2,23 @@
 <template id="we-field">
     <!--layerPage-->
     <block>
-        <!--文本text-->
-        <!--文本listedit-->
-        <input v-if="type == 'text' || type == 'listedit' "
-                   type="text" class="tpl-form-input" v-model="value" v-on:change="$emit('input', $event.target.value)">
-        <!--密码password-->
-        <input v-if="type == 'password'"
-               type="password" class="tpl-form-input" v-model="value" v-on:change="$emit('input', $event.target.value)">
-        <!--文本框textarea-->
-        <textarea v-if="type == 'textarea'"
-                class="" rows="10" placeholder="请输入" v-model="value" v-on:change="$emit('input', $event.target.value)"></textarea>
-        <!--开关switch-->
+        <!-- 文本text-->
+        <input v-if="type == 'hidden' " type="hidden" v-model="value">
+        <!-- 文本text  文本listedit-->
+        <input v-if="type == 'text' || type == 'listedit' " type="text" class="weui-input" v-model="value" v-bind:placeholder="remark">
+        <!-- 文本number-->
+        <input v-if="type == 'number'"   type="text"     class="weui-input" v-model="value" v-bind:placeholder="remark" v-bind:maxlength = "[maxlength ? maxlength : 99]" oninput="value=value.replace(/[^\d]/g,'')">
+        <!-- 价格prize-->
+        <input v-if="type == 'prize'"    type="text"     class="weui-input" v-model="value" v-bind:placeholder="remark" oninput="value=value.replace(/[^\d\.]/g,'')">
+        <!-- 手机号 phone -->
+        <input v-if="type == 'phone'"    type="text"     class="weui-input" v-model="value" v-bind:placeholder="remark" v-bind:maxlength = "11" oninput="value=value.replace(/[^\d]/g,'')">
+        <!-- 身份证号 idno -->
+        <input v-if="type == 'idno'"     type="text"     class="weui-input" v-model="value" v-bind:placeholder="remark" v-bind:maxlength = "11" oninput="value=value.replace(/[^\dX]/g,'')">
+        <!-- 密码password-->
+        <input v-if="type == 'password'" type="password" class="weui-input" v-model="value" v-bind:placeholder="remark">
+        <!-- 文本框textarea-->
+        <textarea v-if="type == 'textarea'" class="" rows="10" placeholder="请输入" v-model="value" ></textarea>
+        <!-- 开关switch-->
         <div class="tpl-switch" v-if="type == 'switch'">
             <input type="checkbox" 
                 class="ios-switch bigswitch tpl-switch-btn" 
@@ -20,24 +26,47 @@
                 v-on:click="$emit('input', Number(!value))">
             <div class="tpl-switch-btn-view"><div></div></div>
         </div>
-        <small>{{remark}}</small>
+        <!-- 日期-->
+        <input v-if="type == 'date'" class="weui-input txtright picker-input dateinput"  type="text" ref="datetime" v-model="value" placeholder="请选择">
+        <!-- citypicker 选择地址-->
+        <input v-if="type == 'citypicker'" class="weui-input" type="text" ref="citypicker" readonly placeholder="选择地区">
     </block>
 </template>
 
 <script>
     //定义hblock组件
     Vue.component('we-field', {
-        props: ['type','value','remark'],
+        props: ['type','value','remark','maxlength'],
         template: '#we-field',
         data: function(){
-            return {
-            };
+            return {};
         },
         methods : {
-            
+        },
+        watch : {
+            value :function ( newData, oldData ){
+                //v-model语法糖
+                this.$emit( "input" , newData );
+            }
         },
         created :function(){
-
+            var that = this;
+            this.$nextTick(function () {
+                //日期时间
+                $( this.$refs.datetime ).datetimePicker({
+                    times:function(){ return [];},
+                    onChange: function (picker, values, displayValues) {
+                        that.value = values.join("-");
+                    }
+                });
+                //城市选框
+                $( this.$refs.citypicker ).cityPicker({
+                    title: "请选择地址",
+                    onChange: function (picker, values, displayValues) {
+                        that.value = displayValues.join(" ");
+                    }
+                });
+            });
         }
     });
 </script>

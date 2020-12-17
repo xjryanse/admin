@@ -1,0 +1,41 @@
+<!-- 字段组件 -->
+<template id="we-listitem-simple">
+    <!--layerPage-->
+    <div class="item">
+        <div style="display: flex; flex-direction: column;">
+            <span class="f14" style="margin-bottom: 9.5px;">{{reason}}</span>
+            <span class="f13" style="color: #999999;">{{time}}</span>
+        </div>
+        <div>
+            <!--增减不同颜色区分-->
+           <span v-bind:class="[ value > 0 ? 'add' : 'dec']">{{value}}</span>
+        </div>
+    </div>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('we-listitem-simple', {
+        props: {reason : String,time : String,value : String},
+        template: '#we-listitem-simple',
+    });
+</script>
+
+<style>
+     .item{
+         height: 50px;
+         border-bottom: 1px solid #EEEEEE;
+         display: flex;
+         align-items: center;
+         justify-content: space-between;
+         padding: 0 20px;
+     }
+     .add{
+         color: red;
+         font-weight: 700;
+     }
+     .dec{
+         color: green;
+         font-weight: 700;
+     }          
+</style>

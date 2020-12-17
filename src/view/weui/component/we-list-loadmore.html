@@ -1,0 +1,22 @@
+<!-- 字段组件 -->
+<template id="we-list-loadmore">
+    <!--layerPage-->
+    <div class="weui-loadmore" style="min-height:30px;">
+        <div v-if="last_page && last_page > current_page">
+            <i class="weui-loading"></i>
+            <span class="weui-loadmore__tips" style="color:red">正在加载</span>
+        </div>
+        <!-- 拉到底显示 -->
+        <div class="weui-loadmore_line" v-if="current_page && current_page == last_page ">
+            <span class="weui-loadmore__tips">我是有底线的</span>
+        </div>        
+    </div>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('we-list-loadmore', {
+        props: {current_page:String,last_page:String},
+        template: '#we-list-loadmore',
+    });
+</script>

@@ -1,2 +1,11 @@
 /**加载蒙层**/
 .loading{width: 100%; height: 100%; position: fixed; top:0; left: 0; background: rgba(0,0,0,0.3); z-index: 10000;box-sizing: border-box; display: flex; flex: 0 1 auto; flex-direction: column; flex-grow: 1; flex-shrink: 0; align-items: center; justify-content: center;}
+
+/*******颜色*******/
+.red{color:red}
+.blue{color:blue}
+.green{color:green}
+.yellow{color:yellow}
+.orange{color:orange}
+.black{color:black}
+.white{color:white}
