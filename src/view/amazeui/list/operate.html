@@ -11,13 +11,13 @@
                             @get_lists ="getLists"
                         ></xjr-button>
                 <!--导入-->
-                <!--
-                <a href="javascript:;" v-if="operate.operate_key == 'import'">
-                    <button type="button" class="am-btn am-btn-default am-btn-secondary">
-                        <span class="am-icon-cloud-upload"></span> {{operate['operate_name']}}
-                    </button>
-                </a>
-                -->
+                <xjr-button icon="cloud-upload" width = "90%"  height = "90%" button_cate="import"
+                            btn_style="secondary" size="small" 
+                            url          = "{:url('import',array_merge($paramInherit,request()->param()))}" 
+                            v-if="operate.operate_key == 'import'"
+                            v-bind:button_name  ="operate['operate_name']"
+                            @get_lists ="getLists"
+                        ></xjr-button>
                 <!--导出-->
                 <xjr-button operate="newPage" icon="cloud-download" width = "90%"  height = "90%" button_cate="button" 
                             btn_style="warning" size="small" 
@@ -45,6 +45,13 @@
                             btn_style="success" size="small" 
                             url     = "{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnBtn']))}"
                             button_name  ="按钮"
+                            v-bind:form_data = {column_id:columnInfo.id} 
+                        ></xjr-button>          
+                <!--数据：操作信息-->
+                <xjr-button operate="layerPage" icon="reddit" width = "90%"  height = "90%" button_cate="button" 
+                            btn_style="primary" size="small" 
+                            url     = "{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnOperate']))}"
+                            button_name  ="操作"
                             v-bind:form_data = {column_id:columnInfo.id} 
                         ></xjr-button>                
                 <!--数据：块信息-->

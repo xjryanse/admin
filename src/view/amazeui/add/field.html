@@ -49,11 +49,11 @@
 
 <!--字段类型：上传图片-->
 <!--上传图片框-->
-<cuplimage v-bind:name="[fieldName].name" v-model="{$tmpValueName}[[fieldName].name]" v-if="[fieldName].type == 'uplimage'"></cuplimage>
-
+<cuplimage  v-bind:name="[fieldName].name" v-model="{$tmpValueName}[[fieldName].name]" v-if="[fieldName].type == 'uplimage'"></cuplimage>
+<!--上传文件框-->
+<cuplfile   v-bind:name="[fieldName].name" v-model="{$tmpValueName}[[fieldName].name]" v-if="[fieldName].type == 'uplfile'" ></cuplfile>
 <!--字段类型：编辑器-->
-<ceditor v-bind:name="[fieldName].name" v-model="{$tmpValueName}[[fieldName].name]" v-if="[fieldName].type == 'editor'"></ceditor>
-
+<ceditor    v-bind:name="[fieldName].name" v-model="{$tmpValueName}[[fieldName].name]" v-if="[fieldName].type == 'editor'"  ></ceditor>
 
 <!--字段类型：块编辑-->
 <div v-if="[fieldName].type == 'tplset'">

@@ -1,0 +1,48 @@
+<!-- 上传图片组件 -->
+<template id="cuplfile">
+    <!--layerPage-->
+    <block>
+        <div class="am-form-group am-form-file">
+            <div class="tpl-form-file-img" style="width:250px;">
+                <a v-bind:href="value.file_path" v-if="value" >附件</a>
+            </div>
+            <button type="button" class="am-btn am-btn-danger am-btn-sm" v-if="!value">
+                <i class="am-icon-cloud-upload"></i> 上传文件
+            </button>
+            <input id="doc-form-file" type="file" multiple="" @change="uplFile($event,name)">
+        </div>
+    </block>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('cuplfile', {
+        //名称，值
+        props: { name : String, value : Array },
+        template: '#cuplfile',
+        methods : {
+            //上传图片
+            uplFile : function ( e,name ){
+                var that = this;
+                var formData = new FormData();
+                formData.append('file', $(e.target)[0].files[0]); // 文件数据
+                if(!$(e.target)[0].files[0]){
+                    return false;
+                }
+                $.ajax({
+                    url: '{:config("xiesemi.fileUplApiUrl")}',
+                    type: 'POST',
+                    cache: false,
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).done(function(result) {
+                    that.$emit('input', result.data);
+                });
+            }
+        },
+        created :function(){
+            
+        }
+    });
+</script>

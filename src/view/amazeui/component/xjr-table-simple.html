@@ -10,10 +10,11 @@
             <tr v-if="data.length == 0" >
                 <td colspan=99 style="text-align:center;"> 暂无数据 </td>
             </tr>
-            <tr class="gradeX" style="white-space: nowrap;" v-for="(item,i) in data" v-if="data.length">
-                <td v-for="(field,j) in column_info.listInfo" v-if="field.is_list && fields.indexOf(field.name) != -1" style="text-overflow:ellipsis;overflow:hidden;text-align:center;">
+            <tr class="gradeX" v-for="(item,i) in data" v-if="data.length">
+                <td v-for="(field,j) in column_info.listInfo" v-if="field.is_list && fields.indexOf(field.name) != -1" 
+                    style="text-overflow:ellipsis;overflow:hidden;text-align:center;word-break: break-all;">
                     <!--普通文本-->
-                    <block v-if = "field.type=='text' || field.type=='listedit'">{{item[field.name]}}</block>
+                    <block v-if = "field.type=='text' || field.type=='listedit'" >{{item[field.name]}}</block>
                     <!--枚举-->
                     <block v-if = "field.type=='enum'">{{field.option[item[field.name]]}}</block>
                     <!--动态枚举-->

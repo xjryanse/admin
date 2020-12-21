@@ -45,7 +45,9 @@
                 <!--子模块区域-->
                 <xjr-block v-for="(block,k) in columnInfo.blockInfo" 
                            v-bind:block_info="block"
-                           v-bind:main_data="currentSelectItem"></xjr-block>
+                           v-bind:main_data="currentSelectItem"
+                           @get_lists          =   "getLists"
+                        ></xjr-block>
             </div>
         </div>
     </div>
@@ -105,6 +107,26 @@
                         exitFullscreen();
                     }
                 },
+                //导入
+                importFile( e,name ){
+                    var that = this;
+                    var formData = new FormData();
+                    formData.append('file', $(e.target)[0].files[0]); // 文件数据
+                    if(!$(e.target)[0].files[0]){
+                        return false;
+                    }
+                    $.ajax({
+                        url: '{:config("xiesemi.fileUplApiUrl")}',
+                        type: 'POST',
+                        cache: false,
+                        data: formData,
+                        processData: false,
+                        contentType: false
+                    }).done(function(result) {
+                        console.log(result);
+//                        that.$emit('input', result.data);
+                    });
+                }
             },
             created: function () {
 

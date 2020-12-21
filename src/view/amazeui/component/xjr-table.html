@@ -227,7 +227,12 @@
             {
                 console.log('xjr-table searchData 开始');
                 //添加搜索数据
-                this.query_data[key] = value;
+                if(this.query_data[key] && this.query_data[key] == value){
+                    //点一下搜索，再点一下恢复
+                    delete this.query_data[key];
+                } else {
+                    this.query_data[key] = value;
+                }
                 //恢复第一页搜索
                 this.query_data.page = 1;
                 //搜索

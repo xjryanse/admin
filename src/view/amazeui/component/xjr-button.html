@@ -1,4 +1,4 @@
-<!-- 按钮组件 -->
+<!-- 按钮组件：三种类型：button普通按钮；import导入按钮；ahref:跳转a标签 -->
 <template id="xjr-button">
     <!--layerPage-->
     <block>
@@ -10,6 +10,16 @@
                 v-bind:class ="btn_class"
                 @click="doBtnClick()">
             <span v-bind:class=" icon ? icons[icon] : 'am-icon-plus'"></span> {{button_name}}
+        </button>
+        <!--导入的-->
+        <button type="button" class="am-btn am-btn-default am-form-file" 
+                v-if="button_cate=='import'"
+                v-bind:class=" btn_style ? styles[btn_style] : ''"
+                v-bind:class=" size ? sizes[size] : ''" 
+                v-bind:class ="btn_class"
+            >
+            <span v-bind:class=" icon ? icons[icon] : 'am-icon-plus'"></span> {{button_name}}
+            <input id="doc-form-file" type="file" multiple="" @change="importFile($event)">
         </button>
         <!--a标签的-->
         <a href="javascript:;" @click="doBtnClick()"
@@ -55,19 +65,20 @@
                 },
                 //按钮样式
                 'styles':{
-                    "default" :"am-btn-default",
-                    "primary":"am-btn-primary",
-                    "secondary":"am-btn-secondary",
-                    "warning":"am-btn-warning",
-                    "danger":"am-btn-danger",
-                    "success":"am-btn-success",
-                    "link":"am-btn-link"
+                    "default"   :"am-btn-default",
+                    "primary"   :"am-btn-primary",
+                    "secondary" :"am-btn-secondary",
+                    "warning"   :"am-btn-warning",
+                    "danger"    :"am-btn-danger",
+                    "success"   :"am-btn-success",
+                    "link"      :"am-btn-link",
                 },
                 //图标
                 'icons':{
                     "slack"         :"am-icon-slack",           //#
                     "plus"          :"am-icon-plus",            //+
-                    "cloud-download":"am-icon-cloud-download",
+                    "cloud-download":"am-icon-cloud-download",  //下载
+                    "cloud-upload"  :"am-icon-cloud-upload",  //上传
                     "wordpress"     :"am-icon-wordpress",
                     "openid"        :"am-icon-openid",
                     "yahoo"         :"am-icon-yahoo",
@@ -95,7 +106,7 @@
                     "copyItem"          :"copyItem",
                     "listOperate"       :"listOperate",
                     "newPage"           :"newPage",
-                    "fullScreen"        :"fullScreen"
+                    "fullScreen"        :"doFullScreen"
                 };
                 //动态执行方法名
                 eval("this." + reflects[this.operate] + "()"); 
@@ -193,7 +204,8 @@
                             that.form_data[ that.prompt ] = pass;
                             console.log(that.form_data);
                             //调用公共异步请求函数
-                            that.ajaxOperate( that.getUrl() , that.form_data ,function(){
+                            that.ajaxOperate( that.getUrl() , that.form_data ,function( data ){
+                                console.log( data );
                                 //调用父组件刷新方法
                                 that.$emit('get_lists');
                             });
@@ -276,7 +288,50 @@
                 console.log(this.data);
                 
                 return urlDataReplace( this.url, this.data );
-            }
+            },
+            //导入文件
+            importFile( event ){
+                var that = this;
+                var formData = new FormData();
+                //弹层
+                var layerIndex  = layer.load(2);                
+                formData.append('file', $(event.target)[0].files[0]); // 文件数据
+                if(!$(event.target)[0].files[0]){
+                    return false;
+                }
+                $.ajax({
+                    url: '{:config("xiesemi.fileUplApiUrl")}',
+                    type: 'POST',
+                    cache: false,
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).done(function(data) {
+                    //关闭弹层
+                    layer.close(layerIndex);
+                    if(data.code == 0){
+                        //弹窗确认信息
+                        //弹层
+                        var layerIndex2  = layer.load(2);
+                        layer.confirm( '确认导入？' , function (index) {
+                            var formData2 = that.form_data ? that.form_data : {} ;
+                            //importFieldId固定；
+                            formData2.importFieldId = data.data.id;
+                            //调用公共异步请求函数
+                            that.ajaxOperate( that.getUrl() , formData2 ,function(){
+                                //关闭弹层
+                                layer.close(layerIndex2);
+                                //调用父组件刷新方法
+                                that.$emit('get_lists');
+                            });
+                        });
+                    } else {
+                        layer.msg(data.message, {icon: 2});
+                    }
+//                        that.$emit('input', result.data);
+                });
+            }            
+            
         },
         created :function(){
 //            console.log('xjr-button开始执行');

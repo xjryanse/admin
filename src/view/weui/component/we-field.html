@@ -13,7 +13,7 @@
         <!-- 手机号 phone -->
         <input v-if="type == 'phone'"    type="text"     class="weui-input" v-model="value" v-bind:placeholder="remark" v-bind:maxlength = "11" oninput="value=value.replace(/[^\d]/g,'')">
         <!-- 身份证号 idno -->
-        <input v-if="type == 'idno'"     type="text"     class="weui-input" v-model="value" v-bind:placeholder="remark" v-bind:maxlength = "11" oninput="value=value.replace(/[^\dX]/g,'')">
+        <input v-if="type == 'idno'"     type="text"     class="weui-input" v-model="value" v-bind:placeholder="remark" v-bind:maxlength = "18" oninput="value=value.replace(/[^\dX]/g,'')">
         <!-- 密码password-->
         <input v-if="type == 'password'" type="password" class="weui-input" v-model="value" v-bind:placeholder="remark">
         <!-- 文本框textarea-->
