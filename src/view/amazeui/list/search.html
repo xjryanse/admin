@@ -3,22 +3,23 @@
      v-if="field.search_type != -1 && field.is_list == 1"
      v-if="field.type=='text' || field.type=='enum' || field.type=='dynenum'"
      >
+    {{field.label}}
     <!--输入框{{field}}-->
     <div class="am-form-group tpl-table-list-select" v-if = "field.type=='text' || field.type=='listedit'" >
-        <input type="text" class="am-form-field" v-bind:placeholder="field.label" v-model="queryData[field.name]">
+        <input type="text" class="am-form-field" placeholder="请输入" v-model="queryData[field.name]">
     </div>
     <!--枚举框-->
     <div class="am-form-group tpl-table-list-select" v-if = "field.type=='enum'">
         <select data-am-selected="{btnSize: 'sm'}" style="color:gray;" v-model="queryData[field.name]">
-            <option value="">请选择{{field.label}}</option>
-            <option :value="j" v-for="(items,j) in field.option">{{items}}</option>
+            <option value="">请选择</option>
+            <option v-bind:value="j" v-for="(items,j) in field.option">{{items}}</option>
         </select>
     </div>
     <!--动态枚举框-->
     <div class="am-form-group tpl-table-list-select" v-if = "field.type=='dynenum'">
         <select data-am-selected="{btnSize: 'sm'}" style="color:gray;" v-model="queryData[field.name]">
-            <option value="">请选择{{field.label}}</option>
-            <option :value="j" v-for="(items,j) in field.option.option">{{items}}</option>
+            <option value="">请选择</option>
+            <option v-bind:value="j" v-for="(items,j) in field.option.option">{{items}}</option>
         </select>
     </div>
 </div>

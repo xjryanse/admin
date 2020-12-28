@@ -18,7 +18,7 @@
             </table>
         </div>
         <!--表体-->
-        <div style="overflow:auto;height:60vh;" v-if="list_data">
+        <div style="overflow:auto;max-height:60vh;" v-if="list_data">
             <table class="am-table am-table-compact am-table-striped tpl-table-black am-table-bordered" 
                    ref="mainTable"
                    v-if="column_info" style="font-size:12px;">
@@ -29,8 +29,13 @@
                     <tr class="gradeX" style="white-space: nowrap;" v-for="(item,i) in list_data" v-if="item">
                         <!--【1】必有的单选框-->
                         <td style="width:20px;text-overflow: ellipsis; overflow: hidden; display: table-cell; vertical-align: middle; min-width: 30px; max-width: 100px; text-align: center;">
-                            <label class="am-radio">
+                            <!--单选-->
+                            <label class="am-radio" v-if="column_info.list_select == 'radio'">
                                 <input type="radio" name="id" v-bind:value="item['id']" data-am-ucheck @click="onItemSelect(item)">
+                            </label>
+                            <!--复选-->
+                            <label class="am-radio" v-if="column_info.list_select == 'checkbox'">
+                                <input type="checkbox" name="id" v-bind:value="item['id']" data-am-ucheck>
                             </label>
                         </td>
                         <!--【2】字段明细-->

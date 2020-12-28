@@ -13,7 +13,7 @@
                 <!--导入-->
                 <xjr-button icon="cloud-upload" width = "90%"  height = "90%" button_cate="import"
                             btn_style="secondary" size="small" 
-                            url          = "{:url('import',array_merge($paramInherit,request()->param()))}" 
+                            v-bind:url          = "[operate['ajax_url'] ? operate['ajax_url'] : '{:url('import',array_merge($paramInherit,request()->param()))}']" 
                             v-if="operate.operate_key == 'import'"
                             v-bind:button_name  ="operate['operate_name']"
                             @get_lists ="getLists"
@@ -23,6 +23,13 @@
                             btn_style="warning" size="small" 
                             url          = "{:url('export',$paramInherit)}" 
                             v-if="operate.operate_key == 'export'"
+                            v-bind:button_name  ="operate['operate_name']"
+                        ></xjr-button>
+                <!--模板-->
+                <xjr-button operate="newPage" icon="cloud-download" width = "90%"  height = "90%" button_cate="button" 
+                            btn_style="primary" size="small" 
+                            url          = "{:url('template',$paramInherit)}" 
+                            v-if="operate.operate_key == 'template'"
                             v-bind:button_name  ="operate['operate_name']"
                         ></xjr-button>
             </block>

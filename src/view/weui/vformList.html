@@ -28,6 +28,13 @@
                     </div>
                 </div>
             {/if}
+            <!--描述性-->
+            {if in_array($vo['type'],['describe'])}
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">{include file="xjryanse/weui/vformList/label"/}</div>
+                    <div class="weui-cell__bd">{$vo['default']}</div>
+                </div>
+            {/if}
 
             <!--单选框，可绑定事件-->
             {if $vo.type== 'radio'}
@@ -98,7 +105,7 @@
                     <div class="weui-cell" style="height:auto;min-height:30px;" >
                         <!--有图-->
                         <img :src="inputData['{$vo.field}']['file_path']" v-if="inputData['{$vo.field}'] && inputData['{$vo.field}']['file_path']" class="myImg" style="max-width:100%;">
-                        <span style="text-align: center; width: 100%;">无</span>
+                        <span style="text-align: center; width: 100%;" v-else>无</span>
                     </div>
                 {/if}
             {/if}
