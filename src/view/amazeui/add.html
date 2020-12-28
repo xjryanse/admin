@@ -10,49 +10,26 @@
                             <a href="javascript:;" class="am-icon-cog"></a>
                         </div>
                     </div>
+
                     <div class="widget-body am-fr">
                         <form class="am-form tpl-form-border-form tpl-form-border-br" @submit.prevent="submit" id="myForm">
+                            <!-- 有布局执行这边 -->
+                            <div class="am-cf" v-if="columnHeader.flexInfo.length > 0">
+                                <xjr-field-flex v-bind:item="subItem" v-for="subItem in columnHeader.flexInfo"
+                                                v-bind:item_data="inputData"
+                                                v-bind:list_info="columnHeader.listInfo"
+                                                v-bind:form_type="formType"
+                                            ></xjr-field-flex>
+                            </div>
                             <!--只显示is_add字段；按后台配置宽度显示-->
-                            <block v-for="(field,i) in columnHeader.listInfo" v-if="(field.is_add && formType == 'add') || (field.is_edit && formType == 'edit')">
-                                <div class="am-form-group" v-bind:class=" 'am-u-sm-' + field.form_col"  v-if="field.type !='hidden' && field.type !='union'">
-                                    <label for="user-name" class="am-form-label">{{field.label}}</label>
-                                    <div>                                        
-                                        <!--添加字段区-->
-                                        {php} $tmpValueName = "inputData";{/php}
-                                        {include file="xjryanse/amazeui/add/field" fieldName="field" /}
-                                    </div>
-                                </div>
-                                <!--联表类型数据：union：编辑框才有-->
-                                <div class="am-form-group" v-bind:class=" 'am-u-sm-' + field.form_col"  v-if="field.type =='union'">
-                                     <hr>
-                                    <label for="user-name" class="am-form-label">【{{field.label}}】</label>
-                                    <div>
-                                        <!--子级表的循环-->
-                                        <block v-for="(subField,j) in field.table_info.listInfo">
-                                            <div class="am-form-group" 
-                                                 v-bind:class=" 'am-u-sm-' + subField.form_col"  
-                                                 v-if="subField.type !='hidden'">
-                                                <label for="user-name" class="am-form-label">{{subField.label}}</label>
+                            <!-- 没有布局执行这边 -->
+                            <div v-else>
+                                <block v-for="(field,i) in columnHeader.listInfo" v-if="(field.is_add && formType == 'add') || (field.is_edit && formType == 'edit')">
+                                    <!--字段混合-->
+                                    <xjr-field-mix v-bind:field="field" v-bind:item_data="inputData"></xjr-field-mix>
+                                </block>
+                            </div>
 
-                                                <!--子级表的字段-->
-<!--                                                    <cfield v-bind:type="subField.type" v-model="inputData.[ subField.name ]" v-bind:remark=" subField.remark"></cfield>-->
-                                                    <cfield v-bind:type="subField.type" v-model="inputData[field.name][subField.name]" v-bind:remark=" subField.remark"></cfield>
-                                                    <!--模板设定-->
-                                                    <div v-if="subField.type == 'tplset'">
-                                                        <ctplset v-bind:option="subField.option" 
-                                                            v-bind:table_name="field.table_info.table_name" 
-                                                            v-bind:data_id="inputData[field.name]['id']" 
-                                                            v-bind:column_list_id="subField.id"></ctplset>
-                                                    </div>
-                                            </div>
-                                        </block>
-                                        <!--子级表的循环结束-->
-                                    </div>
-                                </div>
-                                <!--联表类型数据结束：union-->
-                                <!--隐藏域-->
-                                <input v-if="field.type =='hidden'" type="hidden" v-model="inputData[field.name]">
-                            </block>
                             <div class="am-form-group" v-if="!isDetail">
                                 <div class="am-u-sm-9 am-u-sm-push-3">
                                     <input type="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">

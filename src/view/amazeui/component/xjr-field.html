@@ -1,0 +1,78 @@
+<!-- 列表的字段组件 -->
+<template id="xjr-field">
+    <block>
+        <!--需要$tmpValueName-->
+        <!--字段类型：普通输入框-->
+        <!--字段类型：密码输入框-->
+        <!--字段类型：文本输入框-->
+        <!--字段类型：开关-->
+        <cfield v-bind:type="list_item.type" v-model="item_data[list_item.name]" v-bind:remark="list_item.remark"></cfield>
+
+        <!--字段类型：多选框-->
+        <div v-if="list_item.type == 'check'">
+            <label class="am-checkbox-inline" v-for="(tmpOption,k) in list_item.option.option">
+                <input type="checkbox" v-bind:value="tmpOption.id" v-bind:readonly="list_item.is_edit == 0" v-model="item_data[list_item.name]"> {{tmpOption[list_item.option.value]}}
+            </label>
+        </div>
+        <!--字段类型：普通枚举-->
+        <div v-if="list_item.type == 'enum'">
+            <!--字段类型：普通枚举-->
+            <select v-model="item_data[list_item.name]"  v-bind:id="list_item.name" v-bind:name="list_item.name"
+                    v-bind:readonly="list_item.is_edit == 0" data-am-selected="{searchBox: 1}" style="display: none;"
+                    onchange="console.log(this.value);app.item_data[this.name]=this.value;">
+                <option value="" >请选择</option> 
+                <option v-for="(tmpOption,k) in list_item.option" v-bind:value="k" >{{tmpOption}}</option> 
+            </select>
+        </div>
+        <!--字段类型：动态枚举-->
+        <div  v-if="list_item.type == 'dynenum'">
+            <!--需要用js赋值一下，没有绑定。不知道为啥-->
+            <select v-model="item_data[list_item.name]" v-bind:readonly="list_item.is_edit == 0" data-am-selected="{searchBox: 1}" 
+                    v-bind:id="list_item.name" v-bind:name="list_item.name" style="display: none;" onchange="console.log(this.value);app.item_data[this.name]=this.value;"> 
+                <option value="" >请选择</option> 
+                <option v-for="(tmpOption,k) in list_item.option.option" v-bind:value="k" >{{tmpOption}}</option> 
+            </select>
+        </div>
+        <!--字段类型：动态树-->
+        <div  v-if="list_item.type == 'dyntree'">
+            <!--动态树-->
+            <cdyntree v-bind:lists="list_item.option.option"
+                      v-bind:pid ="item_data[list_item.option.linkage] ? item_data[list_item.option.linkage] : '' "
+                      v-model="item_data[list_item.name]"
+                    ></cdyntree>
+        </div>
+
+        <!--字段类型：date日期-->
+        <div  v-if="list_item.type == 'date'">
+            <input type="text" class="tpl-form-input" v-bind:readonly="list_item.is_edit == 0" placeholder="请输入" v-if="!isDetail"  v-model="item_data[list_item.name]" :name="list_item.name" data-am-datepicker 
+                   onchange="app.item_data[this.name]= $(this).attr('value')">
+            <p v-if="isDetail">{{item_data[list_item.name]}}</p>
+            <small>{{list_item.remark}}</small>
+        </div>
+
+        <!--字段类型：上传图片-->
+        <!--上传图片框-->
+        <cuplimage  v-bind:name="list_item.name" v-model="item_data[list_item.name]" v-if="list_item.type == 'uplimage'"></cuplimage>
+        <!--上传文件框-->
+        <cuplfile   v-bind:name="list_item.name" v-model="item_data[list_item.name]" v-if="list_item.type == 'uplfile'" ></cuplfile>
+        <!--字段类型：编辑器-->
+        <ceditor    v-bind:name="list_item.name" v-model="item_data[list_item.name]" v-if="list_item.type == 'editor'"  ></ceditor>
+
+        <!--字段类型：块编辑-->
+        <div v-if="list_item.type == 'tplset'">
+            <ctplset v-bind:option="list_item.option" 
+                v-bind:table_name="columnHeader.table_name" 
+                v-bind:data_id="item_data.id" 
+                v-bind:column_list_id="list_item.id"></ctplset>
+        </div>        
+    </block>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('xjr-field', {
+        //列表信息:列表编辑：项目
+        props: { list_item : Array ,item_data :Array },
+        template: '#xjr-field',
+    });
+</script>

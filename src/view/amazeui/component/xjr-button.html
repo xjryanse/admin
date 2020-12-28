@@ -26,7 +26,7 @@
                 v-if="button_cate=='ahref'"
                 v-bind:class ="btn_class"
                 v-bind:title="button_name">
-            <i v-bind:class=" icon ? icons[icon] : 'am-icon-plus'"></i> <span v-if="show_name">{{button_name}}</span>
+            <i v-bind:class=" icon ? icons[icon] : 'am-icon-plus'" v-if="icon"></i> <span v-if="show_name">{{button_name}}</span>
         </a>
     </block>
 </template>
