@@ -5,18 +5,18 @@
     <block>
         <!--普通文本-->
         <block v-if = "field.type=='text'">
-            <!--点击直接搜索-->
-            <a href="javascript:;" v-if="field.search_type == 'equal'" 
-               v-bind:title="'点击搜索'+item[field.name]" 
-               v-on:click="searchData(field.name,item[field.name])">{{item[field.name]}}</a>
             <!--点击弹窗list_pop-->
-            <xjr-button v-else-if="field.list_pop" 
+            <xjr-button v-if="field.list_pop" 
                         operate="layerPage" width = "90%"  height = "90%" button_cate="ahref"
                         v-bind:button_name  ="item[field.name]"
                         v-bind:url          = "urlDataReplace(field.list_pop,item)" 
                         show_name           = "true"
                         v-bind:data         = "item" 
                     ></xjr-button>
+            <!--点击直接搜索-->
+            <a href="javascript:;" v-else-if="field.search_type == 'equal'" 
+               v-bind:title="'点击搜索'+item[field.name]" 
+               v-on:click="searchData(field.name,item[field.name])">{{item[field.name]}}</a>
             <span v-else>{{item[field.name]}}</span>
         </block>
         <!--编辑器-->
@@ -48,7 +48,15 @@
         <!--动态枚举-->
         <block v-if = "field.type=='dynenum' && field.option.option">
             <!--点击直接搜索-->
-            <a href="javascript:;" v-if="field.search_type == 'equal'" 
+            <!--点击弹窗list_pop-->
+            <xjr-button v-if="field.list_pop" 
+                        operate="layerIframePage" width = "90%"  height = "90%" button_cate="ahref"
+                        v-bind:button_name  ="field.option.option[item[field.name]]"
+                        v-bind:url          = "urlDataReplace(field.list_pop,item)" 
+                        show_name           = "true"
+                        v-bind:data         = "item" 
+                    ></xjr-button>
+            <a href="javascript:;" v-else-if="field.search_type == 'equal'" 
                v-bind:title="'点击搜索'+ field.option.option[item[field.name]]" 
                v-on:click="searchData(field.name,item[field.name])">{{field.option.option[item[field.name]]}}</a>
             <span v-else>{{field.option.option[item[field.name]]}}</span>

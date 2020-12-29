@@ -5,19 +5,19 @@
         <!--文本text-->
         <!--文本listedit-->
         <input v-if="type == 'text' || type == 'listedit' "
-                   type="text" class="tpl-form-input" v-model="value" v-on:change="$emit('input', $event.target.value)">
+                   type="text" class="tpl-form-input bd-r5" v-model="value" v-on:change="$emit('input', $event.target.value)" v-bind:disabled ="editable == '0'">
         <!--密码password-->
         <input v-if="type == 'password'"
-               type="password" class="tpl-form-input" v-model="value" v-on:change="$emit('input', $event.target.value)">
+               type="password" class="tpl-form-input bd-r5" v-model="value" v-on:change="$emit('input', $event.target.value)" v-bind:disabled ="editable == '0'">
         <!--文本框textarea-->
         <textarea v-if="type == 'textarea'"
-                class="" rows="10" placeholder="请输入" v-model="value" v-on:change="$emit('input', $event.target.value)"></textarea>
+                class="bd-r5" rows="6" placeholder="请输入" v-model="value" v-on:change="$emit('input', $event.target.value)" v-bind:disabled ="editable == '0'"></textarea>
         <!--开关switch-->
         <div class="tpl-switch" v-if="type == 'switch'">
             <input type="checkbox" 
                 class="ios-switch bigswitch tpl-switch-btn" 
                 v-model="value" 
-                v-on:click="$emit('input', Number(!value))">
+                v-on:click="$emit('input', Number(!value))" v-bind:disabled ="editable && editable != 0">
             <div class="tpl-switch-btn-view"><div></div></div>
         </div>
         <small>{{remark}}</small>
@@ -27,7 +27,7 @@
 <script>
     //定义hblock组件
     Vue.component('cfield', {
-        props: ['type','value','remark'],
+        props: ['type','value','remark','editable'],
         template: '#cfield',
         data: function(){
             return {

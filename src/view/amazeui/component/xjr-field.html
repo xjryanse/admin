@@ -6,7 +6,7 @@
         <!--字段类型：密码输入框-->
         <!--字段类型：文本输入框-->
         <!--字段类型：开关-->
-        <cfield v-bind:type="list_item.type" v-model="item_data[list_item.name]" v-bind:remark="list_item.remark"></cfield>
+        <cfield v-bind:type="list_item.type" v-model="item_data[list_item.name]" v-bind:remark="list_item.remark" v-bind:editable="list_item.editable"></cfield>
 
         <!--字段类型：多选框-->
         <div v-if="list_item.type == 'check'">
@@ -17,21 +17,11 @@
         <!--字段类型：普通枚举-->
         <div v-if="list_item.type == 'enum'">
             <!--字段类型：普通枚举-->
-            <select v-model="item_data[list_item.name]"  v-bind:id="list_item.name" v-bind:name="list_item.name"
-                    v-bind:readonly="list_item.is_edit == 0" data-am-selected="{searchBox: 1}" style="display: none;"
-                    onchange="console.log(this.value);app.item_data[this.name]=this.value;">
-                <option value="" >请选择</option> 
-                <option v-for="(tmpOption,k) in list_item.option" v-bind:value="k" >{{tmpOption}}</option> 
-            </select>
+            <cselect v-bind:option="list_item.option" v-model="item_data[list_item.name]"></cselect>
         </div>
         <!--字段类型：动态枚举-->
         <div  v-if="list_item.type == 'dynenum'">
-            <!--需要用js赋值一下，没有绑定。不知道为啥-->
-            <select v-model="item_data[list_item.name]" v-bind:readonly="list_item.is_edit == 0" data-am-selected="{searchBox: 1}" 
-                    v-bind:id="list_item.name" v-bind:name="list_item.name" style="display: none;" onchange="console.log(this.value);app.item_data[this.name]=this.value;"> 
-                <option value="" >请选择</option> 
-                <option v-for="(tmpOption,k) in list_item.option.option" v-bind:value="k" >{{tmpOption}}</option> 
-            </select>
+            <cselect v-bind:option="list_item.option.option" v-model="item_data[list_item.name]"></cselect>
         </div>
         <!--字段类型：动态树-->
         <div  v-if="list_item.type == 'dyntree'">
