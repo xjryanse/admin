@@ -7,12 +7,12 @@
         <div style="overflow:hidden;">
             <table class="tpl-table-black am-table-bordered" 
                    ref="mainTableHeader"
-                   v-if="column_info" style="font-size:12px;">
+                   v-if="column_info" style="font-size:12px;min-width:98%;">
                 <thead>
                     <tr>
-                        <th style="min-width:10px;"></th>
+                        <th style="min-width:10px;"><div style="min-height:40px;"></div></th>
                         <th v-for="(field,i) in column_info.listInfo" v-if="field.is_list">{{field.label}}</th>
-                        <th>操作</th>
+                        <th v-if="column_info.operateInfo.length > 0 || column_info.btnInfo.length > 0">操作</th>
                     </tr>
                 </thead>
             </table>
@@ -46,7 +46,8 @@
                             <xjr-table-td v-bind:field="field" v-bind:item="item" @search_data="searchData" v-if=""></xjr-table-td>
                         </td>
                         <!--【3】操作按钮-->
-                        <td style="text-overflow: ellipsis; overflow: hidden; display: table-cell; vertical-align: middle; min-width: 30px; max-width: 100px; text-align: center;">
+                        <td style="text-overflow: ellipsis; overflow: hidden; display: table-cell; vertical-align: middle; min-width: 30px;text-align: center;"
+                            v-if="column_info.operateInfo.length > 0 || column_info.btnInfo.length > 0" >
                             <div class="tpl-table-black-operation" style="float:right;">
                                 <!--操作-->
                                 <block v-for="(operate,k) in column_info.operateInfo">
@@ -92,6 +93,9 @@
                                                 v-bind:url          =   "btn.url" 
                                                 v-bind:data         =   "item" 
                                                 v-bind:confirm      =   "btn.confirm"
+                                                v-bind:form_data    =   "item" 
+                                                v-bind:prompt       =   "btn.prompt"
+                                                v-bind:prompt_default=   "btn.prompt_default"                                                
                                             ></xjr-button>
                                     <!--        jump：本页跳链-->
                                     <!--     mainpop：本页弹窗-->

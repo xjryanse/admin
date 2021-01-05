@@ -4,7 +4,9 @@
         <div class="am-form-group" v-bind:class=" 'am-u-sm-' + field.form_col"  v-if="field.type !='hidden' && field.type !='union'">
             <label for="user-name" class="am-form-label">{{field.label}}</label>
             <div>                                        
-                <xjr-field v-bind:list_item = "field" v-bind:item_data="item_data" ></xjr-field>
+                <xjr-field v-bind:list_item = "field" 
+                           v-bind:item_data ="item_data" 
+                           v-bind:is_detail ="is_detail"></xjr-field>
             </div>
         </div>
         <!--联表类型数据：union：编辑框才有-->
@@ -21,13 +23,17 @@
 
                         <!--子级表的字段-->
 <!--                                                    <cfield v-bind:type="subField.type" v-model="item_data.[ subField.name ]" v-bind:remark=" subField.remark"></cfield>-->
-                            <cfield v-bind:type="subField.type" v-model="item_data[field.name][subField.name]" v-bind:remark=" subField.remark"></cfield>
+                            <cfield v-bind:type="subField.type" 
+                                    v-model="item_data[field.name][subField.name]" 
+                                    v-bind:remark=" subField.remark"
+                                    v-bind:is_detail="is_detail"></cfield>
                             <!--模板设定-->
                             <div v-if="subField.type == 'tplset'">
                                 <ctplset v-bind:option="subField.option" 
                                     v-bind:table_name="field.table_info.table_name" 
                                     v-bind:data_id="item_data[field.name]['id']" 
-                                    v-bind:column_list_id="subField.id"></ctplset>
+                                    v-bind:column_list_id="subField.id"
+                                    v-bind:is_detail="is_detail"></ctplset>
                             </div>
                     </div>
                 </block>
@@ -44,7 +50,7 @@
     //定义hblock组件
     Vue.component('xjr-field-mix', {
         //列表信息:列表编辑：项目
-        props: { field : Array ,item_data :Array },
+        props: { field : Array ,item_data :Array ,is_detail : String },
         template: '#xjr-field-mix',
     });
 </script>

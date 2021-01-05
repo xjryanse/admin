@@ -7,7 +7,7 @@
         <block v-if = "field.type=='text'">
             <!--点击弹窗list_pop-->
             <xjr-button v-if="field.list_pop" 
-                        operate="layerPage" width = "90%"  height = "90%" button_cate="ahref"
+                        v-bind:operate="field.list_pop_operate" width = "90%"  height = "90%" button_cate="ahref"
                         v-bind:button_name  ="item[field.name]"
                         v-bind:url          = "urlDataReplace(field.list_pop,item)" 
                         show_name           = "true"
@@ -50,7 +50,8 @@
             <!--点击直接搜索-->
             <!--点击弹窗list_pop-->
             <xjr-button v-if="field.list_pop" 
-                        operate="layerIframePage" width = "90%"  height = "90%" button_cate="ahref"
+                        v-bind:operate="field.list_pop_operate" 
+                        width = "90%"  height = "90%" button_cate="ahref"
                         v-bind:button_name  ="field.option.option[item[field.name]]"
                         v-bind:url          = "urlDataReplace(field.list_pop,item)" 
                         show_name           = "true"
@@ -81,7 +82,7 @@
             </div>
         </block>
         <!--listedit列表编辑-->
-        <input v-if = "field.type=='listedit'" type="text" class="tpl-form-input listEditInput" placeholder="" 
+        <input v-if = "field.type=='listedit'" type="text" class="tpl-form-input listEditInput borderHide" placeholder="" 
                 style="width:100%;"
                v-model="item[field.name]" v-on:change="listEditUpdate(item)" onmouseover="$('.listEditInput').addClass('borderHide');$(this).removeClass('borderHide')">
         <!--勾选框-->
@@ -99,7 +100,20 @@
                     <span v-if="optionData == tmpOption['id']" style="padding:2px;">{{tmpOption.name}}</span>
                 </block>
             </block>
-        </block>        
+        </block>
+        <!-- 流程：flow: node_key, node_name, flow_status -->
+        <div v-if = "field.type=='flow'" >
+            <!--点击弹窗list_pop-->
+            <span v-if="item[field.name].flow_status == 'todo'">等待</span>
+            <xjr-button v-if="field.list_pop" 
+                        v-bind:operate="field.list_pop_operate" width = "90%"  height = "90%" button_cate="ahref"
+                        v-bind:button_name  ="item[field.name].node_name"
+                        v-bind:url          = "urlDataReplace(field.list_pop,item)" 
+                        show_name           = "true"
+                        v-bind:data         = "item" 
+                    ></xjr-button>
+            <span v-else>{{item[field.name].node_name}}</span>
+        </div>
     </block>
 </template>
 

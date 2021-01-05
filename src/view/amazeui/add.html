@@ -25,6 +25,7 @@
                                                 v-bind:item_data="inputData"
                                                 v-bind:list_info="columnHeader.listInfo"
                                                 v-bind:form_type="formType"
+                                                v-bind:is_detail="isDetail"
                                             ></xjr-field-flex>
                             </div>
                             <!--只显示is_add字段；按后台配置宽度显示-->
@@ -32,7 +33,10 @@
                             <div v-else>
                                 <block v-for="(field,i) in columnHeader.listInfo" v-if="(field.is_add && formType == 'add') || (field.is_edit && formType == 'edit')">
                                     <!--字段混合-->
-                                    <xjr-field-mix v-bind:field="field" v-bind:item_data="inputData"></xjr-field-mix>
+                                    <xjr-field-mix v-bind:field="field" 
+                                            v-bind:item_data="inputData"
+                                            v-bind:is_detail="field.only_detail ? field.only_detail : isDetail"
+                                        ></xjr-field-mix>
                                 </block>
                             </div>
                             <!--提交按钮-->

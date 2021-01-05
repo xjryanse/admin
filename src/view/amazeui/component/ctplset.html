@@ -53,37 +53,49 @@
 <template id="ctplset">
     <!--layerPage-->
     <block>
-        <table width="100%" class="am-table am-table-compact am-text-nowrap tpl-table-black " id="example-r">
+        <table width="100%" class="am-table am-table-compact am-text-nowrap tpl-table-black " id="example-r" v-if="data_id">
             <thead>
                 <tr class="gradeX" v-if="option.option">
                     <!--根据option_cov的键值结果进行替换-->
-                    <th v-for="(tmpOption,k) in option.option[0]" >{{option.option_cov[k]}}</th>
+                    <!--为了排顺序，多了一次循环-->
+                    <th v-for="(optionCov,optKey) in option.option_cov">
+                        <span v-for="(tmpOption,k) in option.option[0]" v-if="k == optKey">{{optionCov}}</span>
+                    </th>
                 </tr>
             </thead>
             <tbody v-if="option.option">
                 <tr class="gradeX"  v-for="(tmpOption,k) in option.option">
-                    <td v-for="(subData,key) in tmpOption" >
-                        <!--主名称-->
-                        <span v-if="key=='keyName'">{{subData}}</span>
-                        <span v-else-if="key=='total'">{{tplSetCalTotal(tmpOption,'prize')}}</span>
-                        <input v-else-if="subData.length !=0" type="text" placeholder="" v-model="tmpOption[key][option.to_field]"
-                           onmouseover="$('.listEditInput').addClass('borderHide');$(this).removeClass('borderHide')" 
-                           @blur="subUpdate(option.to_table, tmpOption[key] );"
-                           class="tpl-form-input listEditInput" style="width: 100%;">
-                        <span v-else>——</span>
+                    <!--为了排顺序，多了一次循环-->
+                    <td v-for="(optionCov,optKey) in option.option_cov" >
+                        <block v-for="(subData,key) in tmpOption" v-if="key == optKey">
+                            <!--主名称-->
+                            <span v-if="key=='keyName'">{{subData}}</span>
+                            <span v-else-if="key=='total'">{{tplSetCalTotal(tmpOption,'prize')}}</span>
+                            <input v-else-if="subData.length !=0" type="text" placeholder="" 
+                                    v-model="tmpOption[key][option.to_field]"
+                                    v-bind:disabled ="is_detail == 1"
+                                    onmouseover="$('.listEditInput').addClass('borderHide');$(this).removeClass('borderHide')" 
+                                    @blur="subUpdate(option.to_table, tmpOption[key] );"
+                                    class="tpl-form-input listEditInput" style="width: 100%;">
+                            <span v-else>——</span>
+                        </block>
                     </td>
                 </tr>
                 <tr class="gradeX">
-                    <td v-for="(items,key) in option.option[0]">
-                        <!--主名称-->
-                        <span v-if="key=='keyName'">合计</span>
-                        <span v-else-if="key=='total'">{{tplSetCalAllTotal(option.option ,'prize' )}}</span>
-                        <span v-else>{{tplSetCalColTotal(option.option , key ,'prize' )}}</span>
+                    <!--为了排顺序，多了一次循环-->
+                    <td v-for="(optionCov,optKey) in option.option_cov">
+                        <block v-for="(items,key) in option.option[0]" v-if="key == optKey">
+                            <!--主名称-->
+                            <span v-if="key=='keyName'">合计</span>
+                            <span v-else-if="key=='total'">{{tplSetCalAllTotal(option.option ,'prize' )}}</span>
+                            <span v-else>{{tplSetCalColTotal(option.option , key ,'prize' )}}</span>
+                        </block>
                     </td>
                 </tr>
                 <!-- more data -->
             </tbody>
         </table>
+        <span v-else>请先保存信息再进行编辑</span>
     </block>
 </template>
 
@@ -91,7 +103,7 @@
     //定义hblock组件
     Vue.component('ctplset', {
         //选项；字段名
-        props: { option : Array, table_name : String, column_list_id : String, data_id : String },
+        props: { option : Array, table_name : String, column_list_id : String, data_id : String ,is_detail : String },
         template: '#ctplset',
         data: function(){
             return {
