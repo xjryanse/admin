@@ -3,7 +3,7 @@
     <block>
         <div class="am-form-group" v-bind:class=" 'am-u-sm-' + field.form_col"  v-if="field.type !='hidden' && field.type !='union'">
             <label for="user-name" class="am-form-label">{{field.label}}</label>
-            <div>                                        
+            <div>
                 <xjr-field v-bind:list_item = "field" 
                            v-bind:item_data ="item_data" 
                            v-bind:is_detail ="is_detail"></xjr-field>

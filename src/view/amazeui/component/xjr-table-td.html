@@ -4,7 +4,7 @@
     <!--字段明细-->
     <block>
         <!--普通文本-->
-        <block v-if = "field.type=='text'">
+        <block v-if = "field.type=='text' || field.type=='hidden'">
             <!--点击弹窗list_pop-->
             <xjr-button v-if="field.list_pop" 
                         v-bind:operate="field.list_pop_operate" width = "90%"  height = "90%" button_cate="ahref"
@@ -104,7 +104,7 @@
         <!-- 流程：flow: node_key, node_name, flow_status -->
         <div v-if = "field.type=='flow'" >
             <!--点击弹窗list_pop-->
-            <span v-if="item[field.name].flow_status == 'todo'">等待</span>
+            <span v-if="item[field.name].flow_status == 'todo'" class="f-blue">等待</span>
             <xjr-button v-if="field.list_pop" 
                         v-bind:operate="field.list_pop_operate" width = "90%"  height = "90%" button_cate="ahref"
                         v-bind:button_name  ="item[field.name].node_name"

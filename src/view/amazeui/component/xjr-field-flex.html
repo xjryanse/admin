@@ -1,6 +1,7 @@
 <!-- 列表的字段组件 -->
 <template id="xjr-field-flex">
     <div v-bind:class="'am-u-sm-' + item.flex_value">
+        <hr v-if="item.has_line == 1">
         <!--只显示is_add字段；按后台配置宽度显示-->
         <block v-for="(field,i) in list_info" 
                v-if="((field.is_add && form_type == 'add') || (field.is_edit && form_type == 'edit')) && (item.id == field.flex_item_id)">
