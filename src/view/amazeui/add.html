@@ -3,52 +3,47 @@
 {php}$tmpVueAppId = request()->module().request()->controller().request()->action().time();{/php}
 <!--时间戳10位-->
 {php}$tmpTime = time();{/php}
-
-<div class="tpl-content-wrapper" style="margin-left: 0px;" id="vue_add{$tmpVueAppId}">
-    <div class="row-content am-cf">
-        <div class="row" >
-            <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
-                <div class="widget widget-main am-cf" >
+<!--class="tpl-content-wrapper"-->
+<div style="margin-left: 0px;border:1px solid #eee" id="vue_add{$tmpVueAppId}">
+<!--class="tpl-content-wrapper"-->
+    <div class="widget am-cf" style="overflow:auto;height:100%;">
 <!--                    标题条不用
-                    <div class="widget-head am-cf">
-                        <div class="widget-title am-fl"></div>
-                        <div class="widget-function am-fr">
-                            <a href="javascript:;" class="am-icon-cog"></a>
-                        </div>
-                    </div>
+        <div class="widget-head am-cf">
+            <div class="widget-title am-fl"></div>
+            <div class="widget-function am-fr">
+                <a href="javascript:;" class="am-icon-cog"></a>
+            </div>
+        </div>
 -->
-                    <div class="widget-body am-fr">
-                        <form class="am-form tpl-form-border-form tpl-form-border-br" @submit.prevent="submit" id="myForm">
-                            <!-- 有布局执行这边 -->
-                            <div class="am-cf" v-if="columnHeader.flexInfo && columnHeader.flexInfo.length > 0">
-                                <xjr-field-flex v-bind:item="subItem" v-for="subItem in columnHeader.flexInfo"
-                                                v-bind:item_data="inputData"
-                                                v-bind:list_info="columnHeader.listInfo"
-                                                v-bind:form_type="formType"
-                                                v-bind:is_detail="isDetail"
-                                            ></xjr-field-flex>
-                            </div>
-                            <!--只显示is_add字段；按后台配置宽度显示-->
-                            <!-- 没有布局执行这边 -->
-                            <div v-else>
-                                <block v-for="(field,i) in columnHeader.listInfo" v-if="(field.is_add && formType == 'add') || (field.is_edit && formType == 'edit')">
-                                    <!--字段混合-->
-                                    <xjr-field-mix v-bind:field="field" 
-                                            v-bind:item_data="inputData"
-                                            v-bind:is_detail="field.only_detail ? field.only_detail : isDetail"
-                                        ></xjr-field-mix>
-                                </block>
-                            </div>
-                            <!--提交按钮-->
-                            <div class="am-form-group" v-if="!isDetail">
-                                <div class="am-u-sm-9 am-u-sm-push-3">
-                                    <input type="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">
-                                </div>
-                            </div>
-                        </form>
+        <div class="widget-body am-fr">
+            <form class="am-form tpl-form-border-form tpl-form-border-br" @submit.prevent="submit" id="myForm">
+                <!-- 有布局执行这边 -->
+                <div class="am-cf" v-if="columnHeader.flexInfo && columnHeader.flexInfo.length > 0">
+                    <xjr-field-flex v-bind:item="subItem" v-for="subItem in columnHeader.flexInfo"
+                                    v-bind:item_data="inputData"
+                                    v-bind:list_info="columnHeader.listInfo"
+                                    v-bind:form_type="formType"
+                                    v-bind:is_detail="isDetail"
+                                ></xjr-field-flex>
+                </div>
+                <!--只显示is_add字段；按后台配置宽度显示-->
+                <!-- 没有布局执行这边 -->
+                <div v-else>
+                    <block v-for="(field,i) in columnHeader.listInfo" v-if="(field.is_add && formType == 'add') || (field.is_edit && formType == 'edit')">
+                        <!--字段混合-->
+                        <xjr-field-mix v-bind:field="field" 
+                                v-bind:item_data="inputData"
+                                v-bind:is_detail="field.only_detail ? field.only_detail : isDetail"
+                            ></xjr-field-mix>
+                    </block>
+                </div>
+                <!--提交按钮-->
+                <div class="am-form-group" v-if="!isDetail">
+                    <div class="am-u-sm-9 am-u-sm-push-3">
+                        <input type="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

@@ -2,8 +2,13 @@
 <template id="xjr-field-mix">
     <block>
         <div class="am-form-group" v-bind:class=" 'am-u-sm-' + field.form_col"  v-if="field.type !='hidden' && field.type !='union'">
-            <label for="user-name" class="am-form-label">{{field.label}}</label>
-            <div>
+            <div v-bind:class="field.type !='iframe' ? 'am-u-sm-3' : ''">
+                <label for="user-name" class="am-form-label" >
+                    <b v-if="field.type == 'iframe'">{{field.label}}</b>
+                    <span v-else>{{field.label}}</span>
+                </label>
+            </div>
+            <div v-bind:class="field.type !='iframe' ? 'am-u-sm-9' : ''">
                 <xjr-field v-bind:list_item = "field" 
                            v-bind:item_data ="item_data" 
                            v-bind:is_detail ="is_detail"></xjr-field>

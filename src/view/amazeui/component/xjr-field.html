@@ -73,7 +73,10 @@
                 v-bind:data_id="item_data.id" 
                 v-bind:column_list_id="list_item.id"
                 v-bind:is_detail="is_detail"></ctplset>
-        </div>        
+        </div>
+        <iframe style="width:100%;overflow:auto;" ref="iframe" frameborder="0" 
+                v-bind:style="{ height: list_item.option.height + 'vh' }"
+            v-if="list_item.type == 'iframe'" v-bind:src="urlDataReplace(list_item.option.src,item_data)"></iframe>
     </block>
 </template>
 

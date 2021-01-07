@@ -267,3 +267,16 @@ function layerPageFull( url,width,height)
         content: url
     });
 }
+/**
+ * 设置嵌入层高
+ * @param {type} iframe
+ * @returns {undefined}
+ */
+function setIframeHeight(iframe) {    
+    if (iframe) {
+        var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+        if (iframeWin.document.body) {
+            iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+        }
+    }
+};

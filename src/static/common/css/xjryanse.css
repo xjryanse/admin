@@ -214,3 +214,5 @@
 .bd-r25 {   border-radius :25px !important }
 .bd-r30 {   border-radius :30px !important }
 
+/**加粗**/
+.bold   {   font-weight: 900  }

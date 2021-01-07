@@ -54,7 +54,7 @@ body::-webkit-scrollbar {
   margin-right: 0;
   border: 0;
   border-radius: 0;
-  padding: 0px 22px;
+  padding: 11px 22px;
   font-size: 22px;
   line-height: 55px;
 }
@@ -96,7 +96,7 @@ body::-webkit-scrollbar {
 }
 .tpl-header-navbar a {
   line-height: 56px;
-  display: block;
+/*  display: block;*/
   padding: 0 16px;
   position: relative;
 }
@@ -479,7 +479,7 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
 }
 /**主窗口**/
 .widget-main {
-    max-height:calc(100vh - 100px );
+/*    max-height:calc(100vh - 100px );*/
     min-height:80vh;
     overflow:auto;
 }
