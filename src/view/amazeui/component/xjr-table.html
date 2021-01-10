@@ -43,7 +43,7 @@
                             style="text-overflow:ellipsis;overflow:hidden;display:table-cell;vertical-align:middle;"
                             v-bind:style="{ 'min-width' : field.min_width + 'px', 'max-width': field.width + 'px', 'text-align': field.list_style }"
                         >
-                            <xjr-table-td v-bind:field="field" v-bind:item="item" @search_data="searchData" v-if=""></xjr-table-td>
+                            <xjr-table-td v-bind:field="field" v-bind:item="item" @search_data="searchData" @get_lists="getLists"></xjr-table-td>
                         </td>
                         <!--【3】操作按钮-->
                         <td style="text-overflow: ellipsis; overflow: hidden; display: table-cell; vertical-align: middle; min-width: 30px;text-align: center;"
@@ -80,15 +80,7 @@
                                 <!--按钮-->
                                 <block v-for="(btn,k) in column_info.btnInfo">
                                     <!--列表弹窗-->
-                                    <xjr-button operate="layerPage" icon="pencil" width = "90%"  height = "90%" button_cate="ahref"
-                                                v-if="btn.o_type == 'listpop'"
-                                                v-bind:button_name  =   "btn.name"
-                                                v-bind:url          =   "btn.url" 
-                                                v-bind:data         =   "item" 
-                                            ></xjr-button>
-                                    <!-- listoperate：列表操作：有bug20201210-->
-                                    <xjr-button operate="listOperate" icon="pencil" width = "90%"  height = "90%" button_cate="ahref" show_name="true"
-                                                v-if="btn.o_type == 'listoperate'"
+                                    <xjr-button v-bind:operate="btn.o_type" icon="pencil" width = "90%"  height = "90%" button_cate="ahref" show_name="true"
                                                 v-bind:button_name  =   "btn.name"
                                                 v-bind:url          =   "btn.url" 
                                                 v-bind:data         =   "item" 
@@ -97,11 +89,6 @@
                                                 v-bind:prompt       =   "btn.prompt"
                                                 v-bind:prompt_default=   "btn.prompt_default"                                                
                                             ></xjr-button>
-                                    <!--        jump：本页跳链-->
-                                    <!--     mainpop：本页弹窗-->
-                                    <!--       blank：新窗口-->
-                                    <!--     listpop：列表弹窗-->
-                                    <!-- listoperate：列表操作-->
                                 </block>                                
                             </div>
                         </td>                        

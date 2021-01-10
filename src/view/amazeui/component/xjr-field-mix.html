@@ -1,47 +1,41 @@
 <!-- 混合 -->
 <template id="xjr-field-mix">
-    <block>
+    <!--按不同的数据类型显示字段
+    -->
+    <block v-if="field && (!field.cate_field_value || !item_data || item_data[field.cate_field_name] == field.cate_field_value)">
         <div class="am-form-group" v-bind:class=" 'am-u-sm-' + field.form_col"  v-if="field.type !='hidden' && field.type !='union'">
-            <div v-bind:class="field.type !='iframe' ? 'am-u-sm-3' : ''">
+            <div v-bind:class="field.type !='iframe' && field.type !='tplset' ? 'am-u-sm-3' : ''">
                 <label for="user-name" class="am-form-label" >
                     <b v-if="field.type == 'iframe'">{{field.label}}</b>
                     <span v-else>{{field.label}}</span>
                 </label>
             </div>
-            <div v-bind:class="field.type !='iframe' ? 'am-u-sm-9' : ''">
+            <div v-bind:class="field.type !='iframe' && field.type !='tplset' ? 'am-u-sm-9' : ''">
                 <xjr-field v-bind:list_item = "field" 
                            v-bind:item_data ="item_data" 
-                           v-bind:is_detail ="is_detail"></xjr-field>
+                           v-bind:is_detail ="is_detail"
+                           v-bind:table_name="table_name"></xjr-field>
             </div>
         </div>
         <!--联表类型数据：union：编辑框才有-->
         <div class="am-form-group" v-bind:class=" 'am-u-sm-' + field.form_col"  v-if="field.type =='union'">
              <hr>
-            <label for="user-name" class="am-form-label">【{{field.label}}】</label>
+            <label for="user-name" class="am-form-label" v-if="field.label">{{field.label}}</label>
             <div>
-                <!--子级表的循环-->
-                <block v-for="(subField,j) in field.table_info.listInfo">
-                    <div class="am-form-group" 
-                         v-bind:class=" 'am-u-sm-' + subField.form_col"  
-                         v-if="subField.type !='hidden'">
-                        <label for="user-name" class="am-form-label">{{subField.label}}</label>
-
-                        <!--子级表的字段-->
-<!--                                                    <cfield v-bind:type="subField.type" v-model="item_data.[ subField.name ]" v-bind:remark=" subField.remark"></cfield>-->
-                            <cfield v-bind:type="subField.type" 
-                                    v-model="item_data[field.name][subField.name]" 
-                                    v-bind:remark=" subField.remark"
-                                    v-bind:is_detail="is_detail"></cfield>
-                            <!--模板设定-->
-                            <div v-if="subField.type == 'tplset'">
-                                <ctplset v-bind:option="subField.option" 
-                                    v-bind:table_name="field.table_info.table_name" 
-                                    v-bind:data_id="item_data[field.name]['id']" 
-                                    v-bind:column_list_id="subField.id"
-                                    v-bind:is_detail="is_detail"></ctplset>
-                            </div>
-                    </div>
-                </block>
+                <!--子级表的循环  && ((subField.is_add && form_type == 'add') || (subField.is_edit && form_type == 'edit')) -->
+                <div class="am-form-group" 
+                     v-for="(subField,j) in field.table_info.listInfo"
+                     v-bind:class=" 'am-u-sm-' + subField.form_col"  
+                     v-if="subField.type !='hidden' ">
+                    {{subField.is_edit}}
+                    {{form_type}}
+                    <!--递归-->
+                    <xjr-field-mix v-bind:field="subField" 
+                        v-bind:item_data="item_data[field.name]"
+                        v-bind:is_detail="is_detail"
+                        v-bind:table_name ="field.table_info.table_name"
+                    ></xjr-field-mix>
+                </div>
                 <!--子级表的循环结束-->
             </div>
         </div>
@@ -55,7 +49,7 @@
     //定义hblock组件
     Vue.component('xjr-field-mix', {
         //列表信息:列表编辑：项目
-        props: { field : Array ,item_data :Array ,is_detail : String },
+        props: { field : Array ,item_data :Array ,is_detail : String, table_name: String, form_type: String },
         template: '#xjr-field-mix',
     });
 </script>

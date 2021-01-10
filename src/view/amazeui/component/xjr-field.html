@@ -69,7 +69,7 @@
         <!--字段类型：块编辑-->
         <div v-if="list_item.type == 'tplset'">
             <ctplset v-bind:option="list_item.option" 
-                v-bind:table_name="columnHeader.table_name" 
+                v-bind:table_name="table_name" 
                 v-bind:data_id="item_data.id" 
                 v-bind:column_list_id="list_item.id"
                 v-bind:is_detail="is_detail"></ctplset>
@@ -84,7 +84,8 @@
     //定义hblock组件
     Vue.component('xjr-field', {
         //列表信息:列表编辑：项目
-        props: { list_item : Array ,item_data :Array ,is_detail : String },
+        //table_name:tplset的表名
+        props: { list_item : Array ,item_data :Array ,is_detail : String, table_name :String },
         template: '#xjr-field',
     });
 </script>

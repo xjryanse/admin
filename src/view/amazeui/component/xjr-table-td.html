@@ -12,6 +12,7 @@
                         v-bind:url          = "urlDataReplace(field.list_pop,item)" 
                         show_name           = "true"
                         v-bind:data         = "item" 
+                        @get_lists          =   "getLists"
                     ></xjr-button>
             <!--点击直接搜索-->
             <a href="javascript:;" v-else-if="field.search_type == 'equal'" 
@@ -127,6 +128,10 @@
             return {};
         },
         methods : {
+            getLists : function(){
+                console.log('xjr-table-td的getLists方法');
+                this.$emit('get_lists');
+            },
             //获取日期时间
             vGetDateTime( value ,formatt){
                 if(formatt == ''){

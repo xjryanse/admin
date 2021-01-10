@@ -5,13 +5,20 @@
         <!--文本text-->
         <!--文本listedit-->
         <input v-if="type == 'text' || type == 'listedit' "
-                   type="text" class="tpl-form-input bd-r5" v-model="value" v-on:change="$emit('input', $event.target.value)" v-bind:disabled ="is_detail == 1">
+                   type="text" class="tpl-form-input bd-r5" v-model="value" v-on:change="$emit('input', $event.target.value)" 
+                   v-bind:disabled ="is_detail == 1"
+                   v-bind:class="is_detail == 1 ? 'vague' : ''"
+                >
         <!--密码password-->
         <input v-if="type == 'password'"
-               type="password" class="tpl-form-input bd-r5" v-model="value" v-on:change="$emit('input', $event.target.value)" v-bind:disabled ="is_detail == 1">
+                type="password" class="tpl-form-input bd-r5" v-model="value" v-on:change="$emit('input', $event.target.value)" 
+                v-bind:class="is_detail == 1 ? 'vague' : ''"
+                v-bind:disabled ="is_detail == 1">
         <!--文本框textarea-->
         <textarea v-if="type == 'textarea'"
-                class="bd-r5" rows="6" placeholder="请输入" v-model="value" v-on:change="$emit('input', $event.target.value)" v-bind:disabled ="is_detail == 1"></textarea>
+                class="bd-r5" rows="6" placeholder="请输入" v-model="value" v-on:change="$emit('input', $event.target.value)" 
+                v-bind:class="is_detail == 1 ? 'vague' : ''"
+                v-bind:disabled ="is_detail == 1"></textarea>
         <!--开关switch-->
         <div class="tpl-switch" v-if="type == 'switch'">
             <input type="checkbox" 
