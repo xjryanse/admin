@@ -216,3 +216,5 @@
 
 /**加粗**/
 .bold   {   font-weight: 900  }
+/**模糊**/
+.vague  { opacity: .7 }

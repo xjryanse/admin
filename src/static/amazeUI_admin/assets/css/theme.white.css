@@ -224,7 +224,7 @@
 .theme-white .tpl-form-border-form .am-form-label {
   padding-top: 5px;
   font-size: 16px;
-  color: #727272;
+  color: #111111;
   font-weight: inherit;
   text-align: right;
 }
@@ -560,7 +560,7 @@
   border-bottom: 1px solid #eee;
 }
 .theme-white .tpl-content-wrapper {
-  background: #e9ecf3;
+  background: #f3f4f7;
 }
 .theme-white .tpl-header-fluid {
   background: #fff;
