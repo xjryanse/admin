@@ -1,6 +1,18 @@
 <div class="am-form-group">
     <div class="am-btn-toolbar">
         <div class="am-btn-group am-btn-group-xs" v-if="columnInfo">
+            <!--按钮的循环显示-->
+            <xjr-button v-for="(btn,k) in columnInfo.btnInfo"
+                        v-bind:operate      =   "btn.o_type" icon="pencil" width = "90%"  height = "90%" 
+                        v-bind:button_cate  =   "btn.button_cate" show_name="true"
+                        v-bind:button_name  =   "btn.name"
+                        v-bind:url          =   "btn.url" 
+                        v-bind:confirm      =   "btn.confirm"
+                        v-bind:prompt       =   "btn.prompt"
+                        v-bind:prompt_default=   "btn.prompt_default"
+                        @get_lists          =   "getLists"
+                    ></xjr-button>
+
             <block v-for="(operate,k) in columnInfo.operateInfo">
                 <!--新增-->
                 <xjr-button operate="layerIframePage" icon="plus" width = "90%"  height = "90%" button_cate="button" 

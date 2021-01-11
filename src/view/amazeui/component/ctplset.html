@@ -107,9 +107,17 @@
         template: '#ctplset',
         data: function(){
             return {
+                //table_name 和 data_id 取回来的表数据
+                tableData : {}
             };
         },
         methods : {
+            //按比例计算，一般用于获取佣金
+            tplSetCalTotalRate( data ,field,rate){
+                var value = this.tplSetCalAllTotal(data ,field );
+                var rateValue = value * rate;
+                return Math.round( rateValue * 100)/100; 
+            },
             //模板设定计算值
             tplSetCalTotal( data ,field ){
                 var calValue = 0 ;
@@ -166,8 +174,9 @@
                         //关闭弹层
                         layer.close( layerIndex );
                         if(data.code == 0){
-                            //回调函数
-                            callback( data.data ); 
+                            that.tableData = data.data.tableData;
+                            //回调函数:data.data 中包含data 和 tableData
+                            callback( data.data.data ); 
                         } else {
                             layer.msg(data.message, {icon: 2});
                         }

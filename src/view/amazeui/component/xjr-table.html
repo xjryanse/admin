@@ -35,7 +35,7 @@
                             </label>
                             <!--复选-->
                             <label class="am-radio" v-if="column_info.list_select == 'checkbox'">
-                                <input type="checkbox" name="id" v-bind:value="item['id']" data-am-ucheck>
+                                <input type="checkbox" name="id" v-bind:value="item['id']" data-am-ucheck v-model="selectItems">
                             </label>
                         </td>
                         <!--【2】字段明细-->
@@ -134,7 +134,9 @@
         template: '#xjr-table',
         data: function(){
             return {
-                "paginate_data":{}
+                "paginate_data":{},
+                //选中的项目
+                "selectItems":[],
             };
         },
         watch:{
@@ -145,7 +147,15 @@
                 },
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
                 immediate: true
-            }
+            },
+            selectItems : {
+                handler(newName, oldName) {
+                    //复选框和单选框选中数据作为绑定值
+                    this.$emit('input', newName);
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            },            
         },
         computed : {
             //字段信息

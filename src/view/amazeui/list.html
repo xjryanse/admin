@@ -37,6 +37,7 @@
                                            copy_url   = "{:url('copy',$paramInherit)}"
                                            delete_url = "{:url('del',$paramInherit)}"
                                            v-bind:query_data="queryData"
+                                           v-model="selectItems"
                                     @on_item_select="onItemSelect"></xjr-table>
                             </div>
                         </form>
@@ -70,7 +71,21 @@
                 'isDetail' : true,
                 //主表当前选中字段
                 'currentSelectItem' : [],
+                'selectItems' : [],
             },
+            watch:{
+                //主数据变化即触发
+                selectItems : {
+                    handler(newName, oldName) {
+                        //复选框和单选框选中数据作为绑定值
+                        console.log('heheheheheheheh');
+                        console.log( newName );
+                    },
+                    // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                    immediate: true
+                },            
+            },            
+            
             methods: {
                 //用于触发主表数据刷新
                 getLists(){
