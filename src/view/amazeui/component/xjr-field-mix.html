@@ -26,9 +26,7 @@
                 <div class="am-form-group" 
                      v-for="(subField,j) in field.table_info.listInfo"
                      v-bind:class=" 'am-u-sm-' + subField.form_col"  
-                     v-if="subField.type !='hidden' ">
-                    {{subField.is_edit}}
-                    {{form_type}}
+                     v-if="subField.type !='hidden'  && ((subField.is_add && form_type == 'add') || (subField.is_edit && form_type == 'edit'))">
                     <!--递归-->
                     <xjr-field-mix v-bind:field="subField" 
                         v-bind:item_data="item_data[field.name]"

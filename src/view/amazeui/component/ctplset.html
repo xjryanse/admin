@@ -125,10 +125,12 @@
              * data:二维数组（表格）
              */
             tplSetCalAllTotal( data , field ){
+                console.log('框架方法');
                 var calValue = 0 ;
                 $.each(data,function(indexInfo,itemInfo ){
                     $.each(itemInfo,function(index,item ){
-                        if(item[field]){
+                        console.log( item );
+                        if(item[field] && !item['pid']){
                             calValue = Number(calValue) + Number(item[field]);
                         }
                     });
@@ -143,7 +145,7 @@
                 var calValue = 0 ;
                 $.each(data,function(indexInfo,itemInfo ){
                     $.each(itemInfo,function(index,item ){
-                        if(index ==  key  && item[field]){
+                        if(index ==  key  && item[field] && !item['pid']){
                             calValue = Number(calValue) + Number(item[field]);
                         }
                     });
