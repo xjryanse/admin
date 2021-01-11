@@ -78,18 +78,22 @@
                                             ></xjr-button>                                    
                                 </block>
                                 <!--按钮-->
-                                <block v-for="(btn,k) in column_info.btnInfo">
-                                    <!--列表弹窗-->
-                                    <xjr-button v-bind:operate="btn.o_type" icon="pencil" width = "90%"  height = "90%" button_cate="ahref" show_name="true"
-                                                v-bind:button_name  =   "btn.name"
-                                                v-bind:url          =   "btn.url" 
-                                                v-bind:data         =   "item" 
-                                                v-bind:confirm      =   "btn.confirm"
-                                                v-bind:form_data    =   "item" 
-                                                v-bind:prompt       =   "btn.prompt"
-                                                v-bind:prompt_default=   "btn.prompt_default"                                                
-                                            ></xjr-button>
-                                </block>                                
+                                <!--列表弹窗-->
+                                <xjr-button icon="pencil" width = "90%"  height = "90%" button_cate="ahref" show_name="true"
+                                            v-for="(btn,k) in column_info.btnInfo"
+                                            v-if="btn.place=='list'"
+                                            v-bind:operate      =   "btn.o_type" 
+                                            v-bind:icon         =   "btn.icon" 
+                                            v-bind:button_cate  =   "btn.btn_cate" 
+                                            v-bind:btn_style    =   "btn.btn_style" 
+                                            v-bind:button_name  =   "btn.name"
+                                            v-bind:url          =   "btn.url" 
+                                            v-bind:confirm      =   "btn.confirm"
+                                            v-bind:prompt       =   "btn.prompt"
+                                            v-bind:prompt_default=   "btn.prompt_default"
+                                            v-bind:data         =   "item" 
+                                            v-bind:form_data    =   "item" 
+                                        ></xjr-button>
                             </div>
                         </td>                        
                     </tr>

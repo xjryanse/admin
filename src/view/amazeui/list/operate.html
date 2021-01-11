@@ -2,9 +2,13 @@
     <div class="am-btn-toolbar">
         <div class="am-btn-group am-btn-group-xs" v-if="columnInfo">
             <!--按钮的循环显示-->
-            <xjr-button v-for="(btn,k) in columnInfo.btnInfo"
-                        v-bind:operate      =   "btn.o_type" icon="pencil" width = "90%"  height = "90%" 
-                        v-bind:button_cate  =   "btn.button_cate" show_name="true"
+            <xjr-button width = "90%"  height = "90%" show_name="true"
+                        v-for="(btn,k) in columnInfo.btnInfo" 
+                        v-if="btn.place == 'head'"
+                        v-bind:operate      =   "btn.o_type" 
+                        v-bind:icon         =   "btn.icon" 
+                        v-bind:button_cate  =   "btn.btn_cate" 
+                        v-bind:btn_style    =   "btn.btn_style" 
                         v-bind:button_name  =   "btn.name"
                         v-bind:url          =   "btn.url" 
                         v-bind:confirm      =   "btn.confirm"
