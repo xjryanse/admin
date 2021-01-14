@@ -1,0 +1,108 @@
+<!-- 字段组件 -->
+<template id="we-form-item">
+    <!--vue的form表单-->
+    <!--empty;text;radio;uplimg;citypicker;smsCode;multiSelect-->
+    <div class="weui-cells user-form noborder mt00">
+        <div v-if="item.type=='empty'" class="f14" style="background-color: #f2f2f2;padding:5px 10px;color:#999999">{{item.label}}</div>
+        <we-field v-if="item.type=='hidden'" v-bind:type="item.type" v-model="value"></we-field>
+        
+        <!--text,number,prize,phone,idno,date,citypicker,describe-->
+        <we-cell-field v-model="value" v-bind:type="item.type" v-bind:label="item.label" v-bind:max_length = "item.maxLength"></we-cell-field>
+        <!--单选-->
+        <div class="weui-cell" v-if="item.type=='radio'">
+            <div class="weui-cell__hd"><we-label v-bind:label="item.label"></we-label></div>
+            <div class="weui-cell__bd weui-cells_checkbox" style="display: flex;">
+                <label class="weui-flex__item" style="display: flex;" v-for="(subItem,j) in item.option">
+                    <div class="weui-cell__hd">
+                        <input type="radio" class="weui-check" v-bind:value="j" v-model="value">
+                        <span class="weui-icon-checked"></span>
+                    </div>
+                    <div class="weui-cell__fd">{{subItem}}</div>
+                </label>
+            </div>
+        </div>
+        <!--描述性-->
+        <we-cell-describe v-if="item.type=='describe'" v-bind:label="item.label" v-model="item.default"></we-cell-describe>
+        <!--uplimage 上传图片-->
+        <div class="weui-cell" style="height:auto;min-height:30px;" v-if="item.type=='uplimage'">
+            <div class="weui-cell__hd"><we-label v-bind:label="item.label"></we-label></div>
+            <div class="weui-cell__bd" v-if="item.is_edit == 1">
+                <!--有图-->
+                <img v-bind:src="value.file_path" v-if="value && value.file_path" class="myImg" style="max-width:100%;">
+                <!--无图-->
+                <img src="__STATIC__/web/images/home/321.png" v-else class="myImg" style="height:35px;width:35px;">
+                <!--注：上传事件固定为uplPic-->
+                <input class="weui-uploader__input" accept="image/*" multiple="" type="file" @change="uplPic($event,item.field)">
+            </div>
+            <div class="weui-cell" style="height:auto;min-height:30px;" v-if="item.is_edit == 0">
+                <!--有图-->
+                <img v-bind:src="value.file_path" v-if="value && value.file_path" class="myImg" style="max-width:100%;">
+                <span style="text-align: center; width: 100%;" v-else>无</span>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('we-form-item', {
+        props: { item : Array, value : Array},
+        template: '#we-form-item',
+        data: function(){
+            return {};
+        },
+        methods : {
+            //上传图片
+            uplPic : function ( event, name ){
+                var that        = this;
+                var formData    = new FormData();
+                formData.append('file', $(event.target)[0].files[0]); // 文件数据
+                if(!$(event.target)[0].files[0]){
+                    return false;
+                }
+                //在scripts中定义了压缩图片
+                compressImg( $(event.target)[0].files[0],function(files){
+                    formData.append('file', files);
+                    //遮罩开启
+                    $('.loading').show();
+                    return $.ajax({
+                        url: '{:config("xiesemi.picUplApiUrl")}',
+                        type: 'POST',
+                        cache: false,
+                        data: formData,
+                        processData: false,
+                        contentType: false
+                    }).done(function(data) {
+                        if (data.code == 0) {
+                            that.value = data.data;
+                        } else {
+                            $.toast(data.message ,"cancel");
+                        }
+                        //遮罩关闭
+                        $('.loading').hide();
+                    });
+                });
+            },
+        },
+        watch : {
+            //主数据变化即触发
+            value : {
+                handler(newData, oldData ){
+                    //v-model语法糖
+                    this.$emit( "input" , newData );
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            }
+        },
+        created :function(){
+
+        }
+    });
+</script>
+<style>
+    .myImg{
+        width: 100%; height: 100%;
+    }
+</style>
+

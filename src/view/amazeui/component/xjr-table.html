@@ -10,8 +10,10 @@
                    v-if="column_info" style="font-size:12px;min-width:98%;background-color:#ececec">
                 <thead>
                     <tr>
-                        <th style="min-width:10px;"><div style="min-height:40px;"></div></th>
-                        <th v-for="(field,i) in column_info.listInfo" v-if="field.is_list">{{field.label}}</th>
+                        <th style="min-width:10px;" v-if="column_info.list_select == 'radio' || column_info.list_select == 'checkbox'">
+                            <input type="checkbox" name="id" data-am-ucheck v-model="allSelect" v-if="column_info.list_select == 'checkbox'">
+                        </th>
+                        <th style="height:40px;" v-for="(field,i) in column_info.listInfo" v-if="field.is_list">{{field.label}}</th>
                         <th v-if="column_info.operateInfo.length > 0 || column_info.btnInfo.length > 0">操作</th>
                     </tr>
                 </thead>
@@ -30,13 +32,9 @@
                         <!--【1】必有的单选框-->
                         <td style="width:20px;text-overflow: ellipsis; overflow: hidden; display: table-cell; vertical-align: middle; min-width: 30px; max-width: 100px; text-align: center;">
                             <!--单选-->
-                            <label class="am-radio" v-if="column_info.list_select == 'radio'">
-                                <input type="radio" name="id" v-bind:value="item['id']" data-am-ucheck @click="onItemSelect(item)">
-                            </label>
+                            <input type="radio" name="id" v-bind:value="item['id']" data-am-ucheck @click="onItemSelect(item)"  v-if="column_info.list_select == 'radio'">
                             <!--复选-->
-                            <label class="am-radio" v-if="column_info.list_select == 'checkbox'">
-                                <input type="checkbox" name="id" v-bind:value="item['id']" data-am-ucheck v-model="selectItems">
-                            </label>
+                            <input type="checkbox" name="id" v-bind:value="item['id']" data-am-ucheck v-model="selectItems" v-if="column_info.list_select == 'checkbox'">
                         </td>
                         <!--【2】字段明细-->
                         <td v-for="(field,j) in column_info.listInfo" v-if="field.is_list" 
@@ -78,7 +76,7 @@
                                             ></xjr-button>                                    
                                 </block>
                                 <!--按钮-->
-                                <!--列表弹窗-->
+                                <!--列表弹窗 v-bind:form_data    =   "item" -->
                                 <xjr-button icon="pencil" width = "90%"  height = "90%" button_cate="ahref" show_name="true"
                                             v-for="(btn,k) in column_info.btnInfo"
                                             v-if="btn.place=='list'"
@@ -92,7 +90,7 @@
                                             v-bind:prompt       =   "btn.prompt"
                                             v-bind:prompt_default=   "btn.prompt_default"
                                             v-bind:data         =   "item" 
-                                            v-bind:form_data    =   "item" 
+                                            @get_lists="getLists"
                                         ></xjr-button>
                             </div>
                         </td>                        
@@ -141,9 +139,30 @@
                 "paginate_data":{},
                 //选中的项目
                 "selectItems":[],
+                //全选
+                "allSelect" : false,
             };
         },
         watch:{
+            //主数据变化即触发
+            allSelect : {
+                handler(newData, oldData) {
+                    if(newData){
+                        //全选
+                        var tmpData = [];
+                        $.each( this.list_data ,function (index, element) {
+                            //用户id一样，说明不是新用户
+                            tmpData.push( element.id ); 
+                        });
+                        this.selectItems = tmpData;
+                    } else {
+                        //清空已选
+                        this.selectItems = [];
+                    }
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            },
             //主数据变化即触发
             query_data : {
                 handler(newName, oldName) {

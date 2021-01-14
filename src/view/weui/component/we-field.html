@@ -30,6 +30,8 @@
         <input v-if="type == 'date'" class="weui-input txtright picker-input dateinput"  type="text" ref="datetime" v-model="value" placeholder="请选择">
         <!-- citypicker 选择地址-->
         <input v-if="type == 'citypicker'" class="weui-input" type="text" ref="citypicker" readonly placeholder="选择地区">
+        <!--描述性-->
+        <span v-if="type=='describe'">{{value}}</span>
     </block>
 </template>
 

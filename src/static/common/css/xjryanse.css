@@ -177,6 +177,7 @@
 .bg-red     {   background-color:#fa5151;   }
 .bg-white   {   background-color:#FFFFFF;   }
 .bg-blue    {   background-color: #10aeff;  }
+.bg-gray    {   background-color:rgb(242, 242, 242) }
 
 /*字体11-55号*/
 .f11    {   font-size: 11px !important; line-height: 11px; }
@@ -218,3 +219,40 @@
 .bold   {   font-weight: 900  }
 /**模糊**/
 .vague  { opacity: .7 }
+
+/**上下左右居中**/
+.block-center{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/**全屏的弹窗*/
+.layer-full{
+    position:fixed;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background:rgb(242, 242, 242);
+    overflow: auto;
+}
+
+/**z层级**/
+.z10{ z-index: 10;}
+.z20{ z-index: 20;}
+.z30{ z-index: 30;}
+.z40{ z-index: 40;}
+.z50{ z-index: 50;}
+.z60{ z-index: 60;}
+.z70{ z-index: 70;}
+.z80{ z-index: 80;}
+.z90{ z-index: 90;}
+.z100{ z-index: 100;}
+.z200{ z-index: 200;}
+.z300{ z-index: 300;}
+.z400{ z-index: 400;}
+.z500{ z-index: 500;}
+.z1000{ z-index: 1000;}
+
+
+

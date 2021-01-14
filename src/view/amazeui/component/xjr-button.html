@@ -4,7 +4,7 @@
     <block>
         <!--按钮的-->
         <button type="button" class="am-btn am-btn-default" 
-                v-if="button_cate=='button'"
+                v-if="button_cate=='button' && operate !='import'"
                 v-bind:class=" btn_style ? styles[btn_style] : ''"
                 v-bind:class=" size ? sizes[size] : ''" 
                 v-bind:class ="btn_class"
@@ -13,7 +13,7 @@
         </button>
         <!--导入的-->
         <button type="button" class="am-btn am-btn-default am-form-file" 
-                v-if="button_cate=='import'"
+                v-if="button_cate=='button' && operate =='import'"
                 v-bind:class=" btn_style ? styles[btn_style] : ''"
                 v-bind:class=" size ? sizes[size] : ''" 
                 v-bind:class ="btn_class"
@@ -23,10 +23,18 @@
         </button>
         <!--a标签的-->
         <a href="javascript:;" @click="doBtnClick()"
-                v-if="button_cate=='ahref'"
+                v-if="button_cate=='ahref'  && operate != 'import'"
                 v-bind:class ="btn_class"
                 v-bind:title="button_name">
             <i v-bind:class=" icon ? icons[icon] : 'am-icon-plus'" v-if="icon"></i> <span v-if="show_name" class="f-blue">{{button_name}}</span>
+        </a>
+        <!--导入的-->
+        <a href="javascript:;" class="am-form-file" style="overflow: inherit;"
+                v-if="button_cate=='ahref' && operate =='import'"
+                v-bind:class ="btn_class"
+                v-bind:title="button_name">
+            <i v-bind:class=" icon ? icons[icon] : 'am-icon-plus'" v-if="icon"></i> <span v-if="show_name" class="f-blue">{{button_name}}</span>
+            <input id="doc-form-file" type="file" multiple="" @change="importFile($event)">
         </a>
     </block>
 </template>
@@ -93,6 +101,18 @@
                 }
             };
         },
+        watch:{
+            //主数据变化即触发
+            form_data : {
+                handler(newName, oldName) {
+                    if(!newName ){
+                        this.form_data = {};
+                    }                        
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            }
+        },        
         methods : {
             /*
              * 按钮点击触发事件
@@ -108,6 +128,7 @@
                     "newPage"           :"newPage",
                     "fullScreen"        :"doFullScreen"
                 };
+                console.log( this.operate );
                 //动态执行方法名
                 eval("this." + reflects[this.operate] + "()"); 
             },
@@ -141,13 +162,12 @@
                 var that = this;
                 $.ajax({
                     url:  url,
-                    type: 'GET',
+                    type: 'POST',
                     data :formData,
                     beforeSend: function( xhr ) { 
                         xhr.setRequestHeader('X-Requested-With', {toString: function(){ return ''; }}); 
                     }, 
                     success: function (data) {
-                        console.log(data);
                         //关闭弹层
                         layer.close(layerIndex);
                         layer.open({
@@ -202,10 +222,8 @@
                         //输入层
                         layer.prompt({title: that.confirm, formType: 2,value:that.prompt_default}, function(pass, index){
                             that.form_data[ that.prompt ] = pass;
-                            console.log(that.form_data);
                             //调用公共异步请求函数
                             that.ajaxOperate( that.getUrl() , that.form_data ,function( data ){
-                                console.log( data );
                                 //调用父组件刷新方法
                                 that.$emit('get_lists');
                             });
@@ -291,6 +309,7 @@
             },
             //导入文件
             importFile( event ){
+                console.log('执行了importFile方法');
                 var that = this;
                 var formData = new FormData();
                 //弹层
@@ -314,7 +333,8 @@
                         //弹层
                         var layerIndex2  = layer.load(2);
                         layer.confirm( '确认导入？' , function (index) {
-                            var formData2 = that.form_data ? that.form_data : {} ;
+                            //导入不需要表单数据，如有参数，拼到url上；20210114
+                            var formData2 = {} ;
                             //importFieldId固定；
                             formData2.importFieldId = data.data.id;
                             //调用公共异步请求函数
@@ -334,6 +354,7 @@
             
         },
         created :function(){
+
 //            console.log('xjr-button开始执行');
         }
     });
