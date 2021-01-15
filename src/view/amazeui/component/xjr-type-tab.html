@@ -2,9 +2,10 @@
 <template id="xjr-type-tab">
     <block>
         <ul class="am-tabs-nav am-nav am-nav-tabs" v-for="(field,i) in list_info" v-if="field.name == type_tab ">
-            <li v-bind:class=" current=='' ? 'am-active' : ''"><a href="javascript:;" @click="searchData( type_tab ,'')">全部</a></li>
+            <li v-bind:class=" value=='' ? 'am-active' : ''"><a href="javascript:;" @click="value=''">全部</a></li>
             <li v-for="(item,j) in field.option" 
-                v-bind:class=" current==j ? 'am-active' : ''"><a href="javascript:;" @click="searchData( type_tab ,j)">{{item}}</a></li>
+                v-bind:class=" value==j ? 'am-active' : ''"><a href="javascript:;" @click="value = j">{{item}}</a></li>
+            <!-- searchData( type_tab ,j) -->
         </ul>
     </block>
 </template>
@@ -12,25 +13,18 @@
 <script>
     //定义hblock组件
     Vue.component('xjr-type-tab', {
-        //列表信息:列表编辑：项目 column_info列信息；data数据(不含分页的)；分页数据；current：当前选项
-        props: { type_tab : String, list_info : Object },
+        //列表信息:列表编辑：项目 column_info列信息；data数据(不含分页的)；分页数据；value：当前选项
+        props: { type_tab : String, list_info : Object ,value : String },
         template: '#xjr-type-tab',
-        data: function(){
-            return {
-                current:''
-            };
+        watch:{
+            value : {
+                handler(newName, oldName) {
+                    this.$emit('input', newName );
+//                    this.$emit('search_data',this.type_tab,newName);
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            },
         },
-        computed : {
-
-        },
-        methods : {
-            //搜索数据
-            searchData (key,value){
-                this.current = value;
-                this.$emit('search_data',key,value);
-            }        
-        },
-        created :function(){
-        }
     });
 </script>

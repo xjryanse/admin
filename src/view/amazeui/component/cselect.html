@@ -2,7 +2,7 @@
 <template id="cselect">
     <!--layerPage-->
     <!--需要用js赋值一下，没有绑定。不知道为啥-->
-    <select v-model="value" data-am-selected="{searchBox: 1}" ref="mySelect" style="display: none;" v-bind:disabled ="is_detail == 1"> 
+    <select v-model="value" ref="mySelect" style="display: none;width:100%;" v-bind:disabled ="is_detail == 1"> 
         <option value="" >请选择</option> 
         <option v-for="(tmpOption,k) in option" v-bind:value="k">{{tmpOption}}</option> 
     </select>
@@ -13,21 +13,14 @@
     Vue.component('cselect', {
         props: { value : String, option : Array ,is_detail : String},
         template: '#cselect',
-        data: function(){
-            return {
-            };
-        },
-        methods : {
-            
-        },
         created :function(){
             //重新渲染树状
             var that = this;
             that.$nextTick(function () {
-                $( that.$refs.mySelect ).change(function( ){
-                    var tmpValue = $( that.$refs.mySelect )[0].value;
-                    that.$emit('input', tmpValue);
-                });
+                $( that.$refs.mySelect ).select2();
+                $(that.$refs.mySelect).on("select2:select",function(e){
+                    that.$emit('input', e.target.value );
+                })
             });
         }
     });

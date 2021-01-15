@@ -19,7 +19,7 @@
                 v-bind:class ="btn_class"
             >
             <span v-bind:class=" icon ? icons[icon] : 'am-icon-plus'"></span> {{button_name}}
-            <input id="doc-form-file" type="file" multiple="" @change="importFile($event)">
+            <input id="doc-form-file" type="file" ref='import' multiple="" @change="importFile($event)">
         </button>
         <!--a标签的-->
         <a href="javascript:;" @click="doBtnClick()"
@@ -34,7 +34,7 @@
                 v-bind:class ="btn_class"
                 v-bind:title="button_name">
             <i v-bind:class=" icon ? icons[icon] : 'am-icon-plus'" v-if="icon"></i> <span v-if="show_name" class="f-blue">{{button_name}}</span>
-            <input id="doc-form-file" type="file" multiple="" @change="importFile($event)">
+            <input id="doc-form-file" type="file" ref='import' multiple="" @change="importFile($event)">
         </a>
     </block>
 </template>
@@ -328,15 +328,17 @@
                 }).done(function(data) {
                     //关闭弹层
                     layer.close(layerIndex);
+                    //清空输入框
+                    $(that.$refs.import).value = '';                   
                     if(data.code == 0){
                         //弹窗确认信息
-                        //弹层
-                        var layerIndex2  = layer.load(2);
                         layer.confirm( '确认导入？' , function (index) {
                             //导入不需要表单数据，如有参数，拼到url上；20210114
                             var formData2 = {} ;
-                            //importFieldId固定；
-                            formData2.importFieldId = data.data.id;
+                            //importFileId固定；
+                            formData2.importFileId = data.data.id;
+                            //弹层
+                            var layerIndex2  = layer.load(2);
                             //调用公共异步请求函数
                             that.ajaxOperate( that.getUrl() , formData2 ,function(){
                                 //关闭弹层

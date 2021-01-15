@@ -42,13 +42,7 @@
         </div>
 
         <!--字段类型：date日期-->
-        <div  v-if="list_item.type == 'date'">
-            <input type="text" class="tpl-form-input" v-bind:readonly="list_item.is_edit == 0" placeholder="请输入" v-if="!isDetail"  v-model="item_data[list_item.name]" :name="list_item.name" data-am-datepicker 
-                   onchange="app.item_data[this.name]= $(this).attr('value')">
-            <p v-if="isDetail">{{item_data[list_item.name]}}</p>
-            <small>{{list_item.remark}}</small>
-        </div>
-
+        <cdatetime v-if="list_item.type == 'date'" v-model="item_data[list_item.name]" v-bind:is_detail="is_detail"></cdatetime>
         <!--字段类型：上传图片-->
         <!--上传图片框-->
         <cuplimage  v-bind:name="list_item.name" 

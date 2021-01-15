@@ -13,7 +13,7 @@
                             <div class="widget-title  am-cf">{{columnInfo.name}}</div>
                         </div>
                         <form class="am-form tpl-form-border-form tpl-form-border-br">
-                            <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                            <div class="am-u-sm-12 am-u-md-6 am-u-lg-9">
                                 <!--操作按钮区-->
                                 {include file="xjryanse/amazeui/list/operate"/}
                             </div>
@@ -21,16 +21,18 @@
                                 <!--工具按钮-->
                                 {include file="xjryanse/amazeui/list/tool"/}
                             </div>
+                            <div v-if="columnInfo.remark" class="f-orange f15 pd5" v-html="'说明：<br>'+ columnInfo.remark"></div>
                             <!--搜索选择框-->
                             <div class="am-u-sm-12" id='search{$tmpTime}' style="display:none">
-                                {include file="xjryanse/amazeui/list/search"/}
+                                <list-search v-bind:list_info="columnInfo.listInfo" v-model="queryData" v-bind:fixed_data="fixedData" @search_list = "searchList()"></list-search>
                             </div>
                             <!--数据表格区-->
                             <div class="am-u-sm-12" style="overflow: hidden;">
-                                <!--选项卡 根据请求参数是否有typeTab进行判断-->
-                                <xjr-type-tab type_tab="{:request()->param('typeTab','')}" 
+                                <!--选项卡 根据请求参数是否有typeTab进行判断 @search_data="searchData" -->
+                                <xjr-type-tab v-bind:type_tab="typeTab"  
                                               v-bind:list_info="columnInfo.listInfo"
-                                              @search_data="searchData" v-if="'{:request()->param('typeTab','')}'"></xjr-type-tab>
+                                              v-model="typeTabValue"
+                                              v-if="typeTab"></xjr-type-tab>
                                 <!--表格-->
                                 <xjr-table ref="xjr_table" 
                                            edit_url   = "{:url('edit',$paramInherit)}"
@@ -55,6 +57,7 @@
     
     <!-- 组件列表 -->
     {include file="xjryanse/amazeui/components"/}
+    {include file="xjryanse/amazeui/list/list-search"/}
     
     
     <script>
@@ -66,12 +69,16 @@
         var app = new Vue({
             el: '#{$tmpVueAppId}',
             data: {
-                'columnInfo' : {:json_encode($columnInfo)},
-                'queryData': {:json_encode(request()->param())},
-                'isDetail' : true,
+                'columnInfo': {:json_encode($columnInfo)},
+                'queryData' : {:json_encode(request()->param())},
+                //固定值，清空不变
+                'fixedData' : {:json_encode(request()->param())},
+                'typeTab'   : '{:request()->param('typeTab','')}',
+                'isDetail'  : true,
                 //主表当前选中字段
                 'currentSelectItem' : [],
                 'selectItems' : [],
+                'typeTabValue': ""
             },
             watch:{
                 //主数据变化即触发
@@ -84,24 +91,43 @@
                     // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
                     immediate: true
                 },            
-            },            
-            
+                //主数据变化即触发
+                queryData : {
+                    handler(newName, oldName) {
+                        if( this.$refs.xjr_table ){
+                            this.$refs.xjr_table.searchList(newName);
+                        }
+                    },
+                    // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                    immediate: true
+                },            
+                typeTabValue : {
+                    handler(newName, oldName) {
+                        if(this.$refs.xjr_table){
+                            this.$refs.xjr_table.searchData(this.typeTab,newName);
+                        }
+                    },
+                    // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                    immediate: true
+                },
+            },
+
             methods: {
                 //用于触发主表数据刷新
                 getLists(){
-                    this.$refs.xjr_table.getLists();                    
-                },                
+                    this.$refs.xjr_table.getLists();
+                },
                 /**
                  * 单选中事件的搜索
                  */
                 onItemSelect :function( item ){
                     this.currentSelectItem = item;
                 },
-                //搜索数据
-                searchData : function (key,value)
-                {
-                    this.$refs.xjr_table.searchData(key,value);
-                },
+//                //搜索数据
+//                searchData : function (key,value)
+//                {
+//                    this.$refs.xjr_table.searchData(key,value);
+//                },
                 //全局搜索数据
                 searchList : function (){
                     this.$refs.xjr_table.searchList(this.queryData);
@@ -122,29 +148,13 @@
                         exitFullscreen();
                     }
                 },
-                //导入
-                importFile( e,name ){
-                    var that = this;
-                    var formData = new FormData();
-                    formData.append('file', $(e.target)[0].files[0]); // 文件数据
-                    if(!$(e.target)[0].files[0]){
-                        return false;
-                    }
-                    $.ajax({
-                        url: '{:config("xiesemi.fileUplApiUrl")}',
-                        type: 'POST',
-                        cache: false,
-                        data: formData,
-                        processData: false,
-                        contentType: false
-                    }).done(function(result) {
-                        console.log(result);
-//                        that.$emit('input', result.data);
-                    });
-                }
             },
             created: function () {
-
+                console.log('12121');
+                //typeTab类型字段
+                if(this.fixedData['typeTab']){
+                    this.typeTabValue = this.fixedData[ this.fixedData['typeTab'] ];
+                }
             }
         });
     </script>

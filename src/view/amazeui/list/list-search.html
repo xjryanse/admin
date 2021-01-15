@@ -1,0 +1,62 @@
+<!-- 列表的字段组件 -->
+<template id="list-search">
+    <block>
+        <div class="am-u-sm-12 am-u-md-6" style="float:left;min-height:70px;" 
+                v-for="(field,i) in list_info" 
+                v-if="field.search_type != -1 && field.is_list == 1"
+                v-if="field.type=='text' || field.type=='enum' || field.type=='dynenum'"
+                v-bind:class=" field.type == 'date' ? 'am-u-lg-4' : 'am-u-lg-2'"
+           >
+           {{field.label}}
+           <!--输入框{{field}}-->
+           <div class="am-form-group tpl-table-list-select" v-if = "field.type=='text' || field.type=='listedit'" >
+               <input type="text" class="am-form-field" placeholder="请输入" v-model="value[field.name]">
+           </div>
+           <!--枚举框-->
+           <div class="am-form-group tpl-table-list-select" v-if = "field.type=='enum'">
+               <cselect v-bind:option="field.option" v-model="value[field.name]"></cselect>
+           </div>
+           <!--动态枚举框-->
+           <div class="am-form-group tpl-table-list-select" v-if = "field.type=='dynenum'">
+               <cselect v-bind:option="field.option.option" v-model="value[field.name]"></cselect>
+           </div>
+           <!--开关-->
+           <div class="am-form-group tpl-table-list-select" v-if = "field.type=='switch'">
+               <cselect option="关开" v-model="value[field.name]"></cselect>
+           </div>    
+           <div class="am-form-group tpl-table-list-select" v-if = "field.type=='date'">
+               <cdatetime v-model="value[field.name]" range="1"></cdatetime>
+           </div>
+       </div>
+
+       <div class="am-u-sm-12 am-u-md-6 am-u-lg-4" style="float:left;min-height:70px;position:relative" >
+           <div style="position:absolute; bottom:0;">
+               <button class="am-btn am-btn-success am-icon-search" type="button" v-on:click="$emit('search_list')">搜索</button>
+               <button class="am-btn am-btn-success am-icon-search" type="button" v-on:click="value = fixed_data">清空</button>
+           </div>
+       </div>
+    </block>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('list-search', {
+        //列表信息:列表编辑：项目
+        //table_name:tplset的表名
+        //list_info：字段信息；value :请求数据；fixed_data ：固定数据，清空时不清
+        props: { list_info : Array ,value :Array , fixed_data : Array},
+        template: '#list-search',
+        watch:{
+            value : {
+                handler(newName, oldName) {
+                    this.$emit('input', newName );
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            },
+        },
+        created: function () {
+            
+        }
+    });
+</script>

@@ -30,7 +30,8 @@
                     </tr>
                     <tr class="gradeX" style="white-space: nowrap;" v-for="(item,i) in list_data" v-if="item">
                         <!--【1】必有的单选框-->
-                        <td style="width:20px;text-overflow: ellipsis; overflow: hidden; display: table-cell; vertical-align: middle; min-width: 30px; max-width: 100px; text-align: center;">
+                        <td style="width:20px;text-overflow: ellipsis; overflow: hidden; display: table-cell; vertical-align: middle; min-width: 30px; max-width: 100px; text-align: center;"
+                            v-if="column_info.list_select == 'radio' || column_info.list_select == 'checkbox'">
                             <!--单选-->
                             <input type="radio" name="id" v-bind:value="item['id']" data-am-ucheck @click="onItemSelect(item)"  v-if="column_info.list_select == 'radio'">
                             <!--复选-->
@@ -173,6 +174,7 @@
             },
             selectItems : {
                 handler(newName, oldName) {
+                    console.log(newName);
                     //复选框和单选框选中数据作为绑定值
                     this.$emit('input', newName);
                 },
@@ -207,7 +209,9 @@
                         if (data.code != 0) {
                             layer.msg(data.message);
                         }
-
+                        //已选数据清空:防止误操作20210115
+                        that.allSelect   = false;
+                        
                         that.paginate_data  = data.data;
                         //请求页码设置为1，方便查询
                         that.query_data.page = 1;
