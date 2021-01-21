@@ -3,22 +3,22 @@
     <!--layerPage-->
     <block>
         <!--按钮的-->
-        <button type="button" class="am-btn am-btn-default" 
+        <button type="button" class="am-btn am-btn-default pd5" 
                 v-if="button_cate=='button' && operate !='import'"
                 v-bind:class=" btn_style ? styles[btn_style] : ''"
                 v-bind:class=" size ? sizes[size] : ''" 
                 v-bind:class ="btn_class"
                 @click="doBtnClick()">
-            <span v-bind:class=" icon ? icons[icon] : 'am-icon-plus'"></span> {{button_name}}
+            <span v-bind:class=" icon ? icons[icon] : 'am-icon-plus'"></span> <span class="f14">{{button_name}}</span>
         </button>
         <!--导入的-->
-        <button type="button" class="am-btn am-btn-default am-form-file" 
+        <button type="button" class="am-btn am-btn-default am-form-file pd5" 
                 v-if="button_cate=='button' && operate =='import'"
                 v-bind:class=" btn_style ? styles[btn_style] : ''"
                 v-bind:class=" size ? sizes[size] : ''" 
                 v-bind:class ="btn_class"
             >
-            <span v-bind:class=" icon ? icons[icon] : 'am-icon-plus'"></span> {{button_name}}
+            <span v-bind:class=" icon ? icons[icon] : 'am-icon-plus'"></span> <span class="f14">{{button_name}}</span>
             <input id="doc-form-file" type="file" ref='import' multiple="" @change="importFile($event)">
         </button>
         <!--a标签的-->

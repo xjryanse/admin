@@ -1,0 +1,78 @@
+<!-- 可操作的表格 -->
+<template id="xjr-table-operate">
+    <!--layerPage-->
+    <!--字段明细-->
+    <block>
+        <xjr-table ref="xjr_table" 
+                v-bind:list_url   = "listUrl"
+                v-bind:edit_url   = "editUrl"
+                v-bind:copy_url   = "copyUrl"
+                v-bind:delete_url = "deleteUrl"
+                v-bind:query_data="queryData"
+                v-model="selectItems"
+         @on_item_select="onItemSelect"></xjr-table>
+    </block>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('xjr-table-operate', {
+        //列表信息:列表编辑：项目 column_info列信息；data数据(不含分页的)；分页数据
+        //edit_url编辑页面路径；copy_url复制接口路径；delete_url删除接口路径
+        props: { query_data : Array, table_name : String},
+        template: '#xjr-table-operate',
+        data: function(){
+            return {
+//                query_data : Array,list_url : String , edit_url :String, copy_url :String,delete_url :String
+                //列表url
+                "listUrl":"",
+                //编辑url
+                "editUrl":"",
+                //复制url
+                "copyUrl" : "",
+                //删除url
+                "deleteUrl" : "",
+            };
+        },
+        watch:{
+            //主数据变化即触发
+            table_name : {
+                handler(newData, oldData) {
+                    
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            },
+            //主数据变化即触发
+            queryData : {
+                handler(newName, oldName) {
+                    if( this.$refs.xjr_table ){
+                        this.$refs.xjr_table.searchList(newName);
+                    }
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            },  
+        },
+        methods : {
+            //获取数据
+            getColumns : function () {
+                var that = this;
+                //弹层
+                var layerIndex = layer.load(2);
+                $.ajax({
+                    url: "{:url('admin/SColumn')}",
+                    type: 'POST',
+                    data: that.query_data,
+                    success: function (data) {
+                        layer.close(layerIndex);
+                      
+                    }
+                });
+            },
+        },
+        created :function(){
+
+        }
+    });
+</script>

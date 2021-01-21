@@ -173,11 +173,12 @@
 .f-yellow   {   color: #FFFF66 !important;  }
 .f-orange   {   color: #FF6600 !important;  }
 /*背景颜色*/
-.bg-green   {   background-color:#07c160;   }
-.bg-red     {   background-color:#fa5151;   }
-.bg-white   {   background-color:#FFFFFF;   }
-.bg-blue    {   background-color: #10aeff;  }
-.bg-gray    {   background-color:rgb(242, 242, 242) }
+.bg-green   {   background-color:#07c160 !important;   }
+.bg-red     {   background-color:#fa5151 !important;   }
+.bg-white   {   background-color:#FFFFFF !important;   }
+.bg-blue    {   background-color: #10aeff !important;  }
+.bg-gray    {   background-color:rgb(242, 242, 242) !important }
+.bg-lightblue   {   background-color:#dbebfc !important;   }
 
 /*字体11-55号*/
 .f11    {   font-size: 11px !important; line-height: 11px; }

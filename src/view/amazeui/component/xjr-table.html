@@ -20,7 +20,7 @@
             </table>
         </div>
         <!--表体-->
-        <div style="overflow:auto;max-height:60vh;" v-if="list_data">
+        <div style="overflow:auto;max-height:65vh;" v-if="list_data">
             <table class="am-table am-table-compact am-table-striped tpl-table-black am-table-bordered" 
                    ref="mainTable"
                    v-if="column_info" style="font-size:12px;">
@@ -28,9 +28,10 @@
                     <tr v-if="list_data.length == 0" >
                         <td colspan=99 style="text-align:center;"> 暂无数据 </td>
                     </tr>
-                    <tr class="gradeX" style="white-space: nowrap;" v-for="(item,i) in list_data" v-if="item">
+                    <tr class="gradeX" style="white-space: nowrap;" v-for="(item,i) in list_data">
                         <!--【1】必有的单选框-->
                         <td style="width:20px;text-overflow: ellipsis; overflow: hidden; display: table-cell; vertical-align: middle; min-width: 30px; max-width: 100px; text-align: center;"
+                            v-bind:class="selectItems.includes(item.id) ? 'bg-lightblue' : ''" 
                             v-if="column_info.list_select == 'radio' || column_info.list_select == 'checkbox'">
                             <!--单选-->
                             <input type="radio" name="id" v-bind:value="item['id']" data-am-ucheck @click="onItemSelect(item)"  v-if="column_info.list_select == 'radio'">
@@ -39,15 +40,34 @@
                         </td>
                         <!--【2】字段明细-->
                         <td v-for="(field,j) in column_info.listInfo" v-if="field.is_list" 
+                            v-bind:class="selectItems.includes(item.id) ? 'bg-lightblue' : ''" 
                             style="text-overflow:ellipsis;overflow:hidden;display:table-cell;vertical-align:middle;"
                             v-bind:style="{ 'min-width' : field.min_width + 'px', 'max-width': field.width + 'px', 'text-align': field.list_style }"
                         >
-                            <xjr-table-td v-bind:field="field" v-bind:item="item" @search_data="searchData" @get_lists="getLists"></xjr-table-td>
+                            <xjr-table-td v-bind:field="field" v-bind:item="item" @search_data="searchData" @get_lists="getLists" @big_img_url = "bigImgUrl"></xjr-table-td>
                         </td>
                         <!--【3】操作按钮-->
                         <td style="text-overflow: ellipsis; overflow: hidden; display: table-cell; vertical-align: middle; min-width: 30px;text-align: center;"
+                            v-bind:class="selectItems.includes(item.id) ? 'bg-lightblue' : ''" 
                             v-if="column_info.operateInfo.length > 0 || column_info.btnInfo.length > 0" >
                             <div class="tpl-table-black-operation" style="float:right;">
+                                <!--按钮-->
+                                <!--列表弹窗 v-bind:form_data    =   "item" -->
+                                <xjr-button icon="pencil" width = "90%"  height = "90%" button_cate="ahref" show_name="true"
+                                            v-for="(btn,k) in column_info.btnInfo"
+                                            v-if="btn.place=='list'"
+                                            v-bind:operate      =   "btn.o_type" 
+                                            v-bind:icon         =   "btn.icon" 
+                                            v-bind:button_cate  =   "btn.btn_cate" 
+                                            v-bind:btn_style    =   "btn.btn_style" 
+                                            v-bind:button_name  =   "btn.name"
+                                            v-bind:url          =   "btn.url" 
+                                            v-bind:confirm      =   "btn.confirm"
+                                            v-bind:prompt       =   "btn.prompt"
+                                            v-bind:prompt_default=   "btn.prompt_default"
+                                            v-bind:data         =   "item" 
+                                            @get_lists="getLists"
+                                        ></xjr-button>
                                 <!--操作-->
                                 <block v-for="(operate,k) in column_info.operateInfo">
                                     <!--编辑-->
@@ -76,23 +96,6 @@
                                                 @get_lists="getLists"
                                             ></xjr-button>                                    
                                 </block>
-                                <!--按钮-->
-                                <!--列表弹窗 v-bind:form_data    =   "item" -->
-                                <xjr-button icon="pencil" width = "90%"  height = "90%" button_cate="ahref" show_name="true"
-                                            v-for="(btn,k) in column_info.btnInfo"
-                                            v-if="btn.place=='list'"
-                                            v-bind:operate      =   "btn.o_type" 
-                                            v-bind:icon         =   "btn.icon" 
-                                            v-bind:button_cate  =   "btn.btn_cate" 
-                                            v-bind:btn_style    =   "btn.btn_style" 
-                                            v-bind:button_name  =   "btn.name"
-                                            v-bind:url          =   "btn.url" 
-                                            v-bind:confirm      =   "btn.confirm"
-                                            v-bind:prompt       =   "btn.prompt"
-                                            v-bind:prompt_default=   "btn.prompt_default"
-                                            v-bind:data         =   "item" 
-                                            @get_lists="getLists"
-                                        ></xjr-button>
                             </div>
                         </td>                        
                     </tr>
@@ -125,6 +128,7 @@
                 <li>{{paginate_data.per_page}}条/页</li>
             </ul>
         </div>
+        <cbigimage v-bind:myurl="targetPicUrl"></cbigimage>
     </block>
 </template>
 
@@ -133,7 +137,7 @@
     Vue.component('xjr-table', {
         //列表信息:列表编辑：项目 column_info列信息；data数据(不含分页的)；分页数据
         //edit_url编辑页面路径；copy_url复制接口路径；delete_url删除接口路径
-        props: { query_data :Array, edit_url :String, copy_url :String,delete_url :String},
+        props: { query_data : Array,list_url : String , edit_url :String, copy_url :String,delete_url :String},
         template: '#xjr-table',
         data: function(){
             return {
@@ -142,6 +146,7 @@
                 "selectItems":[],
                 //全选
                 "allSelect" : false,
+                "targetPicUrl" : "",
             };
         },
         watch:{
@@ -193,6 +198,9 @@
             },
         },
         methods : {
+            bigImgUrl : function( url ){
+                this.targetPicUrl = url;
+            },
             //获取数据
             getLists : function () {
                 console.log(this.query_data);
@@ -200,7 +208,7 @@
                 //弹层
                 var layerIndex = layer.load(2);
                 $.ajax({
-                    url: '{:url('',$paramInherit)}',
+                    url: that.list_url,
                     type: 'POST',
                     data: that.query_data,
                     success: function (data) {

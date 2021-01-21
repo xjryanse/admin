@@ -9,7 +9,7 @@
                 <!--主模块区域-->
                 <div v-bind:class="'am-u-sm-12 am-u-md-' + columnInfo.block_width" v-if="columnInfo">
                     <div class="widget widget-main am-cf">
-                        <div class="widget-head am-cf">
+                        <div class="widget-head am-cf pd5">
                             <div class="widget-title  am-cf">{{columnInfo.name}}</div>
                         </div>
                         <form class="am-form tpl-form-border-form tpl-form-border-br">
@@ -35,6 +35,7 @@
                                               v-if="typeTab"></xjr-type-tab>
                                 <!--表格-->
                                 <xjr-table ref="xjr_table" 
+                                           list_url   = "{:url('',$paramInherit)}"
                                            edit_url   = "{:url('edit',$paramInherit)}"
                                            copy_url   = "{:url('copy',$paramInherit)}"
                                            delete_url = "{:url('del',$paramInherit)}"
@@ -100,7 +101,7 @@
                     },
                     // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
                     immediate: true
-                },            
+                },
                 typeTabValue : {
                     handler(newName, oldName) {
                         if(this.$refs.xjr_table){

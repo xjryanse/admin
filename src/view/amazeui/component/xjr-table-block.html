@@ -1,0 +1,58 @@
+<!-- 简单的表格组件 -->
+<template id="xjr-table-simple">
+    <!--layerPage-->
+    <!--字段明细  v-if="field.is_list && field.name == field_name" -->
+    <block>
+
+    </block>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('xjr-table-simple', {
+        //列表信息:列表编辑：项目 column_info列信息；data数据(不含分页的)；分页数据
+        props: { 'table_name':String,fields : String},
+        template: '#xjr-table-simple',
+        data: function(){
+            return {
+                "column_info":{},
+                'data':{},
+            };
+        },
+        computed : {
+            getData :function(){
+                var that = this;
+                $.ajax({
+                   url: "{:url('webapi/chat/getFriends',$paramInherit)}",
+                   data: {},
+                   type: 'POST',
+                   success: function (data) {
+                       //关闭弹层
+                       if(data.code == 0 ){
+                           that.data    = data.data;
+                       }
+                   }
+               });
+            },
+            getColumn :function(){
+                var that = this;
+                $.ajax({
+                   url: "{:url('webapi/chat/getFriends',$paramInherit)}",
+                   data: {},
+                   type: 'POST',
+                   success: function (data) {
+                       //关闭弹层
+                       if(data.code == 0 ){
+                           that.data    = data.data;
+                       }
+                   }
+               });
+            }
+        },
+        methods : {
+     
+        },
+        created :function(){
+        }
+    });
+</script>

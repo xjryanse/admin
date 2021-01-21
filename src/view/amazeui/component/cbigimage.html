@@ -1,0 +1,37 @@
+<!-- 上传图片组件 -->
+<template id="cbigimage">
+    <!--layerPage-->
+    <div class="rianley" ref="cbigimage" >
+        <img v-bind:src="myurl" style="max-width:100%; max-height:200px;" class="bd-r5" >
+    </div>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('cbigimage', {
+        //名称，值
+        props: { myurl : String},
+        template: '#cbigimage',
+        created :function(){
+            //重新渲染树状
+            var that = this;
+            that.$nextTick(function () {
+                document.onmousemove=function(e){
+                    var rianley= $( that.$refs.cbigimage )[0];
+
+                    rianley.style.left=(e.clientX - 180)+"px";
+                    rianley.style.top=(e.clientY - 140) +"px";
+                }
+            });
+        }
+    });
+</script>
+<style>
+    .rianley{
+        max-width: 180px;
+        max-height: 180px;
+        position: absolute;
+        left: -180px;
+        top: -180px;
+    }
+</style>

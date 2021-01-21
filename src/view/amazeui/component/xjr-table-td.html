@@ -4,7 +4,7 @@
     <!--字段明细-->
     <block>
         <!--普通文本-->
-        <block v-if = "field.type=='text' || field.type=='hidden'">
+        <block v-if = "field.type=='text' || field.type=='hidden' || field.type=='textarea'">
             <!--点击弹窗list_pop-->
             <xjr-button v-if="field.list_pop" 
                         v-bind:operate="field.list_pop_operate" width = "90%"  height = "90%" button_cate="ahref"
@@ -69,7 +69,7 @@
         </a>
         <!--上传图片-->
         <a v-bind:href="item[field.name]['file_path']" v-if = "field.type=='uplimage' && item[field.name]"  target="_blank">
-            <img v-bind:src="item[field.name]['file_path']" v-bind:width="field.min_width">
+            <img class="tableImage" v-bind:src="item[field.name]['file_path']" v-bind:width="field.min_width" @mouseover = "$emit('big_img_url',item[field.name]['file_path'])" @mouseout = "$emit('big_img_url','')">
         </a>
         <!--上传附件-->
         <a v-bind:href="item[field.name]['file_path']" v-if = "field.type=='uplfile' && item[field.name]"  target="_blank">附件</a>
@@ -203,3 +203,17 @@
         }
     });
 </script>
+
+<style>
+    .tableImage:hover img{
+        width: 200px;
+        height: 150px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        z-index: 1;
+        padding: 2px;
+        border: 2px solid black;
+    }
+</style>

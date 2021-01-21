@@ -1,38 +1,42 @@
 <!-- 列表的字段组件 -->
 <template id="list-search">
     <block>
-        <div class="am-u-sm-12 am-u-md-6" style="float:left;min-height:70px;" 
+        <div class="am-u-sm-12 am-u-md-6 pd1" style="float:left;min-height:40px;" 
                 v-for="(field,i) in list_info" 
                 v-if="field.search_type != -1 && field.is_list == 1"
                 v-if="field.type=='text' || field.type=='enum' || field.type=='dynenum'"
                 v-bind:class=" field.type == 'date' ? 'am-u-lg-4' : 'am-u-lg-2'"
            >
-           {{field.label}}
-           <!--输入框{{field}}-->
-           <div class="am-form-group tpl-table-list-select" v-if = "field.type=='text' || field.type=='listedit'" >
-               <input type="text" class="am-form-field" placeholder="请输入" v-model="value[field.name]">
-           </div>
-           <!--枚举框-->
-           <div class="am-form-group tpl-table-list-select" v-if = "field.type=='enum'">
-               <cselect v-bind:option="field.option" v-model="value[field.name]"></cselect>
-           </div>
-           <!--动态枚举框-->
-           <div class="am-form-group tpl-table-list-select" v-if = "field.type=='dynenum'">
-               <cselect v-bind:option="field.option.option" v-model="value[field.name]"></cselect>
-           </div>
-           <!--开关-->
-           <div class="am-form-group tpl-table-list-select" v-if = "field.type=='switch'">
-               <cselect option="关开" v-model="value[field.name]"></cselect>
-           </div>    
-           <div class="am-form-group tpl-table-list-select" v-if = "field.type=='date'">
-               <cdatetime v-model="value[field.name]" range="1"></cdatetime>
-           </div>
+            <div class="am-u-md-4 f14 pd1" style="line-height: 35px;min-height:40px;text-align:right;">
+               {{field.label}}
+            </div>
+            <div class="am-u-md-8 pd1" style="min-height:40px;">
+                <!--输入框{{field}}-->
+                <div class="am-form-group " v-if = "field.type=='text' || field.type=='listedit' || field.type=='textarea'" >
+                    <input type="text" class="am-form-field f14" placeholder="请输入" v-model="value[field.name]">
+                </div>
+                <!--枚举框-->
+                <div class="am-form-group " v-if = "field.type=='enum'">
+                    <cselect v-bind:option="field.option" v-model="value[field.name]" v-bind:multiple="field.search_type == 'in' ? 1 : null"></cselect>
+                </div>
+                <!--动态枚举框-->
+                <div class="am-form-group " v-if = "field.type=='dynenum'">
+                    <cselect v-bind:option="field.option.option" v-model="value[field.name]" v-bind:multiple="field.search_type == 'in' ? 1 : null"></cselect>
+                </div>
+                <!--开关-->
+                <div class="am-form-group " v-if = "field.type=='switch'">
+                    <cselect option="关开" v-model="value[field.name]"></cselect>
+                </div>    
+                <div class="am-form-group " v-if = "field.type=='date'">
+                    <cdatetime v-model="value[field.name]" range="1"></cdatetime>
+                </div>               
+            </div>
        </div>
 
-       <div class="am-u-sm-12 am-u-md-6 am-u-lg-4" style="float:left;min-height:70px;position:relative" >
-           <div style="position:absolute; bottom:0;">
-               <button class="am-btn am-btn-success am-icon-search" type="button" v-on:click="$emit('search_list')">搜索</button>
-               <button class="am-btn am-btn-success am-icon-search" type="button" v-on:click="value = fixed_data">清空</button>
+       <div class="am-u-sm-12 am-u-md-6 am-u-lg-4" style="float:left;min-height:40px;position:relative" >
+           <div>
+               <button class="am-btn am-btn-success am-icon-search pd5" type="button" v-on:click="$emit('search_list')"><span class="f14">搜索</span></button>
+               <button class="am-btn am-btn-success am-icon-repeat pd5" type="button" v-on:click="resetValue()"><span class="f14">清空</span></button>
            </div>
        </div>
     </block>
@@ -49,12 +53,21 @@
         watch:{
             value : {
                 handler(newName, oldName) {
+                    console.log( newName );
                     this.$emit('input', newName );
                 },
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
                 immediate: true
             },
         },
+        methods : {
+            //重置
+            resetValue : function ( ){
+                this.value = this.fixed_data;
+                console.log( this.fixed_data );
+                this.$emit('input', this.value );
+            }
+        },        
         created: function () {
             
         }
