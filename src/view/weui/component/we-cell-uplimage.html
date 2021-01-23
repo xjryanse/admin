@@ -1,0 +1,43 @@
+<!-- 字段组件 -->
+<template id="we-cell-uplimage">
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><we-label v-bind:label="label" v-bind:must="must"></we-label></div>
+        <div class="weui-cell__bd">
+            <we-uplimage v-model="value" ></we-uplimage>
+        </div>
+    </div>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('we-cell-uplimage', {
+        props: { value : Array, type :String, label:String, must:String },
+        template: '#we-cell-uplimage',
+        data: function(){
+            return {};
+        },
+        methods : {
+
+        },
+        watch : {
+            //主数据变化即触发
+            value : {
+                handler(newData, oldData ){
+                    //v-model语法糖
+                    this.$emit( "input" , newData );
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            }
+        },
+        created :function(){
+
+        }
+    });
+</script>
+<style>
+    .myImg{
+        width: 100%; height: 100%;
+    }
+</style>
+

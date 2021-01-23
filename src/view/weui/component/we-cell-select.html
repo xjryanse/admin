@@ -1,0 +1,43 @@
+<!-- 字段组件 -->
+<template id="we-cell-select">
+    <div class="weui-cell" v-if="type=='multiSelect' || type=='singleSelect'">
+        <div class="weui-cell__hd"><we-label v-bind:label="label" v-bind:must="must"></we-label></div>
+        <div class="weui-cell__bd">
+            <we-select v-bind:label="label"
+                   v-bind:type="type" 
+                   v-model="value"
+                   v-bind:option="option"></we-select>
+        </div>
+    </div>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('we-cell-select', {
+        props: { value : Array, type :String, label:String, option :String ,must:String},   //must必填
+        template: '#we-cell-select',
+        data: function(){
+            return {};
+        },
+        methods : {
+
+        },
+        watch : {
+            //主数据变化即触发
+            value : {
+                handler(newData, oldData ){
+                    //v-model语法糖
+                    console.log('we-cell-select watch value');
+                    this.$emit( "input" , newData );
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            }
+        },
+        created :function(){
+
+        }
+    });
+</script>
+
+
