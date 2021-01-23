@@ -3,27 +3,30 @@
     <!--layerPage-->
     <block>
         <!--按钮的-->
-        <button type="button" class="am-btn am-btn-default pd5" 
+        <button type="button" class="am-btn am-btn-default pd5"
+                v-bind:disabled ="isConditionMatch() == 0"
                 v-if="button_cate=='button' && operate !='import'"
                 v-bind:class=" btn_style ? styles[btn_style] : ''"
                 v-bind:class=" size ? sizes[size] : ''" 
                 v-bind:class ="btn_class"
                 @click="doBtnClick()">
-            <span v-bind:class=" icon ? icons[icon] : 'am-icon-plus'"></span> <span class="f14">{{button_name}}</span>
+            <span v-bind:class=" icon ? icons[icon] : ''"></span> <span class="f14">{{button_name}}</span>
         </button>
         <!--导入的-->
         <button type="button" class="am-btn am-btn-default am-form-file pd5" 
                 v-if="button_cate=='button' && operate =='import'"
+                v-bind:disabled ="isConditionMatch() == 0"
                 v-bind:class=" btn_style ? styles[btn_style] : ''"
                 v-bind:class=" size ? sizes[size] : ''" 
                 v-bind:class ="btn_class"
             >
-            <span v-bind:class=" icon ? icons[icon] : 'am-icon-plus'"></span> <span class="f14">{{button_name}}</span>
+            <span v-bind:class=" icon ? icons[icon] : ''"></span> <span class="f14">{{button_name}}</span>
             <input id="doc-form-file" type="file" ref='import' multiple="" @change="importFile($event)">
         </button>
         <!--a标签的-->
         <a href="javascript:;" @click="doBtnClick()"
                 v-if="button_cate=='ahref'  && operate != 'import'"
+                v-bind:class=" isConditionMatch() ? '' : 'xjr-disable'"
                 v-bind:class ="btn_class"
                 v-bind:title="button_name">
             <i v-bind:class=" icon ? icons[icon] : 'am-icon-plus'" v-if="icon"></i> <span v-if="show_name" class="f-blue">{{button_name}}</span>
@@ -31,6 +34,7 @@
         <!--导入的-->
         <a href="javascript:;" class="am-form-file" style="overflow: inherit;"
                 v-if="button_cate=='ahref' && operate =='import'"
+                v-bind:class=" isConditionMatch() ? '' : 'xjr-disable'"
                 v-bind:class ="btn_class"
                 v-bind:title="button_name">
             <i v-bind:class=" icon ? icons[icon] : 'am-icon-plus'" v-if="icon"></i> <span v-if="show_name" class="f-blue">{{button_name}}</span>
@@ -62,6 +66,10 @@
             //用于确认框输入简短信息
             prompt      : String,   //输入层字段名
             prompt_default : String,   //输入层字段默认值
+            //禁用
+            disabled : String,   //输入层字段默认值
+            //条件
+            show_condition : String,   //输入层字段默认值
         },
         template: '#xjr-button',
         data: function(){
@@ -114,10 +122,27 @@
             }
         },        
         methods : {
+            //条件是否匹配：一般用于控制按钮是否显示，操作是否可用等
+            isConditionMatch(){
+                var that = this;
+                if(!that.show_condition){
+                    return 1;
+                }
+                var isMatch = 1;
+                $.each( that.show_condition ,function (key,value) {
+                    if(that.data && that.data[key] != value){
+                        isMatch = 0;
+                    }
+                });
+                return isMatch;
+            },
             /*
              * 按钮点击触发事件
              */
             doBtnClick(){
+                if(!this.isConditionMatch()){
+                    return false;
+                }
                 //iframe页面
                 var reflects = {
                     "layerIframePage"   :"doLayerPageFull",
@@ -337,6 +362,8 @@
                             var formData2 = {} ;
                             //importFileId固定；
                             formData2.importFileId = data.data.id;
+                            console.log('------导入附件字段-------');
+                            console.log(formData2);
                             //弹层
                             var layerIndex2  = layer.load(2);
                             //调用公共异步请求函数

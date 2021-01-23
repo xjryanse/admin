@@ -16,7 +16,8 @@
                 v-bind:disabled ="is_detail == 1">
         <!--文本框textarea-->
         <textarea v-if="type == 'textarea'"
-                class="bd-r5" rows="6" placeholder="请输入" v-model="value" v-on:change="$emit('input', $event.target.value)" 
+                class="bd-r5" placeholder="请输入" v-model="value" v-on:change="$emit('input', $event.target.value)" 
+                v-bind:rows='option.rows'
                 v-bind:class="is_detail == 1 ? 'vague' : ''"
                 v-bind:disabled ="is_detail == 1"></textarea>
         <!--开关switch-->
@@ -34,7 +35,9 @@
 <script>
     //定义hblock组件
     Vue.component('cfield', {
-        props: ['type','value','remark','is_detail'],
+        //rows:行数
+//        props: ['type','value','remark','is_detail','rows'],
+        props: {type:String,value:String,remark:String,is_detail:String,option:Array},
         template: '#cfield',
         data: function(){
             return {

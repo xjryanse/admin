@@ -1,0 +1,140 @@
+<!-- 列表的字段组件 -->
+<template id="xjr-field-table">
+    <block>
+        <!-- 有布局执行这边 -->
+        <div class="am-cf" v-if="flexInfo && flexInfo.length > 0  && dataInfo">
+            <xjr-field-flex v-bind:item="subItem" v-for="subItem in flexInfo"
+                            v-bind:item_data="dataInfo"
+                            v-bind:list_info="listInfo"
+                            v-bind:form_type="form_type"
+                            v-bind:is_detail="is_detail"
+                        ></xjr-field-flex>
+        </div>
+        <!--只显示is_add字段；按后台配置宽度显示-->
+        <!-- 没有布局执行这边 -->
+        <div v-else>
+            <block v-for="(field,i) in listInfo" v-if="((field.is_add && form_type == 'add') || (field.is_edit && form_type == 'edit')) && dataInfo">
+                <!--字段混合-->
+                <xjr-field-mix v-bind:field="field" 
+                        v-bind:item_data="dataInfo"
+                        v-bind:is_detail="field.only_detail ? field.only_detail : is_detail"
+                        v-bind:form_type ="form_type"
+                    ></xjr-field-mix>
+            </block>
+        </div>
+        <div class="am-form-group" v-if="!is_detail">
+            <div class="am-u-sm-9">
+                <button type="button" class="am-btn am-btn-primary" @click="mySubmit()">提交</button>
+            </div>
+        </div>
+    </block>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('xjr-field-table', {
+        //列表信息:列表编辑：项目
+        //input_data : 预输入信息； is_detail : 只看不改; table_name ：表名, data_id: 数据id 
+        props: { input_data :Array ,is_detail : String, table_name :String, data_id: String ,form_type: String},
+        template: '#xjr-field-table',
+        data: function(){
+            return {
+                //数据信息
+                "dataInfo"  :{},
+                //布局信息
+                "flexInfo"  :{},
+                //字段信息
+                "listInfo"  :{},
+            };
+        },
+        watch:{
+            table_name : {
+                handler(newName, oldName) {
+                    this.tableNameColumn();
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            },
+            data_id : {
+                handler(newName, oldName) {
+                    this.tableNameData();
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            },            
+        },        
+        methods : {
+            //表单提交
+            mySubmit : function () {
+                console.log('heeh');
+                //表单参数赋值
+                var that = this;
+                layer.confirm('确认提交吗？', function (index) {
+                    //弹层
+                    var layerIndex = layer.load(2);
+                    $.ajax({
+                        url: "{:url('admin/SCommon/tableNameSave')}",
+//                        contentType:'application/json;charset=utf-8',
+                        type: 'POST',
+                        data: {table_name:that.table_name,table_data: that.dataInfo},
+                        success: function (data) {
+                            //关闭弹层
+                            layer.close(layerIndex);                            
+                            if(data.code == 0){
+                                layer.msg(data.message, {icon: 1, time: 1000});
+                            } else {
+                                layer.msg(data.message, {icon: 2});
+                            }
+                        }
+                    });
+                });
+            },            
+            tableNameColumn : function(){
+                var that = this;
+                //弹层
+                var layerIndex = layer.load(2);
+                $.ajax({
+                    url: "{:url('admin/SCommon/tableNameColumn')}",
+                    type: 'POST',
+                    data: {table_name:that.table_name},
+                    success: function (data) {
+                        //关闭弹层
+                        layer.close(layerIndex);                            
+                        if(data.code == 0){
+                            console.log(data);
+                            that.flexInfo = data.data.flexInfo;
+                            that.listInfo = data.data.listInfo;
+                        } else {
+                            layer.msg(data.message, {icon: 2});
+                        }
+                    }
+                });                
+            },
+            //表名取数据
+            tableNameData : function(){
+                var that = this;
+                //弹层
+                var layerIndex = layer.load(2);
+                $.ajax({
+                    url: "{:url('admin/SCommon/tableNameData')}",
+                    type: 'POST',
+                    data: {table_name:that.table_name,id:that.data_id},
+                    success: function (data) {
+                        //关闭弹层
+                        layer.close(layerIndex);                            
+                        if(data.code == 0){
+                            that.dataInfo = data.data;
+                        }
+                    }
+                });
+            },
+            getLists : function(){
+                
+            }
+        },
+        created :function(){
+            console.log(this.table_name);
+            this.dataInfo = this.input_data;
+        }
+    });
+</script>

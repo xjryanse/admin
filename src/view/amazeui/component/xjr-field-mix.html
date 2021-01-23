@@ -2,15 +2,16 @@
 <template id="xjr-field-mix">
     <!--按不同的数据类型显示字段
     -->
-    <block v-if="field && (!field.cate_field_value || !item_data || item_data[field.cate_field_name] == field.cate_field_value)">
-        <div class="am-form-group" v-bind:class=" 'am-u-sm-' + field.form_col"  v-if="field.type !='hidden' && field.type !='union'">
-            <div v-bind:class="field.type !='iframe' && field.type !='tplset' ? 'am-u-sm-3' : ''">
+    <block v-if="field && (!field.cate_field_value || !item_data || (item_data && item_data[field.cate_field_name] == field.cate_field_value))">
+        <div v-if="item_data[field.cate_field_name]" class="hide">{{item_data[field.cate_field_name]}}</div>
+        <div class="am-form-group pd1" style="min-height:45px;" v-bind:class=" 'am-u-sm-' + field.form_col"  v-if="field.type !='hidden' && field.type !='union'">
+            <div v-bind:class="!['iframe','tplset','iform','ilist'].includes(field.type) ? 'am-u-sm-3' : ''">
                 <label for="user-name" class="am-form-label" >
-                    <b v-if="field.type == 'iframe'">{{field.label}}</b>
+                    <b v-if="['iframe','tplset','iform','ilist'].includes(field.type)">{{field.label}}</b>
                     <span v-else>{{field.label}}</span>
                 </label>
             </div>
-            <div v-bind:class="field.type !='iframe' && field.type !='tplset' ? 'am-u-sm-9' : ''">
+            <div v-bind:class="!['iframe','tplset','iform','ilist'].includes(field.type) ? 'am-u-sm-9' : ''">
                 <xjr-field v-bind:list_item = "field" 
                            v-bind:item_data ="item_data" 
                            v-bind:is_detail ="is_detail"
@@ -18,15 +19,17 @@
             </div>
         </div>
         <!--联表类型数据：union：编辑框才有-->
-        <div class="am-form-group" v-bind:class=" 'am-u-sm-' + field.form_col"  v-if="field.type =='union'">
-             <hr>
-            <label for="user-name" class="am-form-label" v-if="field.label">{{field.label}}</label>
+        <div class="am-form-group" v-bind:class=" 'am-u-sm-' + field.form_col"  v-if="field.type =='union' && item_data">
+             <hr class="mg1-b">
+             <label for="user-name" class="am-form-label" v-if="field.label"><b>{{field.label}}</b></label>
             <div>
                 <!--子级表的循环  && ((subField.is_add && form_type == 'add') || (subField.is_edit && form_type == 'edit')) -->
                 <div class="am-form-group" 
                      v-for="(subField,j) in field.table_info.listInfo"
                      v-bind:class=" 'am-u-sm-' + subField.form_col"  
-                     v-if="subField.type !='hidden'  && ((subField.is_add && form_type == 'add') || (subField.is_edit && form_type == 'edit'))">
+                     v-if="subField.type !='hidden'  && ((subField.is_add && form_type == 'add') || (subField.is_edit && form_type == 'edit'))
+                        && (!subField.cate_field_value || !item_data[field.name] || (item_data[field.name][subField.cate_field_name] == subField.cate_field_value))
+                     ">
                     <!--递归-->
                     <xjr-field-mix v-bind:field="subField" 
                         v-bind:item_data="item_data[field.name]"
@@ -49,5 +52,14 @@
         //列表信息:列表编辑：项目
         props: { field : Array ,item_data :Array ,is_detail : String, table_name: String, form_type: String },
         template: '#xjr-field-mix',
+        watch:{
+            item_data : {
+                handler(newName, oldName) {
+                    console.log(newName);
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            },
+        }
     });
 </script>

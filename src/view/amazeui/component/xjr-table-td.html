@@ -18,7 +18,8 @@
             <a href="javascript:;" v-else-if="field.search_type == 'equal'" 
                v-bind:title="'点击搜索'+item[field.name]" 
                v-on:click="searchData(field.name,item[field.name])">{{item[field.name]}}</a>
-            <span v-else>{{item[field.name]}}</span>
+            <!--鼠标上移显示-->
+            <span v-else v-bind:title="item[field.name]">{{item[field.name]}}</span>
         </block>
         <!--编辑器-->
         <div v-if = "field.type=='editor'" v-html="item[field.name]"></div>

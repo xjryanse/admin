@@ -52,39 +52,53 @@
             </block>
             {if $admUser['admin_type'] == 'super'}
                 <!--数据：表信息-->
-                <xjr-button operate="layerIframePage" icon="reddit" width = "90%"  height = "90%" button_cate="button" 
+                <xjr-button operate="layerIframePage" icon="" width = "90%"  height = "90%" button_cate="button" 
                             btn_style="primary" size="small" 
                             button_name  ="表"
                             v-bind:url= "'{:url('/admin/system/edit',array_merge($paramInherit,['admKey'=>'column']))}?id=' + columnInfo.id"
                         ></xjr-button>
                 <!--数据：字段信息-->
-                <xjr-button operate="layerPage" icon="reddit" width = "90%"  height = "90%" button_cate="button" 
+                <xjr-button operate="layerPage" icon="" width = "90%"  height = "90%" button_cate="button" 
                             btn_style="primary" size="small" 
                             url     = "{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnList']))}"
                             button_name  ="字段"
                             v-bind:form_data = {column_id:columnInfo.id} 
                         ></xjr-button>
                 <!--数据：按钮信息-->
-                <xjr-button operate="layerPage" icon="reddit" width = "90%"  height = "90%" button_cate="button" 
+                <xjr-button operate="layerPage" icon="" width = "90%"  height = "90%" button_cate="button" 
                             btn_style="success" size="small" 
                             url     = "{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnBtn']))}"
                             button_name  ="按钮"
                             v-bind:form_data = {column_id:columnInfo.id} 
-                        ></xjr-button>          
+                        ></xjr-button>
                 <!--数据：操作信息-->
-                <xjr-button operate="layerPage" icon="reddit" width = "90%"  height = "90%" button_cate="button" 
+                <xjr-button operate="layerPage" icon="" width = "90%"  height = "90%" button_cate="button" 
                             btn_style="primary" size="small" 
                             url     = "{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnOperate']))}"
                             button_name  ="操作"
                             v-bind:form_data = {column_id:columnInfo.id} 
                         ></xjr-button>                
                 <!--数据：块信息-->
-                <xjr-button operate="layerPage" icon="reddit" width = "90%"  height = "90%" button_cate="button" 
+                <xjr-button operate="layerPage" icon="" width = "90%"  height = "90%" button_cate="button" 
                             btn_style="success" size="small" 
                             url     = "{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnBlock']))}"
                             button_name  ="数据块"
                             v-bind:form_data = {column_id:columnInfo.id} 
                         ></xjr-button>
+                <!--数据：按钮信息-->
+                <xjr-button operate="layerPage" icon="" width = "90%"  height = "90%" button_cate="button" 
+                            btn_style="success" size="small" 
+                            url     = "{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'fieldsInfo']))}"
+                            button_name  ="关联"
+                            v-bind:form_data = {table_name:columnInfo.table_name} 
+                        ></xjr-button>
+                <!--数据：对多信息-->
+                <xjr-button operate="layerPage" icon="" width = "90%"  height = "90%" button_cate="button" 
+                            btn_style="success" size="small" 
+                            url     = "{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'fieldsMany']))}"
+                            button_name  ="对多"
+                            v-bind:form_data = {table_name:columnInfo.table_name} 
+                        ></xjr-button>                
             {/if}
         </div>
     </div>

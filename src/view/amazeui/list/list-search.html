@@ -3,7 +3,7 @@
     <block>
         <div class="am-u-sm-12 am-u-md-6 pd1" style="float:left;min-height:40px;" 
                 v-for="(field,i) in list_info" 
-                v-if="field.search_type != -1 && field.is_list == 1"
+                v-if="field.search_type != -1 && field.search_show == 1"
                 v-if="field.type=='text' || field.type=='enum' || field.type=='dynenum'"
                 v-bind:class=" field.type == 'date' ? 'am-u-lg-4' : 'am-u-lg-2'"
            >

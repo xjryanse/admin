@@ -1,0 +1,85 @@
+<!-- 列表的字段组件 -->
+<template id="xjr-table-table">
+    <block>
+        <xjr-table-simple v-bind:column_info="columnInfo"
+            v-bind:fields="fields"
+            v-bind:data="dataList"
+          ></xjr-table-simple>
+    </block>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('xjr-table-table', {
+        //表名；table_name；query_data；查询数据
+        props: { query_field : String,query_data : String, table_name : String, fields : String },
+        template: '#xjr-table-table',
+        data: function(){
+            return {
+                //数据信息
+                "dataList"  :{},
+                //表信息
+                "columnInfo"  :{},
+            };
+        },
+        watch:{
+            table_name : {
+                handler(newName, oldName) {
+                    this.tableNameColumn();
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            },
+        },      
+        methods : {
+            tableNameColumn : function(){
+                var that = this;
+                //弹层
+                var layerIndex = layer.load(2);
+                $.ajax({
+                    url: "{:url('admin/SCommon/tableNameColumn')}",
+                    type: 'POST',
+                    data: {table_name:that.table_name},
+                    success: function (data) {
+                        //关闭弹层
+                        layer.close(layerIndex);                            
+                        if(data.code == 0){
+                            console.log(data);
+                            that.columnInfo = data.data;
+                            //todo优化
+                            that.tableNameLists();
+                        } else {
+                            layer.msg(data.message, {icon: 2});
+                        }
+                    }
+                });                
+            },
+            tableNameLists : function(){
+                console.log('tableNameLists执行');
+                var that = this;
+                //弹层
+                var layerIndex = layer.load(2);
+                var query = {};
+                query.table_name = that.table_name;
+                query.con = {};
+                query.con[that.query_field] = that.query_data;
+                
+                $.ajax({
+                    url: "{:url('admin/SCommon/tableNameLists')}",
+                    type: 'POST',
+                    data: query,
+                    success: function (data) {
+                        //关闭弹层
+                        layer.close(layerIndex);                            
+                        if(data.code == 0){
+                            console.log(data);
+                            that.dataList = data.data;
+                        } else {
+                            layer.msg(data.message, {icon: 2});
+                        }
+                    }
+                });                
+            },
+        }
+    });
+</script>

@@ -7,10 +7,11 @@
         <!--字段类型：文本输入框-->
         <!--字段类型：开关-->
         <cfield v-bind:type="list_item.type" 
-                v-model="item_data[list_item.name]" 
-                v-bind:remark="list_item.remark" 
-                v-bind:editable="list_item.editable"
+                v-model         ="item_data[list_item.name]" 
+                v-bind:remark   ="list_item.remark" 
+                v-bind:editable ="list_item.editable"
                 v-bind:is_detail="is_detail"
+                v-bind:option   ='list_item.option'
             ></cfield>
         <!--字段类型：多选框-->
         <div v-if="list_item.type == 'check'">
@@ -70,6 +71,19 @@
         <iframe style="width:100%;overflow:auto;" ref="iframe" frameborder="0" 
                 v-bind:style="{ height: list_item.option.height + 'vh' }"
             v-if="list_item.type == 'iframe'" v-bind:src="urlDataReplace(list_item.option.src,item_data)"></iframe>
+        <!--iform:单页面嵌套表单-->
+        <xjr-field-table v-if="list_item.type == 'iform'"
+                    v-bind:table_name="list_item.option.table_name" 
+                    v-bind:form_type    ="list_item.option.form_type"
+                    v-bind:data_id      ="item_data[list_item.name]"
+                    v-bind:is_detail    ="list_item.option.is_detail"></xjr-field-table>     
+        <!--ilist:单页面嵌套列表-->
+        <xjr-table-table v-if="list_item.type == 'ilist'"
+                         v-bind:table_name  ="list_item.option.table_name" 
+                         v-bind:fields      ="list_item.option.fields" 
+                         v-bind:query_field ="list_item.option.query_field" 
+                         v-bind:query_data  ="item_data[list_item.name]" 
+                         ></xjr-table-table>
     </block>
 </template>
 

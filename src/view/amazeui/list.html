@@ -23,7 +23,7 @@
                             </div>
                             <div v-if="columnInfo.remark" class="f-orange f15 pd5" v-html="'说明：<br>'+ columnInfo.remark"></div>
                             <!--搜索选择框-->
-                            <div class="am-u-sm-12" id='search{$tmpTime}' style="display:none">
+                            <div class="am-u-sm-12" id='search{$tmpTime}' style="display:none" ref="getheight">
                                 <list-search v-bind:list_info="columnInfo.listInfo" v-model="queryData" v-bind:fixed_data="fixedData" @search_list = "searchList()"></list-search>
                             </div>
                             <!--数据表格区-->
@@ -41,7 +41,9 @@
                                            delete_url = "{:url('del',$paramInherit)}"
                                            v-bind:query_data="queryData"
                                            v-model="selectItems"
-                                    @on_item_select="onItemSelect"></xjr-table>
+                                           @on_item_select="onItemSelect"
+                                           v-bind:height = "{height}"
+                                    ></xjr-table>
                             </div>
                         </form>
                     </div>
@@ -79,7 +81,8 @@
                 //主表当前选中字段
                 'currentSelectItem' : [],
                 'selectItems' : [],
-                'typeTabValue': ""
+                'typeTabValue': "",
+                'height': "0"
             },
             watch:{
                 //主数据变化即触发
@@ -112,7 +115,11 @@
                     immediate: true
                 },
             },
-
+            mounted(){
+                this.$nextTick(()=>{ // 页面渲染完成后的回调
+                    console.log(this.$refs.getheight.offsetHeight+"我在这")
+                })
+            },
             methods: {
                 //用于触发主表数据刷新
                 getLists(){
@@ -137,6 +144,12 @@
                 searchMore() {
                     //慢慢地切入和淡出
                     $("#search{$tmpTime}").slideToggle("normal");
+                    let timer = setTimeout(()=>{   //设置延迟执行
+                        console.log(this.$refs.getheight.offsetHeight+"我在这")
+                        this.height = this.$refs.getheight.offsetHeight
+                        clearTimeout(timer);
+                    },500);
+                    
                 },
                 //全屏
                 fullScreen(){
@@ -148,7 +161,7 @@
                     } else {
                         exitFullscreen();
                     }
-                },
+                }
             },
             created: function () {
                 console.log('12121');

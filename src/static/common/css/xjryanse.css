@@ -219,8 +219,21 @@
 /**加粗**/
 .bold   {   font-weight: 900  }
 /**模糊**/
-.vague  { opacity: .7 }
+.vague   { opacity: .7 }
+.vague1  { opacity: .1 }
+.vague2  { opacity: .2 }
+.vague3  { opacity: .3 }
+.vague4  { opacity: .4 }
+.vague5  { opacity: .5 }
+.vague6  { opacity: .6 }
+.vague7  { opacity: .7 }
+.vague8  { opacity: .8 }
+.vague9  { opacity: .9 }
 
+.xjr-disable{
+    opacity : .3;
+    color   : #CCCCCC !important;
+}
 /**上下左右居中**/
 .block-center{
     display:flex;
@@ -254,6 +267,9 @@
 .z400{ z-index: 400;}
 .z500{ z-index: 500;}
 .z1000{ z-index: 1000;}
-
+/**控制是否显示*/
+.block { display: block; }
+.show { display: block; }
+.hide { display: none; }
 
 

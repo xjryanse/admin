@@ -20,7 +20,7 @@
             </table>
         </div>
         <!--表体-->
-        <div style="overflow:auto;max-height:65vh;" v-if="list_data">
+        <div style="overflow:auto;" v-if="list_data" v-bind:style = "'max-height:'+ reduce">
             <table class="am-table am-table-compact am-table-striped tpl-table-black am-table-bordered" 
                    ref="mainTable"
                    v-if="column_info" style="font-size:12px;">
@@ -47,7 +47,9 @@
                             <xjr-table-td v-bind:field="field" v-bind:item="item" @search_data="searchData" @get_lists="getLists" @big_img_url = "bigImgUrl"></xjr-table-td>
                         </td>
                         <!--【3】操作按钮-->
-                        <td style="text-overflow: ellipsis; overflow: hidden; display: table-cell; vertical-align: middle; min-width: 30px;text-align: center;"
+<!--                        <td style="text-overflow: ellipsis; overflow: hidden; display: table-cell; vertical-align: middle; min-width: 30px;text-align: center;"
+-->
+                        <td style="text-align: center;"
                             v-bind:class="selectItems.includes(item.id) ? 'bg-lightblue' : ''" 
                             v-if="column_info.operateInfo.length > 0 || column_info.btnInfo.length > 0" >
                             <div class="tpl-table-black-operation" style="float:right;">
@@ -66,6 +68,7 @@
                                             v-bind:prompt       =   "btn.prompt"
                                             v-bind:prompt_default=   "btn.prompt_default"
                                             v-bind:data         =   "item" 
+                                            v-bind:show_condition= 'btn.show_condition'
                                             @get_lists="getLists"
                                         ></xjr-button>
                                 <!--操作-->
@@ -137,7 +140,7 @@
     Vue.component('xjr-table', {
         //列表信息:列表编辑：项目 column_info列信息；data数据(不含分页的)；分页数据
         //edit_url编辑页面路径；copy_url复制接口路径；delete_url删除接口路径
-        props: { query_data : Array,list_url : String , edit_url :String, copy_url :String,delete_url :String},
+        props: { query_data : Array,list_url : String , edit_url :String, copy_url :String,delete_url :String,height : String},
         template: '#xjr-table',
         data: function(){
             return {
@@ -147,6 +150,7 @@
                 //全选
                 "allSelect" : false,
                 "targetPicUrl" : "",
+                "reduce" : "65vh"
             };
         },
         watch:{
@@ -179,13 +183,23 @@
             },
             selectItems : {
                 handler(newName, oldName) {
-                    console.log(newName);
+//                    console.log(newName);
                     //复选框和单选框选中数据作为绑定值
                     this.$emit('input', newName);
                 },
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
                 immediate: true
-            },            
+            }, 
+            height:{
+                handler(newName, oldName) {
+//                    console.log(newName);
+                    //复选框和单选框选中数据作为绑定值
+                   this.reduce = "calc(65vh - " + newName.height+"px)"
+//                   console.log(this.reduce)
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            }           
         },
         computed : {
             //字段信息
@@ -203,7 +217,7 @@
             },
             //获取数据
             getLists : function () {
-                console.log(this.query_data);
+//                console.log(this.query_data);
                 var that = this;
                 //弹层
                 var layerIndex = layer.load(2);
@@ -213,7 +227,7 @@
                     data: that.query_data,
                     success: function (data) {
                         layer.close(layerIndex);
-                        console.log(data);
+//                        console.log(data);
                         if (data.code != 0) {
                             layer.msg(data.message);
                         }
@@ -230,7 +244,7 @@
                                     var widths = that.getMainTableWidth();
                                     //表体和表头对齐
                                     $(that.$refs.mainTableHeader).find("th").attr('width',function(i,e){
-                                        console.log(widths[i]);
+//                                        console.log(widths[i]);
                                         return widths[i] ;
                                     });
                                 },300);
@@ -254,7 +268,7 @@
             },
             //获取分页查询数据，common/list/data中使用
             getPageLists( page){
-                console.log(page);
+//                console.log(page);
                 this.query_data.page = page;
                 //获取菜单
                 this.getLists();                
@@ -266,7 +280,7 @@
             //搜索数据
             searchData : function (key,value)
             {
-                console.log('xjr-table searchData 开始');
+//                console.log('xjr-table searchData 开始');
                 //添加搜索数据
                 if(this.query_data[key] && this.query_data[key] == value){
                     //点一下搜索，再点一下恢复
@@ -287,7 +301,7 @@
             },
         },
         created :function(){
-            console.log('xjr-table组件开始');
+//            console.log('xjr-table组件开始');
 //            this.getLists();
         }
     });
