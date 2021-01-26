@@ -13,7 +13,8 @@
                         <th style="min-width:10px;" v-if="column_info.list_select == 'radio' || column_info.list_select == 'checkbox'">
                             <input type="checkbox" name="id" data-am-ucheck v-model="allSelect" v-if="column_info.list_select == 'checkbox'">
                         </th>
-                        <th style="height:40px;" v-for="(field,i) in column_info.listInfo" v-if="field.is_list">{{field.label}}</th>
+                        <!--字段可设条件进行过滤：20210125-->
+                        <th style="height:40px;" v-for="(field,i) in column_info.listInfo" v-if="field.is_list && isConditionMatch(field.show_condition)" >{{field.label}}</th>
                         <th v-if="column_info.operateInfo.length > 0 || column_info.btnInfo.length > 0">操作</th>
                     </tr>
                 </thead>
@@ -39,7 +40,7 @@
                             <input type="checkbox" name="id" v-bind:value="item['id']" data-am-ucheck v-model="selectItems" v-if="column_info.list_select == 'checkbox'">
                         </td>
                         <!--【2】字段明细-->
-                        <td v-for="(field,j) in column_info.listInfo" v-if="field.is_list" 
+                        <td v-for="(field,j) in column_info.listInfo" v-if="field.is_list && isConditionMatch(field.show_condition)" 
                             v-bind:class="selectItems.includes(item.id) ? 'bg-lightblue' : ''" 
                             style="text-overflow:ellipsis;overflow:hidden;display:table-cell;vertical-align:middle;"
                             v-bind:style="{ 'min-width' : field.min_width + 'px', 'max-width': field.width + 'px', 'text-align': field.list_style }"
@@ -62,13 +63,16 @@
                                             v-bind:icon         =   "btn.icon" 
                                             v-bind:button_cate  =   "btn.btn_cate" 
                                             v-bind:btn_style    =   "btn.btn_style" 
+                                            v-bind:btn_class    =   "btn.btn_class" 
                                             v-bind:button_name  =   "btn.name"
                                             v-bind:url          =   "btn.url" 
                                             v-bind:confirm      =   "btn.confirm"
                                             v-bind:prompt       =   "btn.prompt"
                                             v-bind:prompt_default=   "btn.prompt_default"
                                             v-bind:data         =   "item" 
+                                            v-bind:form_data    =   "query_data" 
                                             v-bind:show_condition= 'btn.show_condition'
+                                            v-bind:no_match_style= "btn.no_match_style"
                                             @get_lists="getLists"
                                         ></xjr-button>
                                 <!--操作-->
@@ -212,6 +216,23 @@
             },
         },
         methods : {
+            //展示条件
+            isConditionMatch( showCondition ){
+                console.log('展示条件');
+                console.log(showCondition);
+                var that = this;
+                if(!showCondition ){
+                    return 1;
+                }
+                var isMatch = 1;
+                $.each( showCondition ,function (key,value) {
+                    if(that.query_data && that.query_data[key] != value){
+                        isMatch = 0;
+                    }
+                });
+                console.log(isMatch);
+                return isMatch;
+            },                        
             bigImgUrl : function( url ){
                 this.targetPicUrl = url;
             },

@@ -10,7 +10,8 @@
                 <div v-bind:class="'am-u-sm-12 am-u-md-' + columnInfo.block_width" v-if="columnInfo">
                     <div class="widget widget-main am-cf">
                         <div class="widget-head am-cf pd5">
-                            <div class="widget-title  am-cf">{{columnInfo.name}}</div>
+                            <div class="widget-title  am-cf" v-if="title">{{title}}</div>
+                            <div class="widget-title  am-cf" v-else>{{columnInfo.name}}</div>
                         </div>
                         <form class="am-form tpl-form-border-form tpl-form-border-br">
                             <div class="am-u-sm-12 am-u-md-6 am-u-lg-9">
@@ -82,7 +83,9 @@
                 'currentSelectItem' : [],
                 'selectItems' : [],
                 'typeTabValue': "",
-                'height': "0"
+                'height': "0",
+                //表头
+                'title' :'{:request()->param('title','')}'                
             },
             watch:{
                 //主数据变化即触发

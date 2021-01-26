@@ -45,6 +45,7 @@
                 "flexInfo"  :{},
                 //字段信息
                 "listInfo"  :{},
+                "loading"   : false,
             };
         },
         watch:{
@@ -62,13 +63,50 @@
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
                 immediate: true
             },            
+            dataInfo : {
+                handler(newName, oldName) {
+                    
+                    var that = this;
+                    if(!that.loading){
+                        $.each( newName ,function (index, element) {
+                            //用户id一样，说明不是新用户
+//                            if( !oldName[index] || oldName[index] != element){
+//                                console.log(index + '变了0');
+//                            }
+//                            if( oldName[index] != element ){
+//                                console.log(index + '变了');
+//                            }
+                        });
+                        
+                        that.loading = true;
+                        $.ajax({
+                            url: "{:url('admin/SCommon/tableDataInit')}",
+                            type: 'POST',
+                            data: {table_name:that.table_name,table_data: newName},
+                            success: function (data) {
+                                if(data.code == 0){
+                                    //合并两个数组
+                                    Object.assign(that.dataInfo,data.data);
+                                }
+                                //延时一秒
+                                setTimeout(function(){
+                                    that.loading = false;
+                                },1000);　　　　//延时10秒
+                            }
+                        });                                         
+                    }   
+                },
+                deep: true,
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            },            
         },        
         methods : {
             //表单提交
             mySubmit : function () {
-                console.log('heeh');
                 //表单参数赋值
                 var that = this;
+                console.log( that.dataInfo );
                 layer.confirm('确认提交吗？', function (index) {
                     //弹层
                     var layerIndex = layer.load(2);
@@ -101,6 +139,7 @@
                         //关闭弹层
                         layer.close(layerIndex);                            
                         if(data.code == 0){
+                            console.log('tableNameColumn');
                             console.log(data);
                             that.flexInfo = data.data.flexInfo;
                             that.listInfo = data.data.listInfo;
@@ -123,6 +162,8 @@
                         //关闭弹层
                         layer.close(layerIndex);                            
                         if(data.code == 0){
+                            console.log('that.dataInfo');
+                            console.log( data.data );
                             that.dataInfo = data.data;
                         }
                     }

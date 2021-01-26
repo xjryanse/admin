@@ -61,7 +61,7 @@
                     v-if="list_item.type == 'editor'"  
                     v-bind:is_detail="is_detail"></ceditor>
         <!--字段类型：块编辑-->
-        <div v-if="list_item.type == 'tplset'">
+        <div v-if="list_item.type == 'tplset' && item_data && table_name">
             <ctplset v-bind:option="list_item.option" 
                 v-bind:table_name="table_name" 
                 v-bind:data_id="item_data.id" 

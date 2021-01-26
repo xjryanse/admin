@@ -14,7 +14,10 @@
                         v-bind:confirm      =   "btn.confirm"
                         v-bind:prompt       =   "btn.prompt"
                         v-bind:prompt_default=   "btn.prompt_default"
+                        v-bind:data         =   "fixedData" 
                         v-bind:form_data    =   "{'id':selectItems}"
+                        v-bind:show_condition= 'btn.show_condition'
+                        v-bind:no_match_style= "btn.no_match_style"
                         @get_lists          =   "getLists"
                     ></xjr-button>
 

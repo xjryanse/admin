@@ -1,8 +1,9 @@
 <!-- 混合 -->
 <template id="xjr-field-mix">
     <!--按不同的数据类型显示字段
+    TODO，优化item_data[field.cate_field_name] == field.cate_field_value 到 isConditionMatch()中
     -->
-    <block v-if="field && (!field.cate_field_value || !item_data || (item_data && item_data[field.cate_field_name] == field.cate_field_value))">
+    <block v-if="field && (!field.cate_field_value || !item_data || (item_data && item_data[field.cate_field_name] == field.cate_field_value)) && isConditionMatch()">
         <div v-if="item_data[field.cate_field_name]" class="hide">{{item_data[field.cate_field_name]}}</div>
         <div class="am-form-group pd1" style="min-height:45px;" v-bind:class=" 'am-u-sm-' + field.form_col"  v-if="field.type !='hidden' && field.type !='union'">
             <div v-bind:class="!['iframe','tplset','iform','ilist'].includes(field.type) ? 'am-u-sm-3' : ''">
@@ -60,6 +61,25 @@
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
                 immediate: true
             },
+        },
+        methods:{
+            //展示条件
+            isConditionMatch( ){
+                var showCondition = this.field.show_condition;
+                console.log(showCondition);
+                var that = this;
+                if(!showCondition ){
+                    return 1;
+                }
+                var isMatch = 1;
+                $.each( showCondition ,function (key,value) {
+                    if(that.item_data && that.item_data[key] != value){
+                        isMatch = 0;
+                    }
+                });
+                console.log(isMatch);
+                return isMatch;
+            }
         }
     });
 </script>

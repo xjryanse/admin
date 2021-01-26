@@ -1,44 +1,44 @@
 <!-- 按钮组件：三种类型：button普通按钮；import导入按钮；ahref:跳转a标签 -->
 <template id="xjr-button">
     <!--layerPage-->
-    <block>
-        <!--按钮的-->
+    <block v-if="isConditionMatch() || no_match_style == 'opacity'">
+        <!--按钮的:条件匹配（显示）不匹配为灰，也显示 -->
         <button type="button" class="am-btn am-btn-default pd5"
                 v-bind:disabled ="isConditionMatch() == 0"
                 v-if="button_cate=='button' && operate !='import'"
                 v-bind:class=" btn_style ? styles[btn_style] : ''"
                 v-bind:class=" size ? sizes[size] : ''" 
-                v-bind:class ="btn_class"
-                @click="doBtnClick()">
-            <span v-bind:class=" icon ? icons[icon] : ''"></span> <span class="f14">{{button_name}}</span>
+                v-bind:class ="btn_class" 
+                @click="doBtnClick()" style="min-height:31px;">
+            <span v-bind:class=" icon ? icons[icon] : ''"></span> <sdpan class="f14">{{button_name}}</span>
         </button>
         <!--导入的-->
         <button type="button" class="am-btn am-btn-default am-form-file pd5" 
                 v-if="button_cate=='button' && operate =='import'"
-                v-bind:disabled ="isConditionMatch() == 0"
-                v-bind:class=" btn_style ? styles[btn_style] : ''"
+                v-bind:disabled ="isConditionMatch() == 0" 
+                v-bind:class=" btn_style ? styles[btn_style] : ''" 
                 v-bind:class=" size ? sizes[size] : ''" 
                 v-bind:class ="btn_class"
+                style="min-height:31px;"
             >
             <span v-bind:class=" icon ? icons[icon] : ''"></span> <span class="f14">{{button_name}}</span>
-            <input id="doc-form-file" type="file" ref='import' multiple="" @change="importFile($event)">
+            <input id="doc-form-file" type="file" ref='import' multiple="" @change="importFile($event)" style="height:100%;">
         </button>
         <!--a标签的-->
         <a href="javascript:;" @click="doBtnClick()"
                 v-if="button_cate=='ahref'  && operate != 'import'"
-                v-bind:class=" isConditionMatch() ? '' : 'xjr-disable'"
-                v-bind:class ="btn_class"
+                v-bind:class=" isConditionMatch() ? btn_class : 'xjr-disable'"
                 v-bind:title="button_name">
             <i v-bind:class=" icon ? icons[icon] : 'am-icon-plus'" v-if="icon"></i> <span v-if="show_name" class="f-blue">{{button_name}}</span>
         </a>
         <!--导入的-->
         <a href="javascript:;" class="am-form-file" style="overflow: inherit;"
-                v-if="button_cate=='ahref' && operate =='import'"
-                v-bind:class=" isConditionMatch() ? '' : 'xjr-disable'"
-                v-bind:class ="btn_class"
+                v-if="button_cate=='ahref' && operate =='import'" 
+                v-bind:class=" isConditionMatch() ? btn_class : 'xjr-disable'"
+                v-bind:class=" btn_style ? styles[btn_style] : ''" 
                 v-bind:title="button_name">
             <i v-bind:class=" icon ? icons[icon] : 'am-icon-plus'" v-if="icon"></i> <span v-if="show_name" class="f-blue">{{button_name}}</span>
-            <input id="doc-form-file" type="file" ref='import' multiple="" @change="importFile($event)">
+            <input id="doc-form-file" type="file" ref='import' multiple="" @change="importFile($event)" style="height:100%;">
         </a>
     </block>
 </template>
@@ -70,6 +70,8 @@
             disabled : String,   //输入层字段默认值
             //条件
             show_condition : String,   //输入层字段默认值
+            //条件不匹配时作何处理：hide隐藏；opacity置灰
+            no_match_style : String,   //输入层字段默认值
         },
         template: '#xjr-button',
         data: function(){
@@ -88,6 +90,7 @@
                     "danger"    :"am-btn-danger",
                     "success"   :"am-btn-success",
                     "link"      :"am-btn-link",
+                    "delete"    :"tpl-table-black-operation-del"
                 },
                 //图标
                 'icons':{
@@ -125,15 +128,43 @@
             //条件是否匹配：一般用于控制按钮是否显示，操作是否可用等
             isConditionMatch(){
                 var that = this;
-                if(!that.show_condition){
+                console.log(that.button_name);
+                console.log(that.show_condition);
+                if(!that.show_condition || that.show_condition.length == 0){
                     return 1;
                 }
-                var isMatch = 1;
+                console.log('----data-----');
+                console.log(that.data);
+                console.log('----表单-----');
+                console.log(that.form_data);
+                var isMatch = '';
                 $.each( that.show_condition ,function (key,value) {
-                    if(that.data && that.data[key] != value){
-                        isMatch = 0;
+                    console.log(that.data[key]);
+                    //key存在，且匹配则过了
+                    if(that.data && (key in that.data) && that.data[key] == value){
+                        console.log(that.button_name + 'data过了');
+                        console.log( key );
+                        console.log( value );
+                        isMatch = 1;
+                    }
+                    //数据中，只要有一个不匹配，不存在，就算是没过
+                    if(that.data && (key in that.data) && that.data[key] != value){
+                        console.log( that.button_name +  'data一票否决了：key有在'+ (key in that.data) + 'key 不等：'+ (that.data[key] != value));
+                        console.log( key );
+                        console.log( value );
+                        console.log( that.data[key] );
+                        isMatch = '';
+                        return isMatch;
+                    }
+                    console.log(that.form_data[key]);
+                    if(that.form_data && that.form_data[key] && that.form_data[key] == value){
+                        console.log(that.button_name + '表单过了');
+                        console.log( key );
+                        console.log( value );
+                        isMatch = 1;
                     }
                 });
+                console.log(isMatch);
                 return isMatch;
             },
             /*
