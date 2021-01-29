@@ -12,11 +12,17 @@
                     <span v-else>{{field.label}}</span>
                 </label>
             </div>
-            <div v-bind:class="!['iframe','tplset','iform','ilist'].includes(field.type) ? 'am-u-sm-9' : ''">
-                <xjr-field v-bind:list_item = "field" 
+            <div v-bind:class="!['iframe','tplset','iform','ilist'].includes(field.type) ? 'am-u-sm-9' : ''" style="display:flex">
+                <xjr-field style="flex:1"
+                           v-bind:list_item = "field" 
                            v-bind:item_data ="item_data" 
                            v-bind:is_detail ="is_detail"
                            v-bind:table_name="table_name"></xjr-field>
+                <!--按钮-->
+                <xjr-button-id v-bind:btn_id="field.edit_btn_id" 
+                               v-if="field.edit_btn_id && !is_detail"
+                               v-bind:item  =   "item_data" 
+                            ></xjr-button-id>
             </div>
         </div>
         <!--联表类型数据：union：编辑框才有-->
@@ -56,7 +62,7 @@
         watch:{
             item_data : {
                 handler(newName, oldName) {
-                    console.log(newName);
+//                    console.log(newName);
                 },
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
                 immediate: true
@@ -66,11 +72,11 @@
             //展示条件
             isConditionMatch( ){
                 var showCondition = this.field.show_condition;
-                console.log(showCondition);
                 var that = this;
                 if(!showCondition ){
                     return 1;
                 }
+                console.log(showCondition);
                 var isMatch = 1;
                 $.each( showCondition ,function (key,value) {
                     if(that.item_data && that.item_data[key] != value){

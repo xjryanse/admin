@@ -4,6 +4,8 @@
         <xjr-table-simple v-bind:column_info="columnInfo"
             v-bind:fields="fields"
             v-bind:data="dataList"
+            v-bind:query_data="query_data"
+            @get_lists="tableNameLists"               
           ></xjr-table-simple>
     </block>
 </template>

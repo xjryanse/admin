@@ -9,7 +9,7 @@
             <!--字段混合-->
             <xjr-field-mix v-bind:field="field" 
                            v-bind:item_data="item_data"
-                           v-bind:is_detail="is_detail"
+                           v-bind:is_detail="field.only_detail ? field.only_detail : is_detail"
                            v-bind:form_type="form_type"
                         ></xjr-field-mix>
         </block>

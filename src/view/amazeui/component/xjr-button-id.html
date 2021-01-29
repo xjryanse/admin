@@ -1,0 +1,94 @@
+<template id="xjr-button-id">    
+    <xjr-button width = "95%"  height = "95%"  show_name="true"
+            v-if="btnInfo"
+            v-bind:operate      =   "btnInfo.o_type" 
+            v-bind:icon         =   "btnInfo.icon" 
+            v-bind:button_cate  =   "btnInfo.btn_cate" 
+            v-bind:btn_style    =   "btnInfo.btn_style" 
+            v-bind:btn_class    =   "btnInfo.btn_class" 
+            v-bind:button_name  =   "btnInfo.name"
+            v-bind:url          =   "btnInfo.url" 
+            v-bind:confirm      =   "btnInfo.confirm"
+            v-bind:prompt       =   "btnInfo.prompt"
+            v-bind:prompt_default=   "btnInfo.prompt_default"
+            v-bind:data         =   "item" 
+            v-bind:form_data    =   "query_data" 
+            v-bind:show_condition= 'btnInfo.show_condition'
+            v-bind:no_match_style= "btnInfo.no_match_style"
+        ></xjr-button>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('xjr-button-id', {
+        props: { btn_id : String, item : Array, query_data : Array },
+        template: '#xjr-button-id',
+        data: function(){
+            return {
+                //系统全部按钮信息
+                "systemAllBtns" : [],
+                //当前按钮信息
+                "btnInfo" : {},
+            };
+        },
+        methods : {
+            //条件是否匹配：一般用于控制按钮是否显示，操作是否可用等
+            //获取按钮
+            getBtns : function (callBack) {
+                //弹层
+                $.ajax({
+                    url: '{:url("admin/SSystem/allBtns",$paramInherit)}',
+                    type: 'POST',
+                    success: function (data) {
+                        if(data.code == 0){
+                            callBack( data.data);
+                        }
+                    }
+                });
+            },
+            setBtnInfo : function(){
+                if(this.systemAllBtns && this.btn_id){
+                    console.log( this.systemAllBtns );
+                    console.log( this.btn_id );
+                    this.btnInfo = this.systemAllBtns[this.btn_id];
+                    console.log( this.btnInfo );
+                }
+            }
+        },
+        watch:{
+            //主数据变化即触发
+            btn_id : {
+                handler(newName, oldName) {
+                    this.setBtnInfo();         
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            },
+            systemAllBtns : {
+                handler(newName, oldName) {
+                    this.setBtnInfo();         
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法,
+                deep        :   true,
+                immediate   :   true
+            },
+        },               
+        created :function(){
+            console.log('----按钮组件xjr-button-id开始');
+            var storageKey      = "systemAllBtns";
+            var that = this;
+//            that.systemAllBtns  = JSON.parse(localStorage.getItem( storageKey ));
+//            //获取按钮列表
+//            if(!that.systemAllBtns){
+//                that.getBtns(function( data ){
+//                    localStorage.setItem( storageKey , JSON.stringify(data));
+//                    that.systemAllBtns = data;
+//                })
+//            }
+            that.getBtns(function( data ){
+                localStorage.setItem( storageKey , JSON.stringify(data));
+                that.systemAllBtns = data;
+            })
+        }        
+    });
+</script>

@@ -40,6 +40,7 @@
                                            edit_url   = "{:url('edit',$paramInherit)}"
                                            copy_url   = "{:url('copy',$paramInherit)}"
                                            delete_url = "{:url('del',$paramInherit)}"
+                                           update_url = "{:url('update',$paramInherit)}"
                                            v-bind:query_data="queryData"
                                            v-model="selectItems"
                                            @on_item_select="onItemSelect"
@@ -60,7 +61,6 @@
     </div>
     
     <!-- 组件列表 -->
-    {include file="xjryanse/amazeui/components"/}
     {include file="xjryanse/amazeui/list/list-search"/}
     
     

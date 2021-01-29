@@ -123,7 +123,7 @@
     //定义hblock组件
     Vue.component('xjr-table-td', {
         //列表信息:列表编辑：项目
-        props: { field : Array ,item : Array},
+        props: { field : Array ,item : Array, update_url:String},
         template: '#xjr-table-td',
         data: function(){
             return {};
@@ -149,7 +149,7 @@
                 var that = this;
                 console.log( item );
                 //调用公共异步请求函数
-                that.ajaxOperate( "{:url('update',$paramInherit)}",item,"");
+                that.ajaxOperate( that.update_url,item,"");
             },    
             //更新数据
             updateItem : function (e) {
@@ -159,7 +159,7 @@
                 var layerIndex = layer.load(2);
                 //发异步删除数据
                 $.ajax({
-                    url:"{:url('update',$paramInherit)}",
+                    url: that.update_url ,
                     type:'POST',
                     data: e,
                     success:function(data){

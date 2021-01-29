@@ -11,6 +11,7 @@
                         v-bind:btn_style    =   "btn.btn_style" 
                         v-bind:button_name  =   "btn.name"
                         v-bind:url          =   "btn.url" 
+                        v-bind:title        =   "btn.title" 
                         v-bind:confirm      =   "btn.confirm"
                         v-bind:prompt       =   "btn.prompt"
                         v-bind:prompt_default=   "btn.prompt_default"
@@ -63,7 +64,7 @@
                 <!--数据：字段信息-->
                 <xjr-button operate="layerPage" icon="" width = "90%"  height = "90%" button_cate="button" 
                             btn_style="primary" size="small" 
-                            url     = "{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnList']))}"
+                            url     = "{:url('/admin/system/list',array_merge($paramInherit,['admKey'=>'columnList','per_page'=>1000]))}"
                             button_name  ="字段"
                             v-bind:form_data = {column_id:columnInfo.id} 
                         ></xjr-button>

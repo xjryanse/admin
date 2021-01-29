@@ -22,7 +22,7 @@
                 style="min-height:31px;"
             >
             <span v-bind:class=" icon ? icons[icon] : ''"></span> <span class="f14">{{button_name}}</span>
-            <input id="doc-form-file" type="file" ref='import' multiple="" @change="importFile($event)" style="height:100%;">
+            <input id="doc-form-file" type="file" ref='import' multiple="" @change="importFile($event)" style="max-height:40px;">
         </button>
         <!--a标签的-->
         <a href="javascript:;" @click="doBtnClick()"
@@ -38,7 +38,7 @@
                 v-bind:class=" btn_style ? styles[btn_style] : ''" 
                 v-bind:title="button_name">
             <i v-bind:class=" icon ? icons[icon] : 'am-icon-plus'" v-if="icon"></i> <span v-if="show_name" class="f-blue">{{button_name}}</span>
-            <input id="doc-form-file" type="file" ref='import' multiple="" @change="importFile($event)" style="height:100%;">
+            <input id="doc-form-file" type="file" ref='import' multiple="" @change="importFile($event)" style="max-height:40px;">
         </a>
     </block>
 </template>
@@ -55,6 +55,7 @@
             data        : Array,    //数据        【用于替换url】 
             form_data   : Array,    //外部表单数据【用于接口提交】
             btn_class   : String,   //样式
+            title       : String,   //标题，layer场景有效。
             confirm     : String,   //确认框信息，部分场景有效。
             //弹窗尺寸
             height      : String,   //弹窗高度
@@ -123,48 +124,49 @@
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
                 immediate: true
             }
-        },        
+        },
         methods : {
             //条件是否匹配：一般用于控制按钮是否显示，操作是否可用等
             isConditionMatch(){
                 var that = this;
-                console.log(that.button_name);
-                console.log(that.show_condition);
                 if(!that.show_condition || that.show_condition.length == 0){
                     return 1;
                 }
-                console.log('----data-----');
-                console.log(that.data);
-                console.log('----表单-----');
-                console.log(that.form_data);
+//                console.log(that.button_name);
+//                console.log(that.show_condition);
+//                console.log('----data-----');
+//                console.log(that.data);
+//                console.log('----表单-----');
+//                console.log(that.form_data);
                 var isMatch = '';
                 $.each( that.show_condition ,function (key,value) {
-                    console.log(that.data[key]);
+//                    console.log(that.data[key]);
                     //key存在，且匹配则过了
                     if(that.data && (key in that.data) && that.data[key] == value){
-                        console.log(that.button_name + 'data过了');
-                        console.log( key );
-                        console.log( value );
+//                        console.log( that.data.tm_name);
+//                        console.log(that.button_name + 'data过了');
+//                        console.log( key );
+//                        console.log( value );
                         isMatch = 1;
                     }
                     //数据中，只要有一个不匹配，不存在，就算是没过
-                    if(that.data && (key in that.data) && that.data[key] != value){
-                        console.log( that.button_name +  'data一票否决了：key有在'+ (key in that.data) + 'key 不等：'+ (that.data[key] != value));
-                        console.log( key );
-                        console.log( value );
-                        console.log( that.data[key] );
-                        isMatch = '';
-                        return isMatch;
+                    if((key in that.data) && that.data[key] != value){
+//                        console.log( that.data.tm_name);
+//                        console.log( key);
+//                        console.log( that.button_name + 'data一票否决了：key有在'+ (key in that.data) + 'key 不等：'+ (that.data[key] != value));
+                        isMatch = '';          
+                        return false;   //js和php写法不一样
                     }
-                    console.log(that.form_data[key]);
+//                    console.log(that.form_data[key]);
                     if(that.form_data && that.form_data[key] && that.form_data[key] == value){
-                        console.log(that.button_name + '表单过了');
-                        console.log( key );
-                        console.log( value );
+//                        console.log( that.data.tm_name);
+//                        console.log(that.button_name + '表单过了');
+//                        console.log( key );
+//                        console.log( value );
                         isMatch = 1;
                     }
                 });
-                console.log(isMatch);
+//                console.log(isMatch);
                 return isMatch;
             },
             /*
@@ -228,6 +230,7 @@
                         layer.close(layerIndex);
                         layer.open({
                             type: 1,
+                            title:that.title,
                             skin: 'layui-layer-rim', //加上边框
                             area: [width, height], //宽高
                             end : function () {
@@ -260,6 +263,7 @@
                 var that = this;
                 layer.open({
                     type: 2,
+                    title:that.title,
                     skin: 'layui-layer-rim', //加上边框
                     area: [width, height], //宽高
                     end : function () {

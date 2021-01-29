@@ -1,6 +1,6 @@
 <!-- 列表的字段组件 -->
 <template id="xjr-field">
-    <block>
+    <div>
         <!--需要$tmpValueName-->
         <!--字段类型：普通输入框-->
         <!--字段类型：密码输入框-->
@@ -73,7 +73,7 @@
             v-if="list_item.type == 'iframe'" v-bind:src="urlDataReplace(list_item.option.src,item_data)"></iframe>
         <!--iform:单页面嵌套表单-->
         <xjr-field-table v-if="list_item.type == 'iform'"
-                    v-bind:table_name="list_item.option.table_name" 
+                    v-bind:table_name   ="list_item.option.table_name" 
                     v-bind:form_type    ="list_item.option.form_type"
                     v-bind:data_id      ="item_data[list_item.name]"
                     v-bind:is_detail    ="list_item.option.is_detail"></xjr-field-table>     
@@ -84,11 +84,11 @@
                          v-bind:query_field ="list_item.option.query_field" 
                          v-bind:query_data  ="item_data[list_item.name]" 
                          ></xjr-table-table>
-    </block>
+    </div>
 </template>
 
 <script>
-    //定义hblock组件
+    //定义hdiv组件
     Vue.component('xjr-field', {
         //列表信息:列表编辑：项目
         //table_name:tplset的表名

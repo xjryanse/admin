@@ -4,19 +4,17 @@
 <!--时间戳10位-->
 {php}$tmpTime = time();{/php}
 <!--class="tpl-content-wrapper"-->
-<div style="margin-left: 0px;border:1px solid #eee" id="vue_add{$tmpVueAppId}">
+<div style="margin-left: 0px;border:1px solid #eee;overflow:auto;height:100%;" class="bg-white" id="vue_add{$tmpVueAppId}">
 <!--class="tpl-content-wrapper"-->
-    <div class="widget am-cf pd1-t" style="overflow:auto;height:100%;">
+    <div class="widget am-cf pd1-t">
 <!--        <div class="widget-body am-fr">-->
-        <div>
-            <!--传表名，id，取数据-->
-            <div class="am-form tpl-form-border-form tpl-form-border-br">
-                <xjr-field-table v-bind:table_name="columnHeader.table_name" 
-                    v-bind:form_type    ="formType"
-                    v-bind:input_data   ="inputData"
-                    v-bind:data_id      ="id"
-                    v-bind:is_detail    ="isDetail"></xjr-field-table>            
-            </div>
+        <!--传表名，id，取数据-->
+        <div class="am-form tpl-form-border-form tpl-form-border-br">
+            <xjr-field-table v-bind:table_name="columnHeader.table_name" 
+                v-bind:form_type    ="formType"
+                v-bind:input_data   ="inputData"
+                v-bind:data_id      ="id"
+                v-bind:is_detail    ="isDetail"></xjr-field-table>            
         </div>
     </div>
 </div>

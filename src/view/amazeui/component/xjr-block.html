@@ -10,7 +10,7 @@
                                 v-bind:url=" '/admin/'+ block_data.columnInfo.controller +'/list/admKey/' + block_data.columnInfo.table_key "
                                 v-if='block_data.columnInfo'
                                 v-bind:form_data="queryData"
-                        button_name  =   "更多"
+                                button_name  =   "更多"
                     ></xjr-button>
                 </div>
 <!--                <div class="widget-function am-fr">
@@ -71,6 +71,7 @@
                                                 v-bind:data         =   "main_data" 
                                                 v-bind:form_data    =   "block_data.data" 
                                                 v-bind:confirm      =   "btn.confirm"
+                                                v-bind:title        =   "btn.title" 
                                                 v-bind:prompt       =   "btn.prompt"
                                                 v-bind:prompt_default=   "btn.prompt_default"
                                                 @get_lists          =   "getLists"
