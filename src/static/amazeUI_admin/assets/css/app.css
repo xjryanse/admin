@@ -5,7 +5,7 @@ li {
   margin: 0;
 }
 header {
-  z-index: 1200;
+  z-index: 2;
   position: relative;
 }
 /**有bug：layer弹层跑位*/
@@ -283,7 +283,7 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
     transition: all 0.4s ease-in-out;
     width: 180px;
     padding-top: 57px;  
-    z-index: 1104;
+    z-index: 0;
     top: 0;
     left: 0px;
     position: fixed;

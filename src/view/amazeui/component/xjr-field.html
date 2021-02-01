@@ -24,13 +24,15 @@
             <!--字段类型：普通枚举-->
             <cselect v-bind:option="list_item.option" 
                      v-model="item_data[list_item.name]"
-                     v-bind:is_detail="is_detail"></cselect>
+                     v-bind:is_detail="is_detail"
+                     @linkage="formLinkage()"></cselect>
         </div>
         <!--字段类型：动态枚举-->
         <div  v-if="list_item.type == 'dynenum'">
             <cselect v-bind:option="list_item.option.option" 
                      v-model="item_data[list_item.name]"
-                     v-bind:is_detail="is_detail"></cselect>
+                     v-bind:is_detail="is_detail"
+                     @linkage="formLinkage()"></cselect>
         </div>
         <!--字段类型：动态树-->
         <div  v-if="list_item.type == 'dyntree'">
@@ -61,9 +63,9 @@
                     v-if="list_item.type == 'editor'"  
                     v-bind:is_detail="is_detail"></ceditor>
         <!--字段类型：块编辑-->
-        <div v-if="list_item.type == 'tplset' && item_data && table_name">
+        <div v-if="list_item.type == 'tplset' && item_data">
             <ctplset v-bind:option="list_item.option" 
-                v-bind:table_name="table_name" 
+                v-bind:table_name="list_item.option.table_name" 
                 v-bind:data_id="item_data.id" 
                 v-bind:column_list_id="list_item.id"
                 v-bind:is_detail="is_detail"></ctplset>
@@ -75,6 +77,7 @@
         <xjr-field-table v-if="list_item.type == 'iform'"
                     v-bind:table_name   ="list_item.option.table_name" 
                     v-bind:form_type    ="list_item.option.form_type"
+                    v-bind:method_key   ="list_item.option.method_key"
                     v-bind:data_id      ="item_data[list_item.name]"
                     v-bind:is_detail    ="list_item.option.is_detail"></xjr-field-table>     
         <!--ilist:单页面嵌套列表-->
@@ -94,5 +97,34 @@
         //table_name:tplset的表名
         props: { list_item : Array ,item_data :Array ,is_detail : String, table_name :String },
         template: '#xjr-field',
+        data: function(){
+            return {
+                "loading"   : false,
+            };
+        },               
+        methods : {
+            //表单联动数据
+            formLinkage : function(){
+                console.log( 'xjr-field formLinkage' );        
+                console.log(this.list_item);
+                var that = this;
+                sessionStorage.setItem("formLinkageLoading","1");
+                $.ajax({
+                    url: "{:url('admin/SCommon/tableDataInit')}",
+                    type: 'POST',
+                    data: { table_name:that.list_item.table_name,table_data: that.item_data ,link_field: that.list_item.name },
+                    success: function (data) {
+                        if(data.code == 0){
+                            //合并两个数组
+                            Object.assign(that.item_data,data.data);
+                        }
+                        //延时一秒
+                        setTimeout(function(){
+                            sessionStorage.setItem("formLinkageLoading","0");
+                        },1000);　　　　//延时10秒
+                    }
+                });                
+            },
+        }
     });
 </script>

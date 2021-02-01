@@ -240,6 +240,13 @@
     align-items:center;
     justify-content:center;
 }
+/**灰色的边框***/
+.block-dash{
+    border:1px dashed #000;
+}
+.center{
+    text-align: center;
+}
 
 /**全屏的弹窗*/
 .layer-full{

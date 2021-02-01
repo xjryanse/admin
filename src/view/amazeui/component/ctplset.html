@@ -96,6 +96,12 @@
             </tbody>
         </table>
         <span v-else>请先保存信息再进行编辑</span>
+        <div class="hide">
+            <div>{{option}}</div>
+            <div>{{table_name}}</div>
+            <div>{{column_list_id}}</div>
+            <div>{{data_id}}</div>
+        </div>
     </block>
 </template>
 
@@ -171,6 +177,10 @@
                     type: 'POST',
                     data: {"tableName":tableName,"columnListId":columnListId,"dataId":dataId},
                     success:function(data){
+                        console.log('-------SColumnTplset----------执行结果');
+                        console.log( {"tableName":tableName,"columnListId":columnListId,"dataId":dataId} );
+                        console.log( data );
+                        
                         //关闭弹层
                         layer.close( layerIndex );
                         if(data.code == 0){
@@ -216,6 +226,8 @@
             console.log('that.data_id');
             console.log( that.data_id );
             that.SColumnTplset( that.table_name, that.column_list_id, that.data_id, function( data ){
+                console.log("tplset 调用 SColumnTplset");
+                console.log( data );
                 //拿option
                 that.option.option = data;
                 //强制刷新

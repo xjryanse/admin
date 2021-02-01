@@ -28,7 +28,7 @@
             </div>
         </div>
         <!--方便超级管理员配置-->
-        {if $admUser['admin_type'] == 'super'}
+        {if $admUser['admin_type'] == 'super' && $sysConfigs['isDevMode']}
             <!--表-->
             <xjr-button-id btn_id="5166586801119887360" v-bind:data="{id:columnId}"></xjr-button-id>
             <!--布局-->
@@ -47,7 +47,7 @@
     Vue.component('xjr-field-table', {
         //列表信息:列表编辑：项目
         //input_data : 预输入信息； is_detail : 只看不改; table_name ：表名, data_id: 数据id 
-        props: { input_data :Array ,is_detail : String, table_name :String, data_id: String ,form_type: String},
+        props: { input_data :Array ,is_detail : String, table_name :String, data_id: String ,form_type: String ,method_key: String},
         template: '#xjr-field-table',
         data: function(){
             return {
@@ -76,39 +76,9 @@
                 },
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
                 immediate: true
-            },            
-            dataInfo : {
-                handler(newName, oldName) {
-                    if(!this.loading){
-                        this.formLinkage();
-                    }
-                },
-                deep: true,
-                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
-                immediate: true
-            },            
+            },                   
         },        
         methods : {
-            //表单联动数据
-            formLinkage : function(linkField){
-                var that = this;
-                that.loading=true;
-                $.ajax({
-                    url: "{:url('admin/SCommon/tableDataInit')}",
-                    type: 'POST',
-                    data: { table_name:that.table_name,table_data: that.dataInfo ,link_field:linkField },
-                    success: function (data) {
-                        if(data.code == 0){
-                            //合并两个数组
-                            Object.assign(that.dataInfo,data.data);
-                        }
-                        //延时一秒
-                        setTimeout(function(){
-                            that.loading = false;
-                        },1000);　　　　//延时10秒
-                    }
-                });                
-            },
             //表单提交
             mySubmit : function () {
                 //表单参数赋值
@@ -144,7 +114,7 @@
                 $.ajax({
                     url: "{:url('admin/SCommon/tableNameColumn')}",
                     type: 'POST',
-                    data: {table_name:that.table_name},
+                    data: {table_name:that.table_name,methodKey : that.method_key},
                     success: function (data) {
                         //关闭弹层
                         layer.close(layerIndex);                            

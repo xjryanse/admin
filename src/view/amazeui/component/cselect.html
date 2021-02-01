@@ -42,7 +42,9 @@
                 $( that.$refs.mySelect ).select2(selectParam);
                 $(that.$refs.mySelect).on("select2:select",function(e){
                     that.$emit('input', e.target.value );
-                    console.log(e);
+                    console.log("that.$emit('linkage');");
+                    //联动触发
+                    that.$emit('linkage');
                 })
             });
         }

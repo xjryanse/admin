@@ -69,9 +69,12 @@
             <img v-bind:src="item[field.name]" width="field.min_width">
         </a>
         <!--上传图片-->
-        <a v-bind:href="item[field.name]['file_path']" v-if = "field.type=='uplimage' && item[field.name]"  target="_blank">
-            <img class="tableImage" v-bind:src="item[field.name]['file_path']" v-bind:width="field.min_width" @mouseover = "$emit('big_img_url',item[field.name]['file_path'])" @mouseout = "$emit('big_img_url','')">
-        </a>
+        <img class="tableImage" ref="cuplimage" 
+             v-if = "field.type=='uplimage' && item[field.name]"
+             v-bind:src="item[field.name]['file_path']" 
+             v-bind:width="field.min_width" 
+             @mouseover = "$emit('big_img_url',item[field.name]['file_path'])" 
+             @mouseout = "$emit('big_img_url','')">
         <!--上传附件-->
         <a v-bind:href="item[field.name]['file_path']" v-if = "field.type=='uplfile' && item[field.name]"  target="_blank">附件</a>
         <!--开关-->
@@ -200,7 +203,11 @@
             },            
         },
         created :function(){
-
+            var that = this;
+            that.$nextTick(function () {
+                //viewer 图片浏览
+                $( that.$refs.cuplimage ).viewer();;
+            });
         }
     });
 </script>

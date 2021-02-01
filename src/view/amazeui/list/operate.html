@@ -54,7 +54,7 @@
                             v-bind:button_name  ="operate['operate_name']"
                         ></xjr-button>
             </block>
-            {if $admUser['admin_type'] == 'super'}
+            {if $admUser['admin_type'] == 'super' && $sysConfigs['isDevMode']}
                 <!--数据：表信息-->
                 <xjr-button operate="layerIframePage" icon="" width = "90%"  height = "90%" button_cate="button" 
                             btn_style="primary" size="small" 
