@@ -8,9 +8,9 @@
             <div class="weui-cell__hd"><we-label v-bind:label="label" v-bind:must="must"></we-label></div>
             <div class="weui-cell__bd">
                 <!--有图-->
-                <img v-bind:src="value.file_path" v-if="value && value.file_path" class="myImg" >
+                <img v-bind:src="value.file_path" v-if="value && value.file_path" style="max-width:100%;max-height:150px;">
                 <!--无图-->
-                <img src="__STATIC__/web/images/home/321.png" v-else class="myImg" style="height:35px;width:35px;">
+                <img src="__STATIC__/web/images/home/321.png" v-else style="height:35px;width:35px;">
             </div>
         </div>
     </block>
