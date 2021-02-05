@@ -180,6 +180,12 @@
 .bg-gray    {   background-color:rgb(242, 242, 242) !important }
 .bg-lightblue   {   background-color:#dbebfc !important;   }
 
+/**块级背景色**/
+.blk-green   {   background-color:#ceffd5 !important;   }
+.blk-orange  {   background-color:#ffeec3 !important;   }
+.blk-purple  {   background-color:#fccaff !important;   }
+.blk-blue    {   background-color:#d1f3ff !important;   }
+
 /*字体11-55号*/
 .f11    {   font-size: 11px !important; line-height: 11px; }
 .f12    {   font-size: 12px !important; line-height: 12px; }

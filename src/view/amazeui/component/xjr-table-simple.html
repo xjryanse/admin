@@ -6,7 +6,7 @@
         <table width="100%" class="am-table am-table-compact am-table-bordered" v-if="column_info">
             <tr>
                 <th v-for="(field,i) in column_info.listInfo" v-if="field.is_list && fields.indexOf(field.name) != -1">{{field.label}}</th>
-                <th>操作</th>
+                <th v-if="has_operate">操作</th>
             </tr>
             <tr v-if="data.length == 0" >
                 <td colspan=99 style="text-align:center;"> 暂无数据 </td>
@@ -21,7 +21,7 @@
                     <!--动态枚举-->
                     <block v-if = "field.type=='dynenum'">{{field.option.option[item[field.name]]}}</block>
                 </td>
-                <td>
+                <td v-if="has_operate">
                     <div style="float:right;">
                         <xjr-table-btns v-bind:btn_info     = "column_info.btnInfo" 
                                 v-bind:item          = "item"
@@ -31,7 +31,6 @@
                     </div>
                 </td>
             </tr>
-            
         </table>
     </block>
 </template>
@@ -39,8 +38,8 @@
 <script>
     //定义hblock组件
     Vue.component('xjr-table-simple', {
-        //列表信息:列表编辑：项目 column_info列信息；data数据(不含分页的)；分页数据
-        props: { 'column_info':Array,fields : Object ,'data':Array ,"query_data":Array},
+        //列表信息:列表编辑：项目 column_info列信息；data数据(不含分页的)；分页数据；has_operate 有操作
+        props: { 'column_info':Array,fields : Object ,'data':Array ,"query_data":Array, "has_operate" : String},
         template: '#xjr-table-simple',
         data: function(){
             return {

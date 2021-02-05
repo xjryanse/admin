@@ -30,7 +30,7 @@
         <!--方便超级管理员配置-->
         {if $admUser['admin_type'] == 'super' && $sysConfigs['isDevMode']}
             <!--表-->
-            <xjr-button-id btn_id="5166586801119887360" v-bind:data="{id:columnId}"></xjr-button-id>
+            <xjr-button-id btn_id="5166586801119887360" v-bind:item="{id:columnId}"></xjr-button-id>
             <!--布局-->
             <xjr-button-id btn_id="5166430270111895552" v-bind:query_data="{flex_id:flexId}"></xjr-button-id>
             <!--字段-->

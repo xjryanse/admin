@@ -366,9 +366,11 @@
             //获取url
             getUrl (){
                 //xjryanse.js:对形如{$event}的参数进行正则替换
-                console.log(this.url);
-                console.log(this.data);
-                
+//                console.log('----生成url类库-----');
+//                console.log(this.url);
+//                console.log(this.data);
+//                console.log(urlDataReplace( this.url, this.data ));
+//                
                 return urlDataReplace( this.url, this.data );
             },
             //导入文件
@@ -402,7 +404,7 @@
                             //importFileId固定；
                             formData2.importFileId = data.data.id;
                             console.log('------导入附件字段-------');
-                            console.log(formData2);
+//                            console.log(formData2);
                             //弹层
                             var layerIndex2  = layer.load(2);
                             //调用公共异步请求函数

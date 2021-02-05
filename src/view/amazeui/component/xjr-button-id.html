@@ -77,18 +77,18 @@
             console.log('----按钮组件xjr-button-id开始');
             var storageKey      = "systemAllBtns";
             var that = this;
-//            that.systemAllBtns  = JSON.parse(localStorage.getItem( storageKey ));
-//            //获取按钮列表
-//            if(!that.systemAllBtns){
-//                that.getBtns(function( data ){
-//                    localStorage.setItem( storageKey , JSON.stringify(data));
-//                    that.systemAllBtns = data;
-//                })
-//            }
-            that.getBtns(function( data ){
-                localStorage.setItem( storageKey , JSON.stringify(data));
-                that.systemAllBtns = data;
-            })
+            that.systemAllBtns  = JSON.parse(localStorage.getItem( storageKey ));
+            //获取按钮列表:强制更新
+            if(!that.systemAllBtns || "{$sysConfigs['strictUpdate']}" ){
+                that.getBtns(function( data ){
+                    localStorage.setItem( storageKey , JSON.stringify(data));
+                    that.systemAllBtns = data;
+                })
+            }
+//            that.getBtns(function( data ){
+//                localStorage.setItem( storageKey , JSON.stringify(data));
+//                that.systemAllBtns = data;
+//            })
         }        
     });
 </script>

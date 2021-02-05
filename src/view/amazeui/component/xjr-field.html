@@ -74,6 +74,9 @@
                 v-bind:style="{ height: list_item.option.height + 'vh' }"
             v-if="list_item.type == 'iframe'" v-bind:src="urlDataReplace(list_item.option.src,item_data)"></iframe>
         <!--iform:单页面嵌套表单-->
+        {if $admUser['admin_type'] == 'super' && $sysConfigs['isDevMode']}
+            <div v-if="list_item.type == 'iform'">{{list_item.option}}</div>
+        {/if}        
         <xjr-field-table v-if="list_item.type == 'iform'"
                     v-bind:table_name   ="list_item.option.table_name" 
                     v-bind:form_type    ="list_item.option.form_type"
