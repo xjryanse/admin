@@ -76,8 +76,15 @@
                 },
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
                 immediate: true
-            },                   
-        },        
+            },
+            dataInfo : {
+                handler(newName, oldName) {
+//                    this.tableNameColumn();
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            },
+        },
         methods : {
             //表单提交
             mySubmit : function () {
@@ -114,13 +121,11 @@
                 $.ajax({
                     url: "{:url('admin/SCommon/tableNameColumn')}",
                     type: 'POST',
-                    data: {table_name:that.table_name,methodKey : that.method_key},
+                    data: {table_name:that.table_name,methodKey : that.method_key,data_id: that.data_id},
                     success: function (data) {
                         //关闭弹层
                         layer.close(layerIndex);                            
                         if(data.code == 0){
-                            console.log('tableNameColumn');
-                            console.log(data);
                             that.columnId = data.data.id;
                             that.flexId   = data.data.flex_id;
                             that.flexInfo = data.data.flexInfo;

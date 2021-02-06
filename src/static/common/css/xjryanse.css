@@ -11,6 +11,7 @@
 .white  {color:white    }
 
 /**间距信息*/
+.pd0{ padding :0px !important;   }
 .pd1{ padding :1px !important;   }
 .pd2{ padding :2px !important;   }
 .pd3{ padding :3px !important;   }
@@ -253,7 +254,12 @@
 .center{
     text-align: center;
 }
-
+/**div内文字左右均布********/
+.distri{
+    display: inline-block;      
+    text-align: justify;
+    text-align-last: justify;
+}
 /**全屏的弹窗*/
 .layer-full{
     position:fixed;

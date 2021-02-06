@@ -2,12 +2,12 @@
 <template id="cuplimage">
     <!--layerPage-->
     <div @mouseover = "showBtn = true" @mouseout = "showBtn = false">
-        <div class="am-form-group pd5"  style="width:100%;max-width:300px;">
+        <div class="am-form-group pd5"  style="width:100%;">
             <div class="tpl-form-file-img" v-if="value" style="min-height:100px;justify-content:center;align-items:center;display:-webkit-flex;">
-                <img v-bind:src="value.file_path" ref="cuplimage" style="max-width:100%; max-height:100px;" class="bd-r5" >
+                <img v-bind:src="value.file_path" ref="cuplimage" style="max-width:100%; max-height:100px;max-width:300px;" class="bd-r5" >
             </div>
         </div>
-        <div class='pd2' v-show="showBtn">
+        <div class='pd2' v-show="showBtn || !value">
             <div style="text-align: center;justify-content: center;display:flex">
                 <a v-bind:href="value.file_path" class="am-btn am-btn-danger am-btn-sm pd5" 
                     style="background-color:#ff693f;float:left"

@@ -57,15 +57,19 @@
                             <div class="tpl-table-black-operation" v-if="block_data.columnInfo">
                                 <block v-for="(btn,k) in block_info.btnInfo">
                                     <!--列表弹窗-->
-                                    <xjr-button operate="btnLayerPage" icon="pencil" width = "90%"  height = "90%" button_cate="ahref"
+                                    <xjr-button operate="btnLayerPage" icon="pencil" button_cate="ahref"
                                         v-if="btn.o_type == 'listpop'"
+                                        v-bind:width        =   "btn.layer_width"
+                                        v-bind:height       =   "btn.layer_height"
                                         v-bind:button_name  =   "btn.name"
                                         v-bind:url          =   "btn.url" 
                                         v-bind:data         =   "block_data.data" 
                                     ></xjr-button>
                                     <!-- listoperate：列表操作-->
-                                    <xjr-button operate="listOperate" icon="pencil" width = "90%"  height = "90%" button_cate="ahref" show_name="true"
+                                    <xjr-button operate="listOperate" icon="pencil" button_cate="ahref" show_name="true"
                                                 v-if="btn.o_type == 'listoperate'"
+                                                v-bind:width        =   "btn.layer_width"
+                                                v-bind:height       =   "btn.layer_height"
                                                 v-bind:button_name  =   "btn.name"
                                                 v-bind:url          =   "btn.url" 
                                                 v-bind:data         =   "main_data" 

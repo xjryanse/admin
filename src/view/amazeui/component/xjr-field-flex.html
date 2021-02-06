@@ -1,6 +1,6 @@
 <!-- 列表的字段组件 -->
 <template id="xjr-field-flex">
-    <div v-bind:class="'am-u-sm-' + item.flex_value" {if $admUser['admin_type'] == 'super' && $sysConfigs['isDevMode']}class="block-dash"{/if}>
+    <div v-bind:class="'am-u-sm-' + item.flex_value" class="pd0 {if $admUser['admin_type'] == 'super' && $sysConfigs['isDevMode']}block-dash{/if}">
         {if $admUser['admin_type'] == 'super' && $sysConfigs['isDevMode']}
             <div>活动块编号{{item.id}}</div>
         {/if}

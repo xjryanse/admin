@@ -108,6 +108,10 @@
         methods : {
             //表单联动数据
             formLinkage : function(){
+                //联动字段才触发执行
+                if(!this.list_item.is_linkage){
+                    return false;
+                }
                 console.log( 'xjr-field formLinkage' );        
                 console.log(this.list_item);
                 var that = this;

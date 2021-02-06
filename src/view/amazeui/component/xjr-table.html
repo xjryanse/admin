@@ -72,9 +72,11 @@
                                     ></xjr-table-btn>-->
                                  <!--按钮-->
                                 <!--列表弹窗 v-bind:form_data    =   "item" -->
-                                <xjr-button icon="pencil" width = "95%"  height = "95%" button_cate="ahref" show_name="true"
+                                <xjr-button icon="pencil" button_cate="ahref" show_name="true"
                                             v-for="(btn,k) in column_info.btnInfo"
                                             v-if="btn.place=='list'"
+                                            v-bind:width        =   "btn.layer_width"
+                                            v-bind:height       =   "btn.layer_height"
                                             v-bind:operate      =   "btn.o_type" 
                                             v-bind:icon         =   "btn.icon" 
                                             v-bind:button_cate  =   "btn.btn_cate" 

@@ -6,13 +6,18 @@
     <block v-if="field && (!field.cate_field_value || !item_data || (item_data && item_data[field.cate_field_name] == field.cate_field_value)) && isConditionMatch()">
         <div v-if="item_data[field.cate_field_name]" class="hide">{{item_data[field.cate_field_name]}}</div>
         <div class="am-form-group pd1" style="min-height:45px;" v-bind:class=" 'am-u-sm-' + field.form_col"  v-if="field.type !='hidden' && field.type !='union'">
-            <div v-bind:class="!['iframe','tplset','iform','ilist','uplimage'].includes(field.type) ? 'am-u-sm-3' : ''">
+            <div v-if="field.label" v-bind:class="!['iframe','tplset','iform','ilist','uplimage'].includes(field.type) ? 'am-u-sm-3' : ''">
                 <!--居中-->
                 <label for="user-name" class="am-form-label" v-if="field.type == 'uplimage'" style="width:100%;text-align: center;">
                     <b v-if="['iframe','tplset','iform','ilist'].includes(field.type)">{{field.label}}</b>
                     <span v-else>{{field.label}}</span>
                 </label>
                 <!--靠右-->
+                <label for="user-name" class="am-form-label" v-else-if="!['iframe','tplset','iform','ilist'].includes(field.type)" style="width:100%;">
+                    <b v-if="['iframe','tplset','iform','ilist'].includes(field.type)">{{field.label}}</b>
+                    <span v-else>{{field.label}}</span>
+                </label>
+                <!--靠左-->
                 <label for="user-name" class="am-form-label" v-else>
                     <b v-if="['iframe','tplset','iform','ilist'].includes(field.type)">{{field.label}}</b>
                     <span v-else>{{field.label}}</span>
@@ -24,9 +29,9 @@
                            v-bind:item_data ="item_data" 
                            v-bind:is_detail ="is_detail"
                            v-bind:table_name="table_name"></xjr-field>
-                <!--按钮-->
+                <!--按钮  && !is_detail -->
                 <xjr-button-id v-bind:btn_id="field.edit_btn_id" 
-                               v-if="field.edit_btn_id && !is_detail"
+                               v-if="field.edit_btn_id"
                                v-bind:item  =   "item_data" 
                             ></xjr-button-id>
             </div>

@@ -1,6 +1,8 @@
 <template id="xjr-button-id">    
-    <xjr-button width = "95%"  height = "95%"  show_name="true"
+    <xjr-button show_name="true"
             v-if="btnInfo"
+            v-bind:width        =   "btnInfo.layer_width"
+            v-bind:height       =   "btnInfo.layer_height"
             v-bind:operate      =   "btnInfo.o_type" 
             v-bind:icon         =   "btnInfo.icon" 
             v-bind:button_cate  =   "btnInfo.btn_cate" 
