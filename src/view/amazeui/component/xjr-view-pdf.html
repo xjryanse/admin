@@ -1,0 +1,20 @@
+<!-- pdf在线预览 -->
+<template id="xjr-view-pdf">
+    <!--layerPage-->
+    <a class="media" ref="viewPdf" href="/Uploads/Download/CanDelete/b6daca169876ee93418d9f2e4d0c827b8890c8461098ccfa2146fc99143c2ae8256fb4ef.pdf"></a>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('xjr-view-pdf', {
+        //block_info：块信息；主数据
+        props: { url : String, width : String, height : String  },
+        template: '#xjr-view-pdf',
+        created :function(){
+            var that = this;
+            that.$nextTick(function () {
+                $( that.$refs.viewPdf ).media({width:800, height:600});  
+            });
+        }
+    });
+</script>
