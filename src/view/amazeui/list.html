@@ -90,7 +90,7 @@
             watch:{
                 //主数据变化即触发
                 selectItems : {
-                    handler(newName, oldName) {
+                    handler :function(newName, oldName) {
                         //复选框和单选框选中数据作为绑定值
                         console.log('heheheheheheheh');
                         console.log( newName );
@@ -100,7 +100,7 @@
                 },            
                 //主数据变化即触发
                 queryData : {
-                    handler(newName, oldName) {
+                    handler :function(newName, oldName) {
                         if( this.$refs.xjr_table ){
                             this.$refs.xjr_table.searchList(newName);
                         }
@@ -109,7 +109,7 @@
                     immediate: true
                 },
                 typeTabValue : {
-                    handler(newName, oldName) {
+                    handler :function(newName, oldName) {
                         if(this.$refs.xjr_table){
                             this.$refs.xjr_table.searchData(this.typeTab,newName);
                         }
@@ -118,14 +118,14 @@
                     immediate: true
                 },
             },
-            mounted(){
+            mounted : function(){
                 this.$nextTick(()=>{ // 页面渲染完成后的回调
                     console.log(this.$refs.getheight.offsetHeight+"我在这")
                 })
             },
             methods: {
                 //用于触发主表数据刷新
-                getLists(){
+                getLists :function(){
                     this.$refs.xjr_table.getLists();
                 },
                 /**
@@ -144,7 +144,7 @@
                     this.$refs.xjr_table.searchList(this.queryData);
                 },                
                 //搜索更多的选框
-                searchMore() {
+                searchMore :function() {
                     //慢慢地切入和淡出
                     $("#search{$tmpTime}").slideToggle("normal");
                     let timer = setTimeout(()=>{   //设置延迟执行
@@ -155,7 +155,7 @@
                     
                 },
                 //全屏
-                fullScreen(){
+                fullScreen :function(){
                     var fullscreenElement = document.fullscreenElement ||
                                             document.mozFullScreenElement ||
                                             document.webkitFullscreenElement;

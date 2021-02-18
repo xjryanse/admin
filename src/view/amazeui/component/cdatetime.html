@@ -37,7 +37,7 @@
         },
         watch:{
             value : {
-                handler(newName, oldName) {
+                handler :function(newName, oldName) {
                     this.$emit('input', newName );
                 },
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法

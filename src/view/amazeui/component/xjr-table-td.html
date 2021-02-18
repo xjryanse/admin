@@ -137,14 +137,14 @@
                 this.$emit('get_lists');
             },
             //获取日期时间
-            vGetDateTime( value ,formatt){
+            vGetDateTime : function( value ,formatt){
                 if(formatt == ''){
                     formatt = 'yyyy-MM-dd';
                 }
                 return getDateTime(value,formatt);
             },
             //搜索数据
-            searchData (key,value){
+            searchData  : function(key,value){
                 this.$emit('search_data',key,value);
             },
             //列表编辑

@@ -18,7 +18,7 @@
         template: '#xjr-type-tab',
         watch:{
             value : {
-                handler(newName, oldName) {
+                handler :function(newName, oldName) {
                     this.$emit('input', newName );
 //                    this.$emit('search_data',this.type_tab,newName);
                 },

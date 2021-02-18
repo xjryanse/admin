@@ -52,7 +52,7 @@
         template: '#list-search',
         watch:{
             value : {
-                handler(newName, oldName) {
+                handler :function(newName, oldName) {
                     console.log( newName );
                     this.$emit('input', newName );
                 },

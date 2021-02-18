@@ -29,7 +29,7 @@
         </div>
         <!--表体-->
         <div style="overflow:auto;" v-if="list_data" v-bind:style = "'max-height:'+ reduce">
-            <table class="am-table am-table-compact am-table-striped tpl-table-black am-table-bordered" 
+            <table class="am-table am-table-compact am-table-striped tpl-table-black am-table-bordered am-table-hover" 
                    ref="mainTable"
                    v-if="column_info" style="font-size:12px;">
                 <tbody>
@@ -179,7 +179,7 @@
         watch:{
             //主数据变化即触发
             allSelect : {
-                handler(newData, oldData) {
+                handler :function(newData, oldData) {
                     if(newData){
                         //全选
                         var tmpData = [];
@@ -198,7 +198,7 @@
             },
             //主数据变化即触发
             query_data : {
-                handler(newName, oldName) {
+                handler :function(newName, oldName) {
                    //请求页码设置为1，方便查询
                    this.query_data.page = 1;
                    this.getLists();
@@ -207,7 +207,7 @@
                 immediate: true
             },
             selectItems : {
-                handler(newName, oldName) {
+                handler :function(newName, oldName) {
 //                    console.log(newName);
                     //复选框和单选框选中数据作为绑定值
                     this.$emit('input', newName);
@@ -216,7 +216,7 @@
                 immediate: true
             }, 
             height:{
-                handler(newName, oldName) {
+                handler :function(newName, oldName) {
 //                    console.log(newName);
                     //复选框和单选框选中数据作为绑定值
                    this.reduce = "calc(65vh - " + newName.height+"px)"

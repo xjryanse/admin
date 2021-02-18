@@ -72,7 +72,7 @@
         template: '#xjr-field-mix',
         watch:{
             item_data : {
-                handler(newName, oldName) {
+                handler :function(newName, oldName) {
                     console.log('监听');
                     console.log(newName);
                 },
@@ -82,7 +82,7 @@
         },
         methods:{
             //展示条件
-            isConditionMatch( ){
+            isConditionMatch : function( ){
                 var showCondition = this.field.show_condition;
                 var that = this;
                 if(!showCondition ){

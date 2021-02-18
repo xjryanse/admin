@@ -37,7 +37,7 @@
         watch:{
             //主数据变化即触发
             table_name : {
-                handler(newData, oldData) {
+                handler :function(newData, oldData) {
                     
                 },
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
@@ -45,7 +45,7 @@
             },
             //主数据变化即触发
             queryData : {
-                handler(newName, oldName) {
+                handler :function(newName, oldName) {
                     if( this.$refs.xjr_table ){
                         this.$refs.xjr_table.searchList(newName);
                     }

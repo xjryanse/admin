@@ -116,7 +116,7 @@
         watch:{
             //主数据变化即触发
             form_data : {
-                handler(newName, oldName) {
+                handler :function(newName, oldName) {
                     if(!newName ){
                         this.form_data = {};
                     }                        
@@ -127,7 +127,7 @@
         },
         methods : {
             //条件是否匹配：一般用于控制按钮是否显示，操作是否可用等
-            isConditionMatch(){
+            isConditionMatch : function(){
                 var that = this;
                 console.log('---显示条件--');
                 console.log(that.show_condition);
@@ -174,7 +174,7 @@
             /*
              * 按钮点击触发事件
              */
-            doBtnClick(){
+            doBtnClick : function(){
                 if(!this.isConditionMatch()){
                     return false;
                 }
@@ -196,7 +196,7 @@
              * 新页面
              * @returns {undefined}
              */
-            newPage(){
+            newPage : function(){
                 window.open( this.getUrl() ); 
             },
             /**
@@ -276,7 +276,7 @@
                 });
             },
             //列表操作
-            listOperate(){
+            listOperate : function(){
                 var that = this;
                 console.log('-----测试-----');
                 console.log( that.form_data );
@@ -312,7 +312,7 @@
                     });
                 }
             },            
-            deleteItem(){
+            deleteItem : function(){
                 if(!this.data){
                     console.log('未指定数据data');
                 }
@@ -364,7 +364,7 @@
                 });
             },
             //获取url
-            getUrl (){
+            getUrl : function (){
                 //xjryanse.js:对形如{$event}的参数进行正则替换
 //                console.log('----生成url类库-----');
 //                console.log(this.url);
@@ -374,7 +374,7 @@
                 return urlDataReplace( this.url, this.data );
             },
             //导入文件
-            importFile( event ){
+            importFile : function( event ){
                 console.log('执行了importFile方法');
                 var that = this;
                 var formData = new FormData();

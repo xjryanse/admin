@@ -16,7 +16,7 @@
         watch:{
             //主数据变化即触发
             value : {
-                handler(newName, oldName) {
+                handler :function(newName, oldName) {
                     if(this.multiple && typeof(newName)=='string'){
                         //按逗号分隔成数组
                         this.value = newName.split(',');

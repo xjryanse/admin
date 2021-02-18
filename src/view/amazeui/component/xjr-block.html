@@ -116,7 +116,7 @@
         watch:{
             //主数据变化即触发
             main_data: {
-                handler(newName, oldName) {
+                handler :function(newName, oldName) {
                     //状态判断
                     console.log(newName);
                     if(this.block_info.status != 1 || newName.length == 0){

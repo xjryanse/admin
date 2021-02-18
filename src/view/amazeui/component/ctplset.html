@@ -119,13 +119,13 @@
         },
         methods : {
             //按比例计算，一般用于获取佣金
-            tplSetCalTotalRate( data ,field,rate){
+            tplSetCalTotalRate : function( data ,field,rate){
                 var value = this.tplSetCalAllTotal(data ,field );
                 var rateValue = value * rate;
                 return Math.round( rateValue * 100)/100; 
             },
             //模板设定计算值
-            tplSetCalTotal( data ,field ){
+            tplSetCalTotal : function( data ,field ){
                 var calValue = 0 ;
                 $.each(data,function(index,item ){
                     if(index != 'total' && item[field]){
@@ -138,7 +138,7 @@
              * 模板设定计算全部合计值
              * data:二维数组（表格）
              */
-            tplSetCalAllTotal( data , field ){
+            tplSetCalAllTotal : function( data , field ){
                 console.log('框架方法');
                 var calValue = 0 ;
                 $.each(data,function(indexInfo,itemInfo ){
@@ -155,7 +155,7 @@
              * 模板设定计算单列合计值
              * data:二维数组（表格）
              */
-            tplSetCalColTotal( data , key ,field ){
+            tplSetCalColTotal : function( data , key ,field ){
                 var calValue = 0 ;
                 $.each(data,function(indexInfo,itemInfo ){
                     $.each(itemInfo,function(index,item ){

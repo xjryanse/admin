@@ -34,7 +34,7 @@
         template: '#xjr-field-flex',
         watch:{
             item_data : {
-                handler(newName, oldName) {
+                handler :function(newName, oldName) {
                     console.log('监听flex');
                     console.log(newName);
                 },

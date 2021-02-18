@@ -480,7 +480,7 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
 /**主窗口**/
 .widget-main {
 /*    max-height:calc(100vh - 100px );*/
-    min-height:92vh;
+/*    min-height:92vh;*/
     overflow:auto;
 }
 .widget-head {

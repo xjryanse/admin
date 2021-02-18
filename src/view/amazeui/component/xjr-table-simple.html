@@ -15,7 +15,17 @@
                 <td v-for="(field,j) in column_info.listInfo" v-if="field.is_list && fields.indexOf(field.name) != -1" 
                     style="text-overflow:ellipsis;overflow:hidden;text-align:center;word-break: break-all;">
                     <!--普通文本-->
-                    <block v-if = "field.type=='text' || field.type=='listedit'" >{{item[field.name]}}</block>
+                    <block v-if = "field.type=='text' || field.type=='listedit'" >
+                        <!--点击弹窗list_pop-->
+                        <xjr-button v-if="field.list_pop" 
+                                    v-bind:operate="field.list_pop_operate" width = "90%"  height = "90%" button_cate="ahref"
+                                    v-bind:button_name  ="item[field.name]"
+                                    v-bind:url          = "urlDataReplace(field.list_pop,item)" 
+                                    show_name           = "true"
+                                    v-bind:data         = "item" 
+                                ></xjr-button>
+                        <span v-else>{{item[field.name]}}</span>
+                    </block>
                     <!--枚举-->
                     <block v-if = "field.type=='enum'">{{field.option[item[field.name]]}}</block>
                     <!--动态枚举-->

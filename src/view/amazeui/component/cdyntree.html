@@ -21,7 +21,7 @@
         watch:{
             //主数据变化即触发
             pid : {
-                handler(newName, oldName) {
+                handler :function(newName, oldName) {
                     console.log(this.pid);
                     this.treeInit();
                 },
@@ -30,7 +30,7 @@
             }
         },
         methods : {
-            getChilds( lists, pid ){
+            getChilds : function( lists, pid ){
                 var tmpArr = [];
                 var that = this;
                 $.each( lists ,function (index, element) {
@@ -44,7 +44,7 @@
                 return tmpArr;
             },
             //树状初始化
-            treeInit( ){
+            treeInit : function( ){
                 var that = this;
                 console.log( $(that.$refs.dyntree));
                 //移除原有元素，重新渲染树状
