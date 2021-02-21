@@ -5,7 +5,8 @@
     <div class="weui-cells user-form noborder mt00">
         <div v-if="item.type=='empty'" class="f14" style="background-color: #f2f2f2;padding:5px 10px;color:#999999">{{item.label}}</div>
         <we-field v-if="item.type=='hidden'" v-bind:type="item.type" v-model="value"></we-field>
-        
+        <we-cell-select v-if="item.type=='multiSelect' || item.type=='singleSelect'"
+            v-model="value" v-bind:type="item.type" v-bind:option="item.option" v-bind:label="item.label"></we-cell-select>
         <!--text,number,prize,phone,idno,date,citypicker,describe-->
         <we-cell-field v-model="value" v-bind:type="item.type" v-bind:label="item.label" v-bind:max_length = "item.maxLength"></we-cell-field>
         <!--单选-->

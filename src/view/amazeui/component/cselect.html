@@ -33,6 +33,9 @@
             }
         },        
         created :function(){
+
+        },
+        mounted : function(){
             //重新渲染树状
             var that = this;
             var selectParam = {};
@@ -42,9 +45,10 @@
             that.$nextTick(function () {
                 $( that.$refs.mySelect ).select2(selectParam);
                 $(that.$refs.mySelect).on("select2:select",function(e){
+                    console.log(e);
                     that.$emit('input', e.target.value );
                 })
             });
-        }
+        },
     });
 </script>
