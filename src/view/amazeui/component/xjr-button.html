@@ -232,6 +232,7 @@
                         layer.close(layerIndex);
                         layer.open({
                             type: 1,
+                            zIndex:"99",
                             title:that.title,
                             skin: 'layui-layer-rim', //加上边框
                             area: [width, height], //宽高
@@ -256,13 +257,28 @@
             },
             doLayerPageFull : function(){
                 console.log('doLayerPageFull开始执行');
+                var that = this;                
+                var formData    = this.form_data;
                 //url
                 var url         = this.getUrl();
+                
+                $.each(formData,function(index,value){
+                    if(typeof(that.data[value]) != "undefined") {
+                        value = that.data[value];
+                    }
+                    //单个任务块拼接
+                    if( url.indexOf('?')>0 ){
+                        url += '&' + index + '=' + value;
+                    } else {
+                        url += '?' + index + '=' + value;
+                    }
+                });
+                console.log(formData);
+                console.log(url);
                 //高度
                 var width       = this.width;
                 //宽度
                 var height      = this.height;                
-                var that = this;
                 layer.open({
                     type: 2,
                     title:that.title,
