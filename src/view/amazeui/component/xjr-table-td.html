@@ -41,9 +41,14 @@
             <!--不可在列表编辑-->
             <block v-else>
                 <!--点击直接搜索-->
-                <a href="javascript:;" v-if="field.search_type == 'equal'" 
+<!--                <a href="javascript:;" v-if="field.search_type == 'equal'" 
                    v-bind:title="'点击搜索'+ field.option[item[field.name]]" 
-                   v-on:click="searchData(field.name,item[field.name])">{{field.option[item[field.name]]}}</a>
+                   v-on:click="searchData(field.name,item[field.name])">{{field.option[item[field.name]]}}</a>-->
+                <!--徽章-->
+                <xjr-badge v-if="field.option[item[field.name]] && field.option[item[field.name]]['style'] " 
+                           v-bind:label="field.option[item[field.name]]['label']"
+                           v-bind:type="field.option[item[field.name]]['style']"
+                        ></xjr-badge>
                 <span v-else>{{field.option[item[field.name]]}}</span>
             </block>
         </block>

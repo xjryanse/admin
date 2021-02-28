@@ -27,7 +27,10 @@
                         <span v-else>{{item[field.name]}}</span>
                     </block>
                     <!--枚举-->
-                    <block v-if = "field.type=='enum'">{{field.option[item[field.name]]}}</block>
+                    <block v-if = "field.type=='enum'">
+                        <span v-if="field.option[item[field.name]] && field.option[item[field.name]]['label']">{{field.option[item[field.name]]['label']}}</span>
+                        <span v-else>{{field.option[item[field.name]]}}</span>
+                    </block>
                     <!--动态枚举-->
                     <block v-if = "field.type=='dynenum'">{{field.option.option[item[field.name]]}}</block>
                 </td>

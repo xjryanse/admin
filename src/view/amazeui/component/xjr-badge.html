@@ -1,0 +1,25 @@
+<!-- 按钮组件：三种类型：button普通按钮；import导入按钮；ahref:跳转a标签 -->
+<template id="xjr-badge">
+    <span v-bind:class=" type ? styles[ type ] : ''">{{label}}</span>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('xjr-badge', {
+        props: { label : String , type : String },
+        template: '#xjr-badge',
+        data: function(){
+            return {
+                //按钮样式
+                'styles':{
+                    "default"   :"am-badge",                    //灰
+                    "primary"   :"am-badge am-badge-primary",   //蓝
+                    "secondary" :"am-badge am-badge-secondary", //浅蓝
+                    "warning"   :"am-badge am-badge-warning",   //橙
+                    "danger"    :"am-badge am-badge-danger",    //红
+                    "success"   :"am-badge am-badge-success"    //绿
+                },
+            };
+        },
+    });
+</script>

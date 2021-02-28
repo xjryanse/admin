@@ -4,7 +4,14 @@
     <!--需要用js赋值一下，没有绑定。不知道为啥-->
     <select v-model="value" ref="mySelect" style="width:100%;height:50px;" v-bind:disabled ="is_detail == 1"> 
         <option value="" >请选择</option> 
-        <option v-for="(tmpOption,k) in option" v-bind:value="k">{{tmpOption}}</option> 
+        <!--兼容列表为徽章的写法-->
+        <option v-for="(tmpOption,k) in option" v-bind:value="k" v-if="tmpOption && tmpOption.label">
+            {{tmpOption.label}}
+        </option>
+        <!--【正常的枚举】-->
+        <option v-for="(tmpOption,k) in option" v-bind:value="k" v-if="tmpOption && !tmpOption.label">
+            {{tmpOption}}
+        </option>
     </select>
 </template>
 
