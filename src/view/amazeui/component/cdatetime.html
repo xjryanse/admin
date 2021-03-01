@@ -13,9 +13,12 @@
             
         </div>
         <div v-if="range">
-            <button type="button" class="am-btn am-btn-default pd5 am-btn-primary" @click="setToday()">当天</button>
-            <button type="button" class="am-btn am-btn-default pd5 am-btn-primary" @click="setThisMonth()">当月</button>
-            <button type="button" class="am-btn am-btn-default pd5 am-btn-primary" @click="setThisYear()">当年</button>
+            <button type="button" class="am-btn am-btn-default pd5 am-btn-primary f12" @click="setToday()">今天</button>
+            <button type="button" class="am-btn am-btn-default pd5 am-btn-primary f12" @click="setThisWeek()">本周</button>
+            <button type="button" class="am-btn am-btn-default pd5 am-btn-primary f12" @click="setLastWeek()">上周</button>
+            <button type="button" class="am-btn am-btn-default pd5 am-btn-primary f12" @click="setThisMonth()">本月</button>
+            <button type="button" class="am-btn am-btn-default pd5 am-btn-primary f12" @click="setLastMonth()">上月</button>
+            <button type="button" class="am-btn am-btn-default pd5 am-btn-primary f12" @click="setThisYear()">今年</button>
         </div>
     </div>
 </template>
@@ -37,17 +40,32 @@
             setToday : function( ){
                 this.value = {};
                 this.value[0] = "{:date('Y-m-d 00:00')}";
-                this.value[1] = "{:date('Y-m-d 23:59')}";
+                this.value[1] = "{:date('Y-m-d 00:00',strtotime('+1 day'))}";
+            },
+            setThisWeek : function( ){
+                this.value = {};
+                this.value[0] = "{:date('Y-m-01 00:00',strtotime('this week'))}";
+                this.value[1] = "{:date('Y-m-d 00:00',strtotime('+1 day'))}";
+            },
+            setLastWeek : function( ){
+                this.value = {};
+                this.value[0] = "{:date('Y-m-01 00:00',strtotime('last week'))}";
+                this.value[1] = "{:date('Y-m-d 00:00',strtotime('this week'))}";
+            },
+            setLastMonth : function( ){
+                this.value = {};
+                this.value[0] = "{:date('Y-m-01 00:00',strtotime('-1 month'))}";
+                this.value[1] = "{:date('Y-m-d 00:00',strtotime('this month'))}";
             },
             setThisMonth : function( ){
                 this.value = {};
                 this.value[0] = "{:date('Y-m-01 00:00')}";
-                this.value[1] = "{:date('Y-m-d 23:59')}";
+                this.value[1] = "{:date('Y-m-d 00:00',strtotime('+1 day'))}";
             },
             setThisYear : function( ){
                 this.value = {};
                 this.value[0] = "{:date('Y-01-01 00:00')}";
-                this.value[1] = "{:date('Y-m-d 23:59')}";
+                this.value[1] = "{:date('Y-m-d 00:00',strtotime('+1 day'))}";
             }
         },
         
