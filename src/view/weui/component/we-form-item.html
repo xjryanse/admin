@@ -22,6 +22,8 @@
                 </label>
             </div>
         </div>
+        <!-- 二维码 -->
+        <we-cell-qrcode v-if="item.type=='qrcode'" v-bind:label="item.label"></we-cell-qrcode>
         <!--描述性-->
         <we-cell-describe v-if="item.type=='describe'" v-bind:label="item.label" v-model="item.default"></we-cell-describe>
         <!--短信验证码-->
