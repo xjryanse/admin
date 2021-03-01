@@ -1,0 +1,13 @@
+<!-- 字段组件 -->
+<template id="we-qrcode">
+    <!--layerPage-->
+    <img style="max-width:180px;" v-bind:src="'{:url('qrcode/index/share')}?data='+ data">
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('we-qrcode', {
+        props: { data : String},
+        template: '#we-qrcode',
+    });
+</script>

@@ -1,0 +1,19 @@
+<!-- 字段组件 -->
+<template id="we-cell-qrcode">
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><we-label v-bind:label="label" v-bind:must="must"></we-label></div>
+        <div class="weui-cell__bd">
+            <we-qrcode data="http://www.baidu.com"></we-qrcode>
+        </div>
+    </div>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('we-cell-qrcode', {
+        props: { value : Array, type :String, label:String, option : Array ,must:String},   //must必填
+        template: '#we-cell-qrcode',
+    });
+</script>
+
+
