@@ -5,10 +5,11 @@
         <!--按钮的:条件匹配（显示）不匹配为灰，也显示 -->
         <button type="button" class="am-btn am-btn-default pd5"
                 v-bind:disabled ="isConditionMatch() == 0"
-                v-if="button_cate=='button' && operate !='import'"
+                v-if="button_cate=='button' && operate !='import' && operate !='copyText'"
                 v-bind:class=" btn_style ? styles[btn_style] : ''"
                 v-bind:class=" size ? sizes[size] : ''" 
                 v-bind:class ="btn_class" 
+                ref='btn'
                 @click="doBtnClick()" style="min-height:31px;">
             <span v-bind:class=" icon ? icons[icon] : ''"></span> <sdpan class="f14">{{button_name}}</span>
         </button>
@@ -24,9 +25,23 @@
             <span v-bind:class=" icon ? icons[icon] : ''"></span> <span class="f14">{{button_name}}</span>
             <input id="doc-form-file" type="file" ref='import' multiple="" @change="importFile($event)" style="max-height:40px;">
         </button>
+        <!--复制-->
+        <button type="button" class="am-btn am-btn-default am-form-file pd5 copyBtn" 
+                v-if="button_cate=='button' && operate =='copyText'"
+                v-bind:disabled ="isConditionMatch() == 0" 
+                v-bind:class=" btn_style ? styles[btn_style] : ''" 
+                v-bind:class=" size ? sizes[size] : ''" 
+                v-bind:class ="btn_class"
+                v-bind:data-clipboard-text="url"
+                style="min-height:31px;"
+                @click="doBtnClick()" 
+            >
+            <span v-bind:class=" icon ? icons[icon] : ''"></span> <span class="f14">{{button_name}}</span>
+        </button>
         <!--a标签的-->
         <a href="javascript:;" @click="doBtnClick()"
                 v-if="button_cate=='ahref'  && operate != 'import'"
+                ref='btn'
                 v-bind:class=" isConditionMatch() ? btn_class : 'xjr-disable'"
                 v-bind:title="button_name">
             <i v-bind:class=" icon ? icons[icon] : 'am-icon-plus'" v-if="icon"></i> <span v-if="show_name" class="f-blue">{{button_name}}</span>
@@ -186,7 +201,8 @@
                     "copyItem"          :"copyItem",
                     "listOperate"       :"listOperate",
                     "newPage"           :"newPage",
-                    "fullScreen"        :"doFullScreen"
+                    "fullScreen"        :"doFullScreen",
+                    "copyText"          :"copyText",
                 };
                 console.log( this.operate );
                 //动态执行方法名
@@ -356,7 +372,14 @@
                         that.$emit('get_lists');
                     });
                 });
-            },            
+            },
+            //复制文本
+            copyText : function () {
+                console.log('copyText开始');
+      
+                console.log('copyText结算');
+                return "测试复制";
+            },
             //异步操作
             ajaxOperate : function(url, data, callBack ){
                 //弹层
@@ -382,11 +405,11 @@
             //获取url
             getUrl : function (){
                 //xjryanse.js:对形如{$event}的参数进行正则替换
-//                console.log('----生成url类库-----');
-//                console.log(this.url);
-//                console.log(this.data);
-//                console.log(urlDataReplace( this.url, this.data ));
-//                
+                console.log('----生成url类库-----');
+                console.log(this.url);
+                console.log(this.data);
+                console.log(urlDataReplace( this.url, this.data ));
+                
                 return urlDataReplace( this.url, this.data );
             },
             //导入文件
@@ -439,8 +462,20 @@
             }            
             
         },
-        created :function(){
-
+        mounted :function(){
+            var that = this;
+            var operate = that.operate;
+            that.$nextTick(function () {
+                //复制按钮
+                if(operate == 'copyText'){
+                    const btnCopy = new ClipboardJS('.copyBtn');
+                    that.url = that.title + "{:request()->host()}" + that.getUrl();
+                    btnCopy.on('success', function(e) {
+                        layer.msg("复制成功!请尽快转发");
+                        e.clearSelection();
+                    });
+                }
+            });
 //            console.log('xjr-button开始执行');
         }
     });

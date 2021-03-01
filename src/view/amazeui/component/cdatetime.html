@@ -10,6 +10,12 @@
             <span style="float:left">-</span>
             <input type="text" class="tpl-form-input bd-r5" ref="datetime1" v-model="endDate" placeholder="结束时间" 
                    style="float:left;display:inline-block;width:48%;min-width:130px;">
+            
+        </div>
+        <div v-if="range">
+            <button type="button" class="am-btn am-btn-default pd5 am-btn-primary" @click="setToday()">当天</button>
+            <button type="button" class="am-btn am-btn-default pd5 am-btn-primary" @click="setThisMonth()">当月</button>
+            <button type="button" class="am-btn am-btn-default pd5 am-btn-primary" @click="setThisYear()">当年</button>
         </div>
     </div>
 </template>
@@ -26,6 +32,25 @@
                 value   : {},
             };
         },
+        methods : {
+            //按比例计算，一般用于获取佣金
+            setToday : function( ){
+                this.value = {};
+                this.value[0] = "{:date('Y-m-d 00:00')}";
+                this.value[1] = "{:date('Y-m-d 23:59')}";
+            },
+            setThisMonth : function( ){
+                this.value = {};
+                this.value[0] = "{:date('Y-m-01 00:00')}";
+                this.value[1] = "{:date('Y-m-d 23:59')}";
+            },
+            setThisYear : function( ){
+                this.value = {};
+                this.value[0] = "{:date('Y-01-01 00:00')}";
+                this.value[1] = "{:date('Y-m-d 23:59')}";
+            }
+        },
+        
         computed: {
             // 计算属性的 getter
             startDate : function(){
