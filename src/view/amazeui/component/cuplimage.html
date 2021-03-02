@@ -24,6 +24,10 @@
                     <input id="doc-form-file" type="file" multiple="" @change="uplPic($event,name)"
                            v-bind:disabled ="is_detail == 1">
                 </div>                
+                <a href="javascript:;" class="am-btn am-btn-danger am-btn-sm pd5" 
+                    style="background-color:#ff693f;float:left" v-if="value" @click=''>
+                    ×
+                </a>
             </div>
         </div>
     </div>
@@ -42,6 +46,10 @@
             };
         },        
         methods : {
+            clear : function(){
+                this.value = {};
+                this.$emit('input', this.value);
+            },
             //上传图片
             uplPic : function ( e,name ){
                 var that = this;
