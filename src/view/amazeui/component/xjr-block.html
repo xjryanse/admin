@@ -101,7 +101,7 @@
     //定义hblock组件
     Vue.component('xjr-block', {
         //block_info：块信息；主数据
-        props: {block_info : Array, main_data:Array },
+        props: {block_info : Array, main_data:Array ,data_url : String },
         template: '#xjr-block',
         data: function(){
             return {
@@ -144,7 +144,7 @@
                     var layerIndex = layer.load(2);
                     var that = this;
                     $.ajax({
-                        url:"{:url('data',$paramInherit)}",
+                        url: that.data_url,
                         type:'POST',
                         data: {
                             'show_type'     : that.block_info.show_type,

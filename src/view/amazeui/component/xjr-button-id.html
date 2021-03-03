@@ -78,13 +78,20 @@
         created :function(){
             console.log('----按钮组件xjr-button-id开始');
             var storageKey      = "systemAllBtns";
+            var versionKey      = "systemStorageVersion";
+            //系统版本号
+            var sysStoreageVersion = "{$sysConfigs['systemStorageVersion']}";//强制更新版本号
+            //本地版本号
+            var localStorateVersion;
             var that = this;
             that.systemAllBtns  = JSON.parse(localStorage.getItem( storageKey ));
+            localStorateVersion = localStorage.getItem( versionKey );
             //获取按钮列表:强制更新
-            if(!that.systemAllBtns || "{$sysConfigs['strictUpdate']}" ){
+            if(!that.systemAllBtns || sysStoreageVersion > localStorateVersion  ){
                 that.getBtns(function( data ){
                     localStorage.setItem( storageKey , JSON.stringify(data));
                     that.systemAllBtns = data;
+                    localStorage.setItem( versionKey , "{$sysConfigs['systemStorageVersion']}");
                 })
             }
 //            that.getBtns(function( data ){

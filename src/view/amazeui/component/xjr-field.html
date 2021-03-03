@@ -102,14 +102,14 @@
         template: '#xjr-field',
         data: function(){
             return {
-                "loading"   : false,
+                "loaded"   : false,
             };
         },               
         methods : {
             //表单联动数据
             formLinkage : function(){
                 //联动字段才触发执行
-                if(!this.list_item.is_linkage){
+                if(!this.list_item.is_linkage || !this.loaded){
                     return false;
                 }
                 console.log( 'xjr-field formLinkage' );        
@@ -132,6 +132,10 @@
                     }
                 });                
             },
-        }
+        },
+        mounted : function(){
+            //重新渲染树状
+            this.loaded = true; //已经加载过才能改
+        },        
     });
 </script>

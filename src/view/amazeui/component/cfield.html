@@ -4,7 +4,7 @@
     <block>
         <!--文本text-->
         <!--文本listedit-->
-        <input v-if="type == 'text' || type == 'listedit' "
+        <input v-if="type == 'text' || type == 'listedit' || type == 'prize'"
                    type="text" class="tpl-form-input bd-r5" v-model="value" v-on:change="$emit('input', $event.target.value)" 
                    v-bind:disabled ="is_detail == 1"
                    v-bind:class="is_detail == 1 ? 'vague' : ''"

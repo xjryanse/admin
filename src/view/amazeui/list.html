@@ -54,7 +54,8 @@
                 <xjr-block v-for="(block,k) in columnInfo.blockInfo" 
                            v-bind:block_info="block"
                            v-bind:main_data="currentSelectItem"
-                           @get_lists          =   "getLists"
+                           data_url     = "{:url('data',$paramInherit)}"                           
+                           @get_lists   =   "getLists"
                         ></xjr-block>
             </div>
         </div>
