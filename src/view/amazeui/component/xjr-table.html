@@ -71,7 +71,13 @@
                                         @get_lists="getLists"                                    
                                     ></xjr-table-btn>-->
                                  <!--按钮-->
-                                <!--列表弹窗 v-bind:form_data    =   "item" -->
+                                <!--【有点笨重：20210304】列表弹窗 v-bind:form_data    =   "item" -->
+<!--                                <xjr-button-id v-for="(btn,k) in column_info.btnInfo" 
+                                               v-if="btn.place=='list'" 
+                                               v-bind:btn_id="btn.id" 
+                                               v-bind:query_data="btn.param"
+                                               v-bind:item="item"></xjr-button-id>-->
+                                
                                 <xjr-button icon="pencil" button_cate="ahref" show_name="true"
                                             v-for="(btn,k) in column_info.btnInfo"
                                             v-if="btn.place=='list'"

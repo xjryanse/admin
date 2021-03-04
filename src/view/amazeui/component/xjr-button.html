@@ -407,10 +407,10 @@
             //获取url
             getUrl : function (){
                 //xjryanse.js:对形如{$event}的参数进行正则替换
-                console.log('----生成url类库-----');
-                console.log(this.url);
-                console.log(this.data);
-                console.log(urlDataReplace( this.url, this.data ));
+//                console.log('----生成url类库-----');
+//                console.log(this.url);
+//                console.log(this.data);
+//                console.log(urlDataReplace( this.url, this.data ));
                 
                 return urlDataReplace( this.url, this.data );
             },
@@ -471,7 +471,7 @@
                 //复制按钮
                 if(operate == 'copyText'){
                     const btnCopy = new ClipboardJS('.copyBtn');
-                    that.url = that.title + "{:request()->host()}" + that.getUrl();
+                    that.url = urlDataReplace( that.title, that.data ) + "{:request()->host()}" + that.getUrl();
                     btnCopy.on('success', function(e) {
                         layer.msg("复制成功!请尽快转发");
                         e.clearSelection();

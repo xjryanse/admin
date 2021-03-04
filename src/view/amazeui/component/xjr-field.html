@@ -109,7 +109,8 @@
             //表单联动数据
             formLinkage : function(){
                 //联动字段才触发执行
-                if(!this.list_item.is_linkage || !this.loaded){
+                //有id，且未加载完成
+                if(!this.list_item.is_linkage || (this.item_data.id && !this.loaded)){
                     return false;
                 }
                 console.log( 'xjr-field formLinkage' );        
@@ -134,7 +135,6 @@
             },
         },
         mounted : function(){
-            //重新渲染树状
             this.loaded = true; //已经加载过才能改
         },        
     });

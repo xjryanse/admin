@@ -15,7 +15,7 @@
                 <td v-for="(field,j) in column_info.listInfo" v-if="field.is_list && fields.indexOf(field.name) != -1" 
                     style="text-overflow:ellipsis;overflow:hidden;text-align:center;word-break: break-all;">
                     <!--普通文本-->
-                    <block v-if = "field.type=='text' || field.type=='listedit'" >
+                    <block v-if = "field.type=='text' || field.type=='listedit' || field.type=='prize'" >
                         <!--点击弹窗list_pop-->
                         <xjr-button v-if="field.list_pop" 
                                     v-bind:operate="field.list_pop_operate" width = "90%"  height = "90%" button_cate="ahref"
