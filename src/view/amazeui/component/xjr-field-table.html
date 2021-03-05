@@ -97,6 +97,7 @@
             },
             data_id : {
                 handler :function(newName, oldName) {
+                    console.log( '------data_id取数据-----' );
                     this.tableNameData();
                 },
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
@@ -129,8 +130,11 @@
                             layer.close(layerIndex);                            
                             if(data.code == 0){
                                 layer.msg(data.message, {icon: 1, time: 1000},function(){
+                                    console.log(data);
                                     that.data_id    = data.data;
                                     that.form_type  = 'edit';
+                                    //TODO直接取数据20210305
+                                    that.tableNameData();
                                 });
                             } else {
                                 layer.msg(data.message, {icon: 2});
