@@ -26,6 +26,8 @@
         <we-cell-qrcode v-if="item.type=='qrcode'" v-bind:label="item.label"></we-cell-qrcode>
         <!--描述性-->
         <we-cell-describe v-if="item.type=='describe'" v-bind:label="item.label" v-model="item.default"></we-cell-describe>
+        <!--文本框-->
+        <we-cell-textarea v-if="item.type=='textarea'" v-bind:label="item.label" v-model="value"></we-cell-textarea>
         <!--短信验证码-->
         <we-cell-sms v-if="item.type=='smsCode'" v-bind:label="item.label" v-model="value" v-bind:sms_phone="sms_phone" v-bind:sms_key="sms_key"></we-cell-sms>
         <!--uplimage 上传图片-->

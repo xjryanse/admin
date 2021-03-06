@@ -17,7 +17,7 @@
         <!-- 密码password-->
         <input v-if="type == 'password'" type="password" class="weui-input" v-model="value" v-bind:placeholder="remark">
         <!-- 文本框textarea-->
-        <textarea v-if="type == 'textarea'" class="" rows="10" placeholder="请输入" v-model="value" ></textarea>
+        <textarea v-if="type == 'textarea'" class="" rows="10" placeholder="请输入" v-model="value" style="width:100%;"></textarea>
         <!-- 开关switch-->
         <div class="tpl-switch" v-if="type == 'switch'">
             <input type="checkbox" 

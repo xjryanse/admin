@@ -1,0 +1,49 @@
+<!-- 字段组件 -->
+<template id="we-cell-textarea">
+    <block>
+        <!--标题-->
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><we-label v-bind:label="label"></we-label></div>
+        </div>
+        <!--内容-->
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <we-field type="textarea" v-model="value"></we-field>
+            </div>
+        </div>
+    </block>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('we-cell-textarea', {
+        props: { value : Array, label:String },
+        template: '#we-cell-textarea',
+        data: function(){
+            return {};
+        },
+        methods : {
+
+        },
+        watch : {
+            //主数据变化即触发
+            value : {
+                handler(newData, oldData ){
+                    //v-model语法糖
+                    this.$emit( "input" , newData );
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            }
+        },
+        created :function(){
+
+        }
+    });
+</script>
+<style>
+    .myImg{
+        width: 100%; height: 100%;
+    }
+</style>
+
