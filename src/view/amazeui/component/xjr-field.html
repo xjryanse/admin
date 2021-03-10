@@ -45,7 +45,8 @@
         </div>
 
         <!--字段类型：date日期-->
-        <cdatetime v-if="list_item.type == 'date'" v-model="item_data[list_item.name]" v-bind:is_detail="is_detail"></cdatetime>
+        <cdatetime v-if="list_item.type == 'date'" v-model="item_data[list_item.name]" v-bind:is_detail="is_detail" type="date" v-bind:format="list_item.option"></cdatetime>
+        <cdatetime v-if="list_item.type == 'datetime'" v-model="item_data[list_item.name]" v-bind:is_detail="is_detail" type="datetime" v-bind:format="list_item.option"></cdatetime>
         <!--字段类型：上传图片-->
         <!--上传图片框-->
         <cuplimage  v-bind:name="list_item.name" 

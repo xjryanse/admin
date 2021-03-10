@@ -45,7 +45,7 @@
         <!--编辑器-->
         <div v-if = "field.type=='editor'" v-html="item[field.name]"></div>
         <!--日期时间-->
-        <block v-if = "field.type == 'date'">
+        <block v-if = "field.type == 'date' || field.type == 'datetime'">
             <span v-if = "item[field.name] && item[field.name] !='0000-00-00 00:00:00'">{{vGetDateTime(item[field.name],field.option)}}</span>
         </block>
         <!--普通枚举-->

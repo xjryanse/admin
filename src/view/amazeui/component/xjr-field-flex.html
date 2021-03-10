@@ -14,6 +14,7 @@
                            v-bind:item_data="item_data"
                            v-bind:is_detail="field.only_detail ? field.only_detail : is_detail"
                            v-bind:form_type="form_type"
+                           @get_lists="getLists"                                 
                         ></xjr-field-mix>
         </block>
         <!--嵌套递归-->
@@ -22,6 +23,7 @@
                         v-bind:item_data="item_data"
                         v-bind:form_type="form_type"
                         v-bind:is_detail="is_detail"
+                        @get_lists="getLists"                              
                     ></xjr-field-flex>
     </div>
 </template>
@@ -41,6 +43,11 @@
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
                 immediate: true
             },
+        },        
+        methods : {
+            getLists : function () {
+                this.$emit('get_lists');
+            },            
         },        
     });
 </script>

@@ -27,7 +27,8 @@
     //定义hblock组件
     //range:是否范围
     Vue.component('cdatetime', {
-        props: { value : Array, is_detail : String, range: String},
+        //type:date 日期,time时间
+        props: { value : Array, is_detail : String, range: String ,type : String ,format : String},
         template: '#cdatetime',
         data: function(){
             return {
@@ -66,7 +67,14 @@
                 this.value = {};
                 this.value[0] = "{:date('Y-01-01 00:00')}";
                 this.value[1] = "{:date('Y-m-d 00:00',strtotime('+1 day'))}";
-            }
+            },
+            //获取日期时间
+            vGetDateTime : function( value ,formatt){
+                if(formatt == ''){
+                    formatt = 'yyyy-MM-dd';
+                }
+                return getDateTime(value,formatt);
+            },            
         },
         
         computed: {
@@ -88,13 +96,29 @@
             },
         },
         created :function(){
+            //格式化显示
+            console.log('---格式---');
+            console.log( this.format );
+            if( this.format ){
+                this.vGetDateTime( this.value, this.format);
+            }
             //重新渲染树状
             var that = this;
             that.$nextTick(function () {
+                var format;         //格式
+                var timepickerShow; //显示时间选择
+                if(that.type == "date"){
+                    format = "Y-m-d";
+                    timepickerShow = false;
+                } else {
+                    format = "Y-m-d H:i";                    
+                    timepickerShow = true;
+                }
                 if(!that.range){
                     //单值
                     $( that.$refs.datetime ).datetimepicker({
-                        format:"Y-m-d H:i",
+                        format: format,
+                        timepicker : timepickerShow,
                         language:'zh-CN',
                         onChangeDateTime: function() {
                             //绑定
@@ -104,7 +128,8 @@
                 } else {
                     //范围
                     $( that.$refs.datetime0 ).datetimepicker({
-                        format:"Y-m-d H:i",
+                        format: format,
+                        timepicker : timepickerShow,
                         language:'zh-CN',
                         onChangeDateTime: function() {
                             if(!that.value){
@@ -115,7 +140,8 @@
                         }
                     });
                     $( that.$refs.datetime1 ).datetimepicker({
-                        format:"Y-m-d H:i",
+                        format: format,
+                        timepicker : timepickerShow,
                         language:'zh-CN',
                         onChangeDateTime: function() {
                             if(!that.value){

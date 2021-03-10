@@ -349,6 +349,21 @@
         created :function(){
 //            console.log('xjr-table组件开始');
 //            this.getLists();
-        }
+        },
+        mounted () {
+            const that = this
+            window.onresize = () => {
+                return (() => {
+                    setTimeout(function () {
+                        var widths = that.getMainTableWidth();
+                        //表体和表头对齐
+                        $(that.$refs.mainTableHeader).find("th").attr('width',function(i,e){
+//                                        console.log(widths[i]);
+                            return widths[i] ;
+                        });
+                    },300);
+                })()
+            }
+        }        
     });
 </script>

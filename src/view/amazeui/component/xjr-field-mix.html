@@ -9,18 +9,21 @@
             <div v-if="field.label" v-bind:class="!['iframe','tplset','iform','ilist','uplimage'].includes(field.type) ? 'am-u-sm-3' : ''">
                 <!--居中-->
                 <label for="user-name" class="am-form-label" v-if="field.type == 'uplimage'" style="width:100%;text-align: center;">
-                    <b v-if="['iframe','tplset','iform','ilist'].includes(field.type)">{{field.label}}</b>
-                    <span v-else>{{field.label}}</span>
+                    <b v-if="['iframe','tplset','iform','ilist'].includes(field.type)" v-html="field.label"></b>
+                    <span v-else v-html="field.label"></span>
+                    <span v-if="field.is_must" class="f-red">*</span>
                 </label>
                 <!--靠右-->
                 <label for="user-name" class="am-form-label" v-else-if="!['iframe','tplset','iform','ilist'].includes(field.type)" style="width:100%;">
-                    <b v-if="['iframe','tplset','iform','ilist'].includes(field.type)">{{field.label}}</b>
-                    <span v-else>{{field.label}}</span>
+                    <b v-if="['iframe','tplset','iform','ilist'].includes(field.type)" v-html="field.label"></b>
+                    <span v-else v-html="field.label"></span>
+                    <span v-if="field.is_must" class="f-red">*</span>
                 </label>
                 <!--靠左-->
                 <label for="user-name" class="am-form-label" v-else>
-                    <b v-if="['iframe','tplset','iform','ilist'].includes(field.type)">{{field.label}}</b>
-                    <span v-else>{{field.label}}</span>
+                    <b v-if="['iframe','tplset','iform','ilist'].includes(field.type)" v-html="field.label"></b>
+                    <span v-else v-html="field.label"></span>
+                    <span v-if="field.is_must" class="f-red">*</span>
                 </label>
             </div>
             <div v-bind:class="!['iframe','tplset','iform','ilist','uplimage'].includes(field.type) ? 'am-u-sm-9' : ''" style="display:flex">
@@ -33,6 +36,7 @@
                 <xjr-button-id v-bind:btn_id="field.edit_btn_id" 
                                v-if="field.edit_btn_id"
                                v-bind:item  =   "item_data" 
+                                @get_lists="getLists"                               
                             ></xjr-button-id>
             </div>
         </div>
@@ -97,7 +101,11 @@
                 });
                 console.log(isMatch);
                 return isMatch;
-            }
+            },
+            //重新加载数据
+            getLists : function () {
+                this.$emit('get_lists');
+            },         
         }
     });
 </script>

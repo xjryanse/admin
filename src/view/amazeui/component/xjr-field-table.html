@@ -8,6 +8,7 @@
                             v-bind:list_info="listInfo"
                             v-bind:form_type="form_type"
                             v-bind:is_detail="is_detail"
+                            @get_lists="getLists"                                  
                         ></xjr-field-flex>
         </div>
         <!--只显示is_add字段；按后台配置宽度显示-->
@@ -19,6 +20,7 @@
                         v-bind:item_data="dataInfo"
                         v-bind:is_detail="field.only_detail ? field.only_detail : is_detail"
                         v-bind:form_type ="form_type"
+                        @get_lists="getLists"                              
                     ></xjr-field-mix>
             </block>
         </div>
@@ -105,6 +107,7 @@
             },
             dataInfo : {
                 handler :function(newName, oldName) {
+                    console.log( this.dataInfo );                       
 //                    this.tableNameColumn();
                 },
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
@@ -120,6 +123,7 @@
                 layer.confirm('确认提交吗？', function (index) {
                     //弹层
                     var layerIndex = layer.load(2);
+                    localStorage.setItem( 'lastFormData' ,''); //清空末表单内容
                     $.ajax({
                         url: "{:url('admin/SCommon/tableNameSave')}",
 //                        contentType:'application/json;charset=utf-8',
@@ -186,9 +190,13 @@
                     }
                 });
             },
-            getLists : function(){
-                
-            },
+            //刷新逻辑
+            getLists : function () {
+                localStorage.setItem( 'lastFormData' , JSON.stringify(this.dataInfo) );
+                console.log( '---缓存lastFormData--' );
+                console.log( this.dataInfo );                
+                window.location.href="";
+            },            
             pageRefresh : function(){
                 window.location.href = window.location.href;
             }

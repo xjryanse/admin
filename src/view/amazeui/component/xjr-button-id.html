@@ -17,6 +17,7 @@
             v-bind:form_data    =   "query_data" 
             v-bind:show_condition= 'btnInfo.show_condition'
             v-bind:no_match_style= "btnInfo.no_match_style"
+            @get_lists="getLists"
         ></xjr-button>
 </template>
 
@@ -55,7 +56,10 @@
                     this.btnInfo = this.systemAllBtns[this.btn_id];
 //                    console.log( this.btnInfo );
                 }
-            }
+            },
+            getLists : function () {
+                this.$emit('get_lists');
+            },            
         },
         watch:{
             //主数据变化即触发

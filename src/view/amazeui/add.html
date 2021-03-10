@@ -36,5 +36,16 @@
             'isDetail':"{$isDetail|default=''}",
             'id':"{:request()->param('id')}"
         },
+        created :function(){
+            var lastFormDataJson = localStorage.getItem('lastFormData');
+            console.log( '---获取lastFormData--' );
+            console.log( lastFormDataJson );            
+            if(lastFormDataJson){
+                var lastFormData = JSON.parse(lastFormDataJson);
+                console.log( lastFormData );    
+                //缓存覆盖入参（TODO）
+                Object.assign(this.inputData,lastFormData);              
+            }
+        }
     });
 </script>
