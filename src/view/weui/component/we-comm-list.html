@@ -1,0 +1,168 @@
+<!-- 客户 -->
+<template id="we-comm-list">
+    <!--layerPage-->
+    <div class="bg-gray">
+        <!--查询-->
+        <div v-if="search" class="weui-search-bar" >
+            <input type="input" v-model="keyword" placeholder="请输入关键字"  class="search-input mg5-r bd-r5">
+            <a href="javascript:;" class="weui-btn weui-btn_mini" style="width: 50px;padding: 0.1rem;border: none;background-color: rgb(255, 255, 255);color: rgb(255, 47, 48);" @click="getCommList()"><b>查询</b></a>
+        </div>
+        <!--列表-->
+        <div class="weui-panel__bd weui-panel weui-panel_access mg5" v-for="(item,i) in commList" >
+            <div class="weui-flex" >
+                <div class="weui-flex__item" @click="value = item;">
+                    <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg pd10">
+                        <div class="weui-media-box__bd">
+                            <h4 class="weui-media-box__title">{{item[main_field]}}</h4>
+                        </div>
+                    </a>
+                </div>
+                <div>
+                    <div class="block-center f-blue" @click="commAdd(item.id)">编辑</div>
+                    <div class="block-center f-red" @click="commDelete(item.id)">删除</div>
+                </div>
+            </div>
+        </div>
+        <div v-if="!commList.length" style="text-align: center;">
+            <we-nothing text="暂无数据"></we-nothing>
+        </div>
+        <div class="weui-btn-area">
+            <a href="javascript:" class="weui-btn weui-btn_primary" style="font-size: 15px;" 
+               @click="commAdd('')">新增{{title}}</a>
+        </div>
+        <div class="z50" style="position: fixed;top:0;height: 100%;width: 100%;overflow: auto;background:rgb(242, 242, 242);" 
+                v-bind:class="[commAddShow ? '' : 'hide']">
+            <div class="weui-header bg-white">
+                <div class="weui-header-left">
+                    <a href="javascript:;" class="icon icon-109 f-black" style="color: black;" @click="afterCommAdd()"></a>
+                </div>                
+                <h1 class="f-black">{{title}}信息管理</h1> 
+                <div class="weui-header-right"></div>
+            </div>
+            <div class="weui-panel bg-gray">
+                <we-comm-add v-bind:table_name ="table_name"
+                    v-bind:data_id="commEditId" 
+                    v-bind:data_field="data_field" 
+                    v-bind:is_detail="is_detail"
+                    @after_add="afterCommAdd"></we-comm-add>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('we-comm-list', {
+        //search:搜索字段的key
+        props: { data_field : Array ,table_name : String ,title : String, main_field : String, value :Array, search : String },
+        //owner_id：客户id
+        template: '#we-comm-list',
+        data: function(){
+            return {
+                "commList" : [],
+                "commAddShow": false,
+                //编辑框的客户id
+                "commEditId":'',
+                "is_detail" : 0,//0详情，1编辑
+                //请求数据
+                "data":{},
+                //搜索关键词
+                "keyword":"",
+            }
+        },
+        watch:{
+            value : {
+                handler :function(newName, oldName) {
+                    this.$emit('input', newName );
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            },
+            //搜索关键词
+            keyword : {
+                handler :function(newName, oldName) {
+                    if(this.search && newName){
+                        //赋值表单
+                        this.data[this.search] = newName;
+                    } else {
+                        this.data = {};                        
+                    }
+                    console.log(this.data);
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            },
+        },                
+        methods : {
+            commAdd( commId ){
+                this.is_detail = 0;
+                this.commEditId = commId;
+                //调起编辑
+                this.commAddShow = true;
+            },
+            afterCommAdd(){
+                //隐藏编辑
+                this.commAddShow = false;
+                //刷新列表
+                this.getCommList();
+            },            
+            /**
+             * 获取用户的客户列表
+             * @returns {undefined}
+             */
+            getCommList(){
+                console.log( this.data );
+                var that = this;
+                $.ajax({
+                    url: "{:url('webapi/Comm/list',$paramInherit)}",
+                    data: { table_name:that.table_name, table_data: that.data },
+                    type: 'POST',
+                    success: function (data) {
+                        $('.loading').hide();
+                        //关闭弹层
+                        if (data.code == 0) {
+                            that.commList = data.data;
+                            console.log(data);
+                        } else {
+                            $.toast(data.message ,"cancel");
+                        }
+                    }
+                });
+            },
+            /**
+             * 获取用户的持有人列表
+             * @param {type} ownerId
+             * @returns {undefined}
+             */
+            commDelete( commId ){
+                var that = this;
+                $.confirm("该操作不可恢复，确认删除？", function() {
+                        //点击确认后的回调函数
+                        $.ajax({
+                            url: "{:url('webapi/Comm/delete',$paramInherit)}",
+                            data: { table_name:that.table_name, table_data: {"id":commId}},
+                            type: 'POST',
+                            success: function (data) {
+                                $('.loading').hide();
+                                //关闭弹层
+                                if (data.code == 0) {
+                                    $.toast(data.message,function(){
+                                        //刷新列表
+                                        that.getCommList( );
+                                    });
+                                } else {
+                                    $.toast(data.message ,"cancel");
+                                }
+                            }
+                        });
+                    }, function() {
+                    //点击取消后的回调函数
+                    
+                    });
+            },            
+        },
+        created: function () {
+            this.getCommList();
+        }
+    });
+</script>

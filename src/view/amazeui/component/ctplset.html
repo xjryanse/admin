@@ -207,11 +207,20 @@
                     type: 'POST',
                     data: {"tableName":tableName,"data": itemData},
                     success:function(data){
+                        console.log('在此调试');
                         //关闭弹层
                         layer.close( layerIndex );
                         if(data.code == 0){
-                            //强制刷新
-                            that.$forceUpdate();
+                            if(!itemData.id){
+                                that.SColumnTplset( that.table_name, that.column_list_id, that.data_id, function( data ){
+                                    console.log("subUpdate 调用 SColumnTplset");
+                                    console.log( data );
+                                    //拿option
+                                    that.option.option = data;
+                                    //强制刷新
+                                    that.$forceUpdate();
+                                });                                       
+                            }                     
                             layer.msg(data.message, {icon: 1, time: 1000});
                             //回调函数
                         } else {

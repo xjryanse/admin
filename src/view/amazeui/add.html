@@ -15,7 +15,9 @@
                 v-bind:input_data   ="inputData"
                 v-bind:data_id      ="id"
                 v-bind:method_key   ="methodKey"
-                v-bind:is_detail    ="isDetail"></xjr-field-table>            
+                v-bind:is_detail    ="isDetail"
+                @get_lists          =   "getLists"
+                ></xjr-field-table>            
         </div>
     </div>
 </div>
@@ -36,6 +38,14 @@
             'isDetail':"{$isDetail|default=''}",
             'id':"{:request()->param('id')}"
         },
+        methods : {
+            getLists : function(){
+                //关闭父页面弹窗
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);                
+                console.log('add的getLists方法');
+            }
+        },        
         created :function(){
             var lastFormDataJson = localStorage.getItem('lastFormData');
             console.log( '---获取lastFormData--' );

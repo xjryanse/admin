@@ -4,11 +4,11 @@
     <!--empty;text;radio;uplimg;citypicker;smsCode;multiSelect-->
     <div class="weui-cells user-form noborder mt00">
         <div v-if="item.type=='empty'" class="f14" style="background-color: #f2f2f2;padding:5px 10px;color:#999999">{{item.label}}</div>
-        <we-field v-if="item.type=='hidden'" v-bind:type="item.type" v-model="value"></we-field>
+        <we-field v-if="item.type=='hidden'" v-bind:type="item.type" v-model="value" v-bind:is_edit="item.is_edit"></we-field>
         <we-cell-select v-if="item.type=='multiSelect' || item.type=='singleSelect'"
             v-model="value" v-bind:type="item.type" v-bind:option="item.option" v-bind:label="item.label"></we-cell-select>
         <!--text,number,prize,phone,idno,date,citypicker,describe-->
-        <we-cell-field v-model="value" v-bind:type="item.type" v-bind:label="item.label" v-bind:max_length = "item.maxLength"></we-cell-field>
+        <we-cell-field v-model="value" v-bind:type="item.type" v-bind:label="item.label" v-bind:max_length = "item.maxLength" v-bind:is_edit="item.is_edit"></we-cell-field>
         <!--单选-->
         <div class="weui-cell" v-if="item.type=='radio'">
             <div class="weui-cell__hd"><we-label v-bind:label="item.label"></we-label></div>

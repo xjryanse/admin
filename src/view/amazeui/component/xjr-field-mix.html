@@ -31,7 +31,9 @@
                            v-bind:list_item = "field" 
                            v-bind:item_data ="item_data" 
                            v-bind:is_detail ="is_detail"
-                           v-bind:table_name="table_name"></xjr-field>
+                           v-bind:table_name="table_name"
+                           @get_lists="getLists"       
+                           ></xjr-field>
                 <!--按钮  && !is_detail -->
                 <xjr-button-id v-bind:btn_id="field.edit_btn_id" 
                                v-if="field.edit_btn_id"
@@ -57,6 +59,7 @@
                         v-bind:item_data="item_data[field.name]"
                         v-bind:is_detail="is_detail"
                         v-bind:table_name ="field.table_info.table_name"
+                        @get_lists="getLists"
                     ></xjr-field-mix>
                 </div>
                 <!--子级表的循环结束-->
@@ -77,8 +80,8 @@
         watch:{
             item_data : {
                 handler :function(newName, oldName) {
-                    console.log('监听');
-                    console.log(newName);
+//                    console.log('监听');
+//                    console.log(newName);
                 },
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
                 immediate: true
@@ -104,6 +107,7 @@
             },
             //重新加载数据
             getLists : function () {
+                console.log('xjr-field-mix的 getLists 方法')
                 this.$emit('get_lists');
             },         
         }

@@ -24,6 +24,7 @@
                                     v-bind:list_info="columnHeader.listInfo"
                                     v-bind:form_type="formType"
                                     v-bind:is_detail="isDetail"
+                                    @get_lists="getLists"
                                 ></xjr-field-flex>
                 </div>
                 <!--只显示is_add字段；按后台配置宽度显示-->
@@ -35,6 +36,7 @@
                                 v-bind:item_data="inputData"
                                 v-bind:is_detail="field.only_detail ? field.only_detail : isDetail"
                                 v-bind:form_type ="formType"
+                                @get_lists="getLists"
                             ></xjr-field-mix>
                     </block>
                 </div>

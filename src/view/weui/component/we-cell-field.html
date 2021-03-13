@@ -1,10 +1,11 @@
 <!-- 字段组件 -->
 <template id="we-cell-field">
-    <div class="weui-cell" v-if="type=='text' || type=='number' || type=='prize'|| type=='phone' || type=='idno' || type=='date' || type=='citypicker'" >
+    <div class="weui-cell" v-if="type=='text' || type=='number' || type=='prize'|| type=='phone' || type=='idno' || type=='date' || type=='citypicker' || type=='switch'" >
         <div class="weui-cell__hd"><we-label v-bind:label="label"></we-label></div>
         <div class="weui-cell__bd">
             <we-field v-bind:type="type" v-model="value" v-bind:remark="'请输入'+ label" 
-                      v-bind:maxlength="max_length"></we-field>
+                      v-bind:maxlength="max_length"
+                      v-bind:is_edit="is_edit"></we-field>
         </div>
     </div>
 <!--    
@@ -21,7 +22,7 @@
 <script>
     //定义hblock组件
     Vue.component('we-cell-field', {
-        props: { value : Array, type :String, label:String, max_length :String },
+        props: { value : Array, type :String, label:String, max_length :String ,is_edit :String},
         template: '#we-cell-field',
         data: function(){
             return {};

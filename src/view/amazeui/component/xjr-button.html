@@ -256,6 +256,7 @@
                             area: [width, height], //宽高
                             end : function () {
                                 //需要刷新父页面时
+                                console.log( 'doLayerPage 的 get_lists' );
                                 that.$emit('get_lists');
                             },
                             content: data
@@ -304,6 +305,7 @@
                     area: [width, height], //宽高
                     end : function () {
                         //刷新主界面数据
+                        console.log( 'doLayerPageFull 的 get_lists' );
                         that.$emit('get_lists');
                     },
                     content: url

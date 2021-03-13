@@ -138,7 +138,10 @@
                                     that.data_id    = data.data;
                                     that.form_type  = 'edit';
                                     //TODO直接取数据20210305
-                                    that.tableNameData();
+//                                    that.tableNameData();
+                                    console.log('接下去要执行 xjr-field-table 的 get_lists');
+                                    //
+                                    that.$emit( "get_lists" , data.data );
                                 });
                             } else {
                                 layer.msg(data.message, {icon: 2});
@@ -194,9 +197,11 @@
             getLists : function () {
                 localStorage.setItem( 'lastFormData' , JSON.stringify(this.dataInfo) );
                 console.log( '---缓存lastFormData--' );
-                console.log( this.dataInfo );                
-                window.location.href="";
-            },            
+                console.log( this.dataInfo );
+                console.log( 'xjr-field-table 的 get_lists 方法' );
+                this.$emit('get_lists');
+//                window.location.href="";
+            },
             pageRefresh : function(){
                 window.location.href = window.location.href;
             }

@@ -83,7 +83,8 @@
                     v-bind:form_type    ="list_item.option.form_type"
                     v-bind:method_key   ="list_item.option.method_key"
                     v-bind:data_id      ="item_data[list_item.name]"
-                    v-bind:is_detail    ="list_item.option.is_detail"></xjr-field-table>     
+                    v-bind:is_detail    ="list_item.option.is_detail"
+                    @get_lists          =   "getLists"></xjr-field-table>     
         <!--ilist:单页面嵌套列表-->
         <xjr-table-table v-if="list_item.type == 'ilist'"
                          v-bind:table_name  ="list_item.option.table_name" 
@@ -134,9 +135,20 @@
                     }
                 });                
             },
+            getLists : function( data ){
+                console.log('xjr-field 的 get_lists 方法');
+                this.$emit('get_lists',data);
+            }
         },
         mounted : function(){
             this.loaded = true; //已经加载过才能改
         },        
+        created :function(){
+            if(this.list_item.type == "ilist" ) {
+                console.log('xjr-field 的 created');
+                console.log( this.list_item );
+                console.log( this.item_data );
+            }
+        }
     });
 </script>
