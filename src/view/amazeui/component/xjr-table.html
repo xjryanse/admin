@@ -1,38 +1,53 @@
 <!-- 列表的字段组件 -->
+
+<style>
+    .fixedThead{
+        display: block;
+        width: 100%;
+    }
+    .scrollTbody{
+        display: block;
+        overflow: auto;
+        width: 100%;
+    }
+</style>
 <template id="xjr-table">
     <!--layerPage-->
     <!--字段明细-->
     <block>
         <!--表头-->
+<!--        
         <div style="overflow:hidden;">
-            <table class="tpl-table-black am-table-bordered" 
+            <table class="tpl-table-black am-table-bordered"
                    ref="mainTableHeader"
                    v-if="column_info" style="font-size:12px;min-width:98%;background-color:#ececec">
                 <thead>
-<!--                    <tr>
-                        <th style="min-width:10px;" v-if="column_info.list_select == 'radio' || column_info.list_select == 'checkbox'">
-                            
-                        </th>
-                        <th style="height:40px;" v-for="(field,i) in column_info.listInfo" v-if="field.is_list && isConditionMatch(field.show_condition)" ></th>
-                        <th v-if="column_info.operateInfo.length > 0 || column_info.btnInfo.length > 0"></th>
-                    </tr>-->
                     <tr>
-                        <th style="min-width:10px;" v-if="column_info.list_select == 'radio' || column_info.list_select == 'checkbox'">
+                        <th v-if="column_info.list_select == 'radio' || column_info.list_select == 'checkbox'">
                             <input type="checkbox" name="id" data-am-ucheck v-model="allSelect" v-if="column_info.list_select == 'checkbox'">
                         </th>
-                        <!--字段可设条件进行过滤：20210125-->
                         <th style="height:40px;" v-for="(field,i) in column_info.listInfo" v-if="field.is_list && isConditionMatch(field.show_condition)" >{{field.label}}</th>
                         <th v-if="column_info.operateInfo.length > 0 || column_info.btnInfo.length > 0">操作</th>
                     </tr>
                 </thead>
             </table>
         </div>
+        -->
         <!--表体-->
-        <div style="overflow:auto;" v-if="list_data" v-bind:style = "'max-height:'+ reduce">
+        <div style="overflow:auto;" v-if="list_data">
             <table class="am-table am-table-compact am-table-striped tpl-table-black am-table-bordered am-table-hover" 
-                   ref="mainTable"
                    v-if="column_info" style="font-size:12px;">
-                <tbody>
+                <thead class="fixedThead" style="background-color:#ececec" ref="mainTableHeader">
+                    <tr>
+                        <th v-if="column_info.list_select == 'radio' || column_info.list_select == 'checkbox'">
+                            <input type="checkbox" name="id" data-am-ucheck v-model="allSelect" v-if="column_info.list_select == 'checkbox'">
+                        </th>
+                        <!--字段可设条件进行过滤：20210125-->
+                        <th style="height:40px;" v-for="(field,i) in column_info.listInfo" v-if="field.is_list && isConditionMatch(field.show_condition)" >{{field.label}}</th>
+                        <th v-if="column_info.operateInfo.length > 0 || column_info.btnInfo.length > 0">操作</th>
+                    </tr>
+                </thead>                
+                <tbody class="scrollTbody" ref="mainTable" v-bind:style = "'max-height:'+ reduce">
                     <tr v-if="list_data.length == 0" >
                         <td colspan=99 style="text-align:center;"> 暂无数据 </td>
                     </tr>

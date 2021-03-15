@@ -26,8 +26,8 @@
             <!--点击弹窗list_pop-->
             <xjr-button v-if="field.list_pop" 
                         show_name           = "true"
-                        v-bind:operate="field.list_pop_operate" width = "90%"  height = "90%" button_cate="ahref"
-                        v-bind:button_name  ="item[field.name]"
+                        v-bind:operate="field.list_pop_operate" width = "98%"  height = "98%" button_cate="ahref"
+                        v-bind:button_name  ="parseFloat(Number(item[field.name]))"
                         v-bind:url          = "urlDataReplace(field.list_pop,item)" 
                         v-bind:btn_class    = "item[field.name]*1 >= 0 ? 'b5 f-blue' : 'b5 f-red'"
                         v-bind:data         = "item" 
@@ -37,10 +37,10 @@
             <a href="javascript:;" v-else-if="field.search_type == 'equal'" 
                v-bind:title="'点击搜索'+item[field.name]" 
                v-on:click="searchData(field.name,item[field.name])"
-               v-bind:class        = "item[field.name] * 1 >= 0 ? 'b5 f-blue' : 'b5 f-red'">{{item[field.name]}}</a>
+               v-bind:class        = "item[field.name] * 1 >= 0 ? 'b5 f-blue' : 'b5 f-red'">{{parseFloat(Number(item[field.name]))}}</a>
             <!--鼠标上移显示-->
             <span v-else v-bind:title="item[field.name]"
-                  v-bind:class        = "item[field.name] * 1 >= 0 ? 'b5 f-blue' : 'b5 f-red'">{{item[field.name]}}</span>
+                  v-bind:class        = "item[field.name] * 1 >= 0 ? 'b5 f-blue' : 'b5 f-red'">{{parseFloat(Number(item[field.name]))}}</span>
         </block>
         <!--编辑器-->
         <div v-if = "field.type=='editor'" v-html="item[field.name]"></div>

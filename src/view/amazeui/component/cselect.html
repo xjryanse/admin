@@ -33,29 +33,38 @@
                         $(this.$refs.mySelect).val(newName).select2();
                         console.log('单值');
                     }
-                    this.$emit('linkage');                    
+                    this.$emit('linkage');
                 },
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
                 immediate: true
+            },
+            option : {
+                handler :function(newName, oldName) {
+                    console.log('option 重新渲染');
+                    //重新渲染树状
+                    var that = this;
+                    var selectParam = {};
+                    if(that.multiple){
+                        selectParam.multiple = true;
+                    }
+                    that.$nextTick(function () {
+                        $( that.$refs.mySelect ).select2(selectParam);
+                        $(that.$refs.mySelect).on("select2:select",function(e){
+                            console.log(e);
+                            that.$emit('input', e.target.value );
+                        })
+                    });
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true,
+                deep: true,
             }
-        },        
+        },
         created :function(){
 
         },
         mounted : function(){
-            //重新渲染树状
-            var that = this;
-            var selectParam = {};
-            if(that.multiple){
-                selectParam.multiple = true;
-            }
-            that.$nextTick(function () {
-                $( that.$refs.mySelect ).select2(selectParam);
-                $(that.$refs.mySelect).on("select2:select",function(e){
-                    console.log(e);
-                    that.$emit('input', e.target.value );
-                })
-            });
+
         },
     });
 </script>
