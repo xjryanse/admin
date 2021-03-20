@@ -203,6 +203,7 @@
                     "copyItem"          :"copyItem",
                     "listOperate"       :"listOperate",
                     "newPage"           :"newPage",
+                    "ajaxRedirect"      :"ajaxRedirect",    //ajax跳转页面
                     "fullScreen"        :"doFullScreen",
                     "copyText"          :"copyText",
                 };
@@ -216,6 +217,18 @@
              */
             newPage : function(){
                 window.open( this.getUrl() ); 
+//                var url     = this.getUrl();
+//                var args    = this.form_data;
+//                var form = $("<form method='post'></form>");
+//                form.attr({"action":url});
+//                for (arg in args)
+//                {
+//                    var input = $("<input type='hidden'>");
+//                    input.attr({"name":arg});
+//                    input.val(args[arg]);
+//                    form.append(input);
+//                }
+//                form.submit();
             },
             /**
              * 普通弹窗
@@ -347,7 +360,17 @@
                         that.$emit('get_lists');
                     });
                 }
-            },            
+            },
+            //ajax返回页面跳转链接，进行redirect跳转
+            ajaxRedirect : function(){
+                var that = this;
+                //调用公共异步请求函数
+                that.ajaxOperate( that.getUrl() , that.form_data ,function( data ){
+                    //调用父组件刷新方法
+//                    console.log('----ajaxRedirect-----');
+                    window.open( data.data );
+                });
+            },
             deleteItem : function(){
                 if(!this.data){
                     console.log('未指定数据data');

@@ -102,7 +102,7 @@
              @mouseover = "$emit('big_img_url',item[field.name]['file_path'])" 
              @mouseout = "$emit('big_img_url','')">
         <!--上传附件-->
-        <a v-bind:href="item[field.name]['file_path']" v-if = "field.type=='uplfile' && item[field.name]"  target="_blank">附件</a>
+        <a v-bind:href="item[field.name]['file_path']" v-if = "field.type=='uplfile' && item[field.name]"  target="_blank" v-bind:download="item[field.option.filename] + '.' + field.option.suffix">附件</a>
         <!--开关-->
         <block v-if = "field.type=='switch'">
             <div class="tpl-switch" style="position:relative;">
