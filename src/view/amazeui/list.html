@@ -5,59 +5,56 @@
         <!-- 内容区域 -->
         <!-- 内容区域 -->
         <div class="main-background">
-            <div class="row-content am-cf">
-                <!--主模块区域-->
-                <div v-bind:class="'am-u-sm-12 am-u-md-' + columnInfo.block_width" v-if="columnInfo">
-                    <div class="widget widget-main am-cf">
-                        <div class="widget-head am-cf pd5">
-                            <div class="widget-title  am-cf" v-if="title">{{title}}</div>
-                            <div class="widget-title  am-cf" v-else>{{columnInfo.name}}</div>
-                        </div>
-                        <form class="am-form tpl-form-border-form tpl-form-border-br">
-                            <div class="am-u-sm-12 am-u-md-6 am-u-lg-9">
-                                <!--操作按钮区-->
-                                {include file="xjryanse/amazeui/list/operate"/}
-                            </div>
-                            <div class="am-u-sm-12 am-u-md-12 am-u-lg-3" style="float:right;">
-                                <!--工具按钮-->
-                                {include file="xjryanse/amazeui/list/tool"/}
-                            </div>
-                            <div v-if="columnInfo.remark" class="f-orange f15 pd5" v-html="'说明：<br>'+ columnInfo.remark"></div>
-                            <!--搜索选择框-->
-                            <div class="am-u-sm-12" id='search{$tmpTime}' style="display:none" ref="getheight">
-                                <list-search v-bind:list_info="columnInfo.listInfo" v-model="queryData" v-bind:fixed_data="fixedData" @search_list = "searchList()"></list-search>
-                            </div>
-                            <!--数据表格区-->
-                            <div class="am-u-sm-12" style="overflow: hidden;">
-                                <!--选项卡 根据请求参数是否有typeTab进行判断 @search_data="searchData" -->
-                                <xjr-type-tab v-bind:type_tab="typeTab"  
-                                              v-bind:list_info="columnInfo.listInfo"
-                                              v-model="typeTabValue"
-                                              v-if="typeTab"></xjr-type-tab>
-                                <!--表格-->
-                                <xjr-table ref="xjr_table" 
-                                           list_url   = "{:url('',$paramInherit)}"
-                                           edit_url   = "{:url('edit',$paramInherit)}"
-                                           copy_url   = "{:url('copy',$paramInherit)}"
-                                           delete_url = "{:url('del',$paramInherit)}"
-                                           update_url = "{:url('update',$paramInherit)}"
-                                           v-bind:query_data="queryData"
-                                           v-model="selectItems"
-                                           @on_item_select="onItemSelect"
-                                           v-bind:height = "{height}"
-                                    ></xjr-table>
-                            </div>
-                        </form>
+            <!--主模块区域-->
+            <div v-bind:class="'am-u-sm-12 am-u-md-' + columnInfo.block_width" v-if="columnInfo">
+                <div class="widget widget-main am-cf">
+                    <div class="widget-head am-cf pd5" v-if="title">
+                        <div class="widget-title  am-cf">{{title}}</div>
                     </div>
-                </div>                
-                <!--子模块区域-->
-                <xjr-block v-for="(block,k) in columnInfo.blockInfo" 
-                           v-bind:block_info="block"
-                           v-bind:main_data="currentSelectItem"
-                           data_url     = "{:url('data',$paramInherit)}"                           
-                           @get_lists   =   "getLists"
-                        ></xjr-block>
-            </div>
+                    <form class="am-form tpl-form-border-form tpl-form-border-br">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-9 pd0-t">
+                            <!--操作按钮区-->
+                            {include file="xjryanse/amazeui/list/operate"/}
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-12 am-u-lg-3 pd0-t" style="float:right;">
+                            <!--工具按钮-->
+                            {include file="xjryanse/amazeui/list/tool"/}
+                        </div>
+                        <div v-if="columnInfo.remark" class="f-orange f15 pd5" v-html="'说明：<br>'+ columnInfo.remark"></div>
+                        <!--搜索选择框-->
+                        <div class="am-u-sm-12" id='search{$tmpTime}' style="display:none" ref="getheight">
+                            <list-search v-bind:list_info="columnInfo.listInfo" v-model="queryData" v-bind:fixed_data="fixedData" @search_list = "searchList()"></list-search>
+                        </div>
+                        <!--数据表格区-->
+                        <div class="am-u-sm-12" style="overflow: hidden;">
+                            <!--选项卡 根据请求参数是否有typeTab进行判断 @search_data="searchData" -->
+                            <xjr-type-tab v-bind:type_tab="typeTab"  
+                                          v-bind:list_info="columnInfo.listInfo"
+                                          v-model="typeTabValue"
+                                          v-if="typeTab"></xjr-type-tab>
+                            <!--表格-->
+                            <xjr-table ref="xjr_table" 
+                                       list_url   = "{:url('',$paramInherit)}"
+                                       edit_url   = "{:url('edit',$paramInherit)}"
+                                       copy_url   = "{:url('copy',$paramInherit)}"
+                                       delete_url = "{:url('del',$paramInherit)}"
+                                       update_url = "{:url('update',$paramInherit)}"
+                                       v-bind:query_data="queryData"
+                                       v-model="selectItems"
+                                       @on_item_select="onItemSelect"
+                                       v-bind:height = "{height}"
+                                ></xjr-table>
+                        </div>
+                    </form>
+                </div>
+            </div>                
+            <!--子模块区域-->
+            <xjr-block v-for="(block,k) in columnInfo.blockInfo" 
+                       v-bind:block_info="block"
+                       v-bind:main_data="currentSelectItem"
+                       data_url     = "{:url('data',$paramInherit)}"                           
+                       @get_lists   =   "getLists"
+                    ></xjr-block>
         </div>
     </div>
     
@@ -127,6 +124,7 @@
             methods: {
                 //用于触发主表数据刷新
                 getLists :function(){
+                    console.log( 'lists 的 getLists' );
                     this.$refs.xjr_table.getLists();
                 },
                 /**

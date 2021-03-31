@@ -10,6 +10,7 @@
                                 v-bind:url=" '/admin/'+ block_data.columnInfo.controller +'/list/admKey/' + block_data.columnInfo.table_key "
                                 v-if='block_data.columnInfo'
                                 v-bind:form_data="queryData"
+                                @get_lists          =   "getLists"
                                 button_name  =   "更多"
                     ></xjr-button>
                 </div>
@@ -64,6 +65,7 @@
                                         v-bind:button_name  =   "btn.name"
                                         v-bind:url          =   "btn.url" 
                                         v-bind:data         =   "block_data.data" 
+                                        @get_lists          =   "getLists"
                                     ></xjr-button>
                                     <!-- listoperate：列表操作-->
                                     <xjr-button operate="listOperate" icon="pencil" button_cate="ahref" show_name="true"

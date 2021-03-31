@@ -12,7 +12,7 @@
             </div>
             <div class="am-u-md-8 pd1" style="min-height:40px;">
                 <!--输入框{{field}}-->
-                <div class="am-form-group " v-if = "field.type=='text' || field.type=='listedit' || field.type=='textarea'" >
+                <div class="am-form-group " v-if = "field.type=='text' || field.type=='listedit' || field.type=='textarea' || field.type=='prize'" >
                     <input type="text" class="am-form-field f14" placeholder="请输入" v-model="value[field.name]">
                 </div>
                 <!--枚举框-->

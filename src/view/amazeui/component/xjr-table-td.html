@@ -84,6 +84,7 @@
                         v-bind:url          = "urlDataReplace(field.list_pop,item)" 
                         show_name           = "true"
                         v-bind:data         = "item" 
+                        @get_lists="getLists"
                     ></xjr-button>
             <a href="javascript:;" v-else-if="field.search_type == 'equal'" 
                v-bind:title="'点击搜索'+ field.option.option[item[field.name]]" 
@@ -91,9 +92,9 @@
             <span v-else>{{field.option.option[item[field.name]]}}</span>
         </block>
         <!--链接图片-->
-        <a v-bind:href="item[field.name]" v-if = "field.type=='image'" target="_blank">
-            <img v-bind:src="item[field.name]" width="field.min_width">
-        </a>
+        <img v-if = "field.type=='image'" v-bind:src="item[field.name]" v-bind:width="field.min_width" ref="cuplimage" 
+            @mouseover = "$emit('big_img_url',item[field.name])" 
+            @mouseout = "$emit('big_img_url','')">
         <!--上传图片-->
         <img class="tableImage" ref="cuplimage" 
              v-if = "field.type=='uplimage' && item[field.name]"
@@ -101,8 +102,17 @@
              v-bind:width="field.min_width" 
              @mouseover = "$emit('big_img_url',item[field.name]['file_path'])" 
              @mouseout = "$emit('big_img_url','')">
+        <!--上传多图-->
+        <div  v-if = "field.type=='multiimg' && item[field.name]">
+            <img class="tableImage" ref="cuplimage" v-for="(element,index) in item[field.name]"
+                 v-bind:src="element['file_path']" 
+                 v-bind:width="field.min_width" 
+                 @mouseover = "$emit('big_img_url',element['file_path'])" 
+                 @mouseout = "$emit('big_img_url','')">
+        </div>
         <!--上传附件-->
-        <a v-bind:href="item[field.name]['file_path']" v-if = "field.type=='uplfile' && item[field.name]"  target="_blank" v-bind:download="item[field.option.filename] + '.' + field.option.suffix">附件</a>
+        <a v-bind:href="item[field.name]['file_path']" v-if = "field.type=='uplfile' && item[field.name] && field.option"  target="_blank" v-bind:download="item[field.option.filename] + '.' + field.option.suffix">下载</a>
+        <a v-bind:href="item[field.name]['file_path']" v-if = "field.type=='uplfile' && item[field.name] && !field.option"  target="_blank">查看</a>
         <!--开关-->
         <block v-if = "field.type=='switch'">
             <div class="tpl-switch" style="position:relative;">
@@ -142,6 +152,7 @@
                         v-bind:url          = "urlDataReplace(field.list_pop,item)" 
                         show_name           = "true"
                         v-bind:data         = "item" 
+                        @get_lists="getLists"
                     ></xjr-button>
             <span v-else>{{item[field.name].node_name}}</span>
         </div>

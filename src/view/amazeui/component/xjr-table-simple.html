@@ -23,6 +23,7 @@
                                     v-bind:url          = "urlDataReplace(field.list_pop,item)" 
                                     show_name           = "true"
                                     v-bind:data         = "item" 
+                                    @get_lists="getLists"
                                 ></xjr-button>
                         <span v-else>{{item[field.name]}}</span>
                     </block>

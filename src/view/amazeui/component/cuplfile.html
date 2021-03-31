@@ -29,15 +29,22 @@
                 if(!$(e.target)[0].files[0]){
                     return false;
                 }
+                var layerIndex = layer.load(2);                
                 $.ajax({
-                    url: '{:config("xiesemi.fileUplApiUrl")}',
+                    url: '{:config("xiesemi.picUplApiUrl")}',
                     type: 'POST',
                     cache: false,
                     data: formData,
                     processData: false,
                     contentType: false
-                }).done(function(result) {
-                    that.$emit('input', result.data);
+                }).done(function(data) {
+                    //关闭弹层
+                     layer.close(layerIndex);     
+                     if(data.code == 0){
+                        that.$emit('input', data.data);                         
+                     } else {
+                         layer.msg(data.message, {icon: 2});
+                     }
                 });
             }
         },

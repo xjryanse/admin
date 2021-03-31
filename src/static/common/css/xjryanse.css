@@ -27,6 +27,7 @@
 .pd25{padding :25px !important;  }
 .pd30{padding :30px !important;  }
 
+.pd0-t{ padding-top :0px !important;   }
 .pd1-t{ padding-top :1px !important;   }
 .pd2-t{ padding-top :2px !important;   }
 .pd3-t{ padding-top :3px !important;   }
@@ -42,6 +43,7 @@
 .pd25-t{padding-top :25px !important;  }
 .pd30-t{padding-top :30px !important;  }
 
+.pd0-l{ padding-left :0px !important;   }
 .pd1-l{ padding-left :1px !important;   }
 .pd2-l{ padding-left :2px !important;   }
 .pd3-l{ padding-left :3px !important;   }
@@ -57,6 +59,7 @@
 .pd25-l{padding-left :25px !important;  }
 .pd30-l{padding-left :30px !important;  }
 
+.pd0-r{ padding-right :0px !important;   }
 .pd1-r{ padding-right :1px !important;   }
 .pd2-r{ padding-right :2px !important;   }
 .pd3-r{ padding-right :3px !important;   }
@@ -72,6 +75,7 @@
 .pd25-r{padding-right :25px !important;  }
 .pd30-r{padding-right :30px !important;  }
 
+.pd0-b{ padding-bottom :0px !important;   }
 .pd1-b{ padding-bottom :1px !important;   }
 .pd2-b{ padding-bottom :2px !important;   }
 .pd3-b{ padding-bottom :3px !important;   }
@@ -88,6 +92,7 @@
 .pd30-b{padding-bottom :30px !important;  }
 
 /**间距信息*/
+.mg0{ margin :0px !important;   }
 .mg1{ margin :1px !important;   }
 .mg2{ margin :2px !important;   }
 .mg3{ margin :3px !important;   }
@@ -103,6 +108,7 @@
 .mg25{margin :25px !important;  }
 .mg30{margin :30px !important;  }
 
+.mg0-t{ margin-top :0px !important;   }
 .mg1-t{ margin-top :1px !important;   }
 .mg2-t{ margin-top:2px !important;   }
 .mg3-t{ margin-top:3px !important;   }
@@ -118,6 +124,7 @@
 .mg25-t{margin-top:25px !important;  }
 .mg30-t{margin-top:30px !important;  }
 
+.mg0-b{ margin-bottom :0px !important;   }
 .mg1-b{ margin-bottom :1px !important;   }
 .mg2-b{ margin-bottom :2px !important;   }
 .mg3-b{ margin-bottom :3px !important;   }
@@ -133,6 +140,7 @@
 .mg25-b{margin-bottom :25px !important;  }
 .mg30-b{margin-bottom :30px !important;  }
 
+.mg0-l{ margin-left :0px !important;   }
 .mg1-l{ margin-left :1px !important;   }
 .mg2-l{ margin-left:2px !important;    }
 .mg3-l{ margin-left:3px !important;    }
@@ -148,6 +156,7 @@
 .mg25-l{margin-left :25px !important;  }
 .mg30-l{margin-left :30px !important;  }
 
+.mg0-r{ margin-right :0px !important;   }
 .mg1-r{ margin-right :1px !important;   }
 .mg2-r{ margin-right :2px !important;   }
 .mg3-r{ margin-right :3px !important;   }

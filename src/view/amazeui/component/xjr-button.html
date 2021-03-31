@@ -1,7 +1,7 @@
 <!-- 按钮组件：三种类型：button普通按钮；import导入按钮；ahref:跳转a标签 -->
 <template id="xjr-button">
     <!--layerPage-->
-    <block v-if="isConditionMatch() || no_match_style == 'opacity'">
+    <block v-show="isConditionMatch() || no_match_style == 'opacity'">
         <!--按钮的:条件匹配（显示）不匹配为灰，也显示 -->
         <button type="button" class="am-btn am-btn-default pd5"
                 v-bind:disabled ="isConditionMatch() == 0"
@@ -134,13 +134,22 @@
             //主数据变化即触发
             form_data : {
                 handler :function(newName, oldName) {
-                    if(!newName ){
+                    if(!newName || newName.length == 0 ){
                         this.form_data = {};
-                    }                        
+                    }
                 },
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
                 immediate: true
-            }
+            },
+            //有个数据不刷新的坑20210326
+            data : {
+                handler :function(newName, oldName) {
+//                    console.log('xjr-button的newName',newName);
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true,
+                deep: true
+            }            
         },
         methods : {
             //条件是否匹配：一般用于控制按钮是否显示，操作是否可用等
@@ -328,6 +337,10 @@
             listOperate : function(){
                 var that = this;
                 console.log('-----测试-----');
+                console.log( typeof( that.form_data ));
+                if(!that.form_data){
+                    that.form_data = {}     //这样ajax才能发值
+                }
                 console.log( that.form_data );
                 //需要确认框信息
                 if( that.confirm ){
@@ -335,6 +348,8 @@
                         //输入层
                         layer.prompt({title: that.confirm, formType: 2,value:that.prompt_default}, function(pass, index){
                             that.form_data[ that.prompt ] = pass;
+                            console.log('-----弹层输入后-----');
+                            console.log( that.form_data );
                             //调用公共异步请求函数
                             that.ajaxOperate( that.getUrl() , that.form_data ,function( data ){
                                 //调用父组件刷新方法
@@ -343,6 +358,7 @@
                             //关闭弹窗
                             layer.close(index);
                         });
+//                        $(".layui-layer-prompt .layui-layer-content").append("<br/><input type=\"text\" id= \"zxr\" class=\"layui-input\" placeholder=\"测试不用输\"/>")
                     } else{
                         //弹窗确认信息
                         layer.confirm( that.confirm , function (index) {
@@ -364,8 +380,11 @@
             //ajax返回页面跳转链接，进行redirect跳转
             ajaxRedirect : function(){
                 var that = this;
+                console.log( 'that.form_data' );
+                var formData = that.formDataCov();
+                console.log( formData );
                 //调用公共异步请求函数
-                that.ajaxOperate( that.getUrl() , that.form_data ,function( data ){
+                that.ajaxOperate( that.getUrl() , formData ,function( data ){
                     //调用父组件刷新方法
 //                    console.log('----ajaxRedirect-----');
                     window.open( data.data );
@@ -486,8 +505,20 @@
                     }
 //                        that.$emit('input', result.data);
                 });
-            }            
-            
+            },
+            //表单数据转换成带当前表数据
+            formDataCov : function(){
+                var that = this;
+                var formData = this.form_data;
+                console.log( 'formDataCov' );
+                console.log( that.data );
+                $.each(formData,function(index,value){
+                    if(typeof(that.data[value]) != "undefined") {
+                        formData[index] = that.data[value];
+                    }
+                });
+                return formData;
+            }
         },
         mounted :function(){
             var that = this;

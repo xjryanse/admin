@@ -2,9 +2,14 @@
 <template id="xjr-type-tab">
     <block>
         <ul class="am-tabs-nav am-nav am-nav-tabs" v-for="(field,i) in list_info" v-if="field.name == type_tab ">
-            <li v-bind:class=" value=='' ? 'am-active' : ''"><a href="javascript:;" @click="value=''">全部</a></li>
+            <li v-bind:class=" value==='' ? 'am-active' : ''"><a href="javascript:;" @click="value=''">全部</a></li>
             <li v-for="(item,j) in field.option" 
-                v-bind:class=" value==j ? 'am-active' : ''"><a href="javascript:;" @click="value = j">{{item}}</a></li>
+                v-bind:class=" value===j ? 'am-active' : ''">
+                <a href="javascript:;" @click="value = j">
+                    <span v-if="item.label">{{item.label}}</span>
+                    <span v-else>{{item}}</span>
+                </a>
+            </li>
             <!-- searchData( type_tab ,j) -->
         </ul>
     </block>

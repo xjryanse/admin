@@ -53,6 +53,11 @@
                     v-model="item_data[list_item.name]" 
                     v-if="list_item.type == 'uplimage'"
                     v-bind:is_detail="is_detail"></cuplimage>
+        <!--上传多图框-->
+        <cmultiimg  v-bind:name="list_item.name" 
+                    v-model="item_data[list_item.name]" 
+                    v-if="list_item.type == 'multiimg'"
+                    v-bind:is_detail="is_detail"></cmultiimg>        
         <!--上传文件框-->
         <cuplfile   v-bind:name="list_item.name" 
                     v-model="item_data[list_item.name]" 

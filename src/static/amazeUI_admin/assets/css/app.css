@@ -295,7 +295,7 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
     top:0px;
     width:196px;    /**加了一个滚动条的宽度**/
     overflow: auto;
-    height:calc(100vh - 225px );
+    height:calc(100vh - 185px );
 }
 .left-sidebar.xs-active {
   left: 0px;
@@ -385,7 +385,7 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
 .sidebar-nav-link a {
   display: block;
   color: #868E8E;
-  padding: 10px 17px;
+  padding: 8px 17px;
   border-left: #282d2f 3px solid;
   font-size: 14px;
   cursor: pointer;
@@ -668,15 +668,15 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
   display: block;
 }
 
-.daohang{position:fixed;right:0;bottom:0;top:50px;left:210px; overflow:auto;width: 100%; height: 35px; background-color: #35404d;}
+.daohang{right:0;bottom:0;top:50px;left:210px; overflow:auto;width: 100%; height: 35px;margin:5px; background-color: white;}
 .daohang ul{ padding: 0px; margin: 2px 0 0 5px;list-style-type: none; }
 .daohang li{ float: left; margin-right: 5px;}
 .daohang .am-btn-xs{ padding: 0px 3px 0px 6px; line-height: 22px; overflow: hidden; font-size: 12px; margin: 0px;}
 .daohang .am-close{ height: 14px; overflow: hidden; line-height: 14px; opacity: 0.3; color: #aaaaaa;}
 .daohang .am-close:hover{ opacity: 1;}
-.daohang .am-btn-default{ color:#a2abb6;background-color:#415164;border-color:#415164 }
+.daohang .am-btn-default{ color:black;border-color:white;border-radius: 3px; }
 .daohang .am-btn-default a{ color: #fff; }
-.daohang .am-btn-default:hover,.daohang .am-btn-default:focus,.daohang .am-btn-default:active,.daohang .am-btn-default .am-active, .daohang .am-active .daohang .am-btn-default .am-dropdown-toggle{color:#fff;background-color:#ff6c60;border-color:#ff6c60;}
+.daohang .am-btn-default:hover,.daohang .am-btn-default:focus,.daohang .am-btn-default:active,.daohang .am-btn-default .am-active, .daohang .am-active .daohang .am-btn-default .am-dropdown-toggle{background-color:#5eb95e;border-color:#5eb95e;}
 
 @media screen and (max-width: 1024px) {
   .tpl-index-settings-button {
