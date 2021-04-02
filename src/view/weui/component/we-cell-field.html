@@ -1,6 +1,6 @@
 <!-- 字段组件 -->
 <template id="we-cell-field">
-    <div class="weui-cell" v-if="type=='text' || type=='number' || type=='prize'|| type=='phone' || type=='idno' || type=='date' || type=='citypicker' || type=='switch'" >
+    <div class="weui-cell" v-if="type=='text' || type=='number' || type=='prize'|| type=='phone' || type=='idno' || type=='date' || type=='citypicker' || type=='switch' || type=='password'" >
         <div class="weui-cell__hd"><we-label v-bind:label="label"></we-label></div>
         <div class="weui-cell__bd">
             <we-field v-bind:type="type" v-model="value" v-bind:remark="'请输入'+ label" 

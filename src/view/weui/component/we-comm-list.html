@@ -53,8 +53,8 @@
 <script>
     //定义hblock组件
     Vue.component('we-comm-list', {
-        //search:搜索字段的key
-        props: { data_field : Array ,table_name : String ,title : String, main_field : String, value :Array, search : String },
+        //search:搜索字段的key,init_search:初始化时是否进行搜索
+        props: { data_field : Array ,table_name : String ,title : String, main_field : String, value :Array, search : String,init_search : Boolean },
         //owner_id：客户id
         template: '#we-comm-list',
         data: function(){
@@ -162,7 +162,9 @@
             },            
         },
         created: function () {
-            this.getCommList();
+            if(this.init_search){
+                this.getCommList();
+            }
         }
     });
 </script>

@@ -151,39 +151,43 @@
                 </tbody>
             </table>
         </div>    
-        <!--分页-->
-        <!--【页码】-->
-        <div class="am-fr" v-if="paginate_data && paginate_data.current_page">
-            <ul class="am-pagination tpl-pagination">
-                <!--前一页:当前页码大于1显示-->
-                <li v-if="paginate_data.current_page > 1"><a href="javascript:;" v-on:click="getPageLists(paginate_data.current_page *1 -1)">«</a></li>
-                <!--第一页:当前页码大于1显示-->
-                <li v-if="paginate_data.current_page > 1"><a href="javascript:;" v-on:click="getPageLists(1)" >1</a></li>
-                <!--……-->
-                <li v-if="paginate_data.current_page > 3"><a href="javascript:;">…</a></li>
-                <!--上一页:当前页码-1后大于1显示-->
-                <li v-if="paginate_data.current_page * 1 -1 >1"><a href="javascript:;" v-on:click="getPageLists(paginate_data.current_page *1 -1)">{{paginate_data.current_page-1}}</a></li>
-                <!--当前页-->
-                <li class="am-active"><a href="javascript:;">{{paginate_data.current_page}}</a></li>
-                <!--下一页: 当前页码+1后，小于最后一页码显示-->
-                <li v-if="paginate_data.current_page * 1 + 1 < paginate_data.last_page * 1 "><a href="javascript:;" v-on:click="getPageLists(paginate_data.current_page * 1 + 1 )">{{paginate_data.current_page *1+1}}</a></li>
-                <!--……-->
-                <li v-if="paginate_data.current_page * 1 + 2 < paginate_data.last_page"><a href="javascript:;">…</a></li>
-                <!--末页: 当前页码小于末页码显示-->
-                <li v-if="paginate_data.current_page < paginate_data.last_page * 1 "><a href="javascript:;" v-on:click="getPageLists(paginate_data.last_page )">{{paginate_data.last_page}}</a></li>
-                <!--下一页-->
-                <li v-if="paginate_data.current_page < paginate_data.last_page * 1 "><a href="javascript:;" v-on:click="getPageLists(paginate_data.current_page * 1 + 1 )">»</a></li>
-                <li>共{{paginate_data.total}}条</li>
-                <li v-if="query_data.per_page"><select v-model="query_data.per_page" >
-                        <option value ="10">10</option>
-                        <option value ="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
-                </li>
-                <li>条/页</li>
-            </ul>
+        <div style="display:flex">
+            <!--查询结果描述-->
+            <div v-if="paginate_data.staticsDescribe" style="flex:1">{{paginate_data.staticsDescribe}}</div>
+            <!--【页码】-->
+            <div style="flex:1" v-if="paginate_data && paginate_data.current_page">
+                <ul class="am-pagination tpl-pagination" style="float:right;">
+                    <!--前一页:当前页码大于1显示-->
+                    <li v-if="paginate_data.current_page > 1"><a href="javascript:;" v-on:click="getPageLists(paginate_data.current_page *1 -1)">«</a></li>
+                    <!--第一页:当前页码大于1显示-->
+                    <li v-if="paginate_data.current_page > 1"><a href="javascript:;" v-on:click="getPageLists(1)" >1</a></li>
+                    <!--……-->
+                    <li v-if="paginate_data.current_page > 3"><a href="javascript:;">…</a></li>
+                    <!--上一页:当前页码-1后大于1显示-->
+                    <li v-if="paginate_data.current_page * 1 -1 >1"><a href="javascript:;" v-on:click="getPageLists(paginate_data.current_page *1 -1)">{{paginate_data.current_page-1}}</a></li>
+                    <!--当前页-->
+                    <li class="am-active"><a href="javascript:;">{{paginate_data.current_page}}</a></li>
+                    <!--下一页: 当前页码+1后，小于最后一页码显示-->
+                    <li v-if="paginate_data.current_page * 1 + 1 < paginate_data.last_page * 1 "><a href="javascript:;" v-on:click="getPageLists(paginate_data.current_page * 1 + 1 )">{{paginate_data.current_page *1+1}}</a></li>
+                    <!--……-->
+                    <li v-if="paginate_data.current_page * 1 + 2 < paginate_data.last_page"><a href="javascript:;">…</a></li>
+                    <!--末页: 当前页码小于末页码显示-->
+                    <li v-if="paginate_data.current_page < paginate_data.last_page * 1 "><a href="javascript:;" v-on:click="getPageLists(paginate_data.last_page )">{{paginate_data.last_page}}</a></li>
+                    <!--下一页-->
+                    <li v-if="paginate_data.current_page < paginate_data.last_page * 1 "><a href="javascript:;" v-on:click="getPageLists(paginate_data.current_page * 1 + 1 )">»</a></li>
+                    <li>共{{paginate_data.total}}条</li>
+                    <li v-if="query_data.per_page"><select v-model="query_data.per_page" >
+                            <option value ="10">10</option>
+                            <option value ="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </li>
+                    <li>条/页</li>
+                </ul>
+            </div>            
         </div>
+        <!--大图专用签-->
         <cbigimage v-bind:myurl="targetPicUrl"></cbigimage>
     </block>
 </template>
