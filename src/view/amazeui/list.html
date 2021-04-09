@@ -99,7 +99,12 @@
                 //主数据变化即触发
                 queryData : {
                     handler :function(newName, oldName) {
-                        if( this.$refs.xjr_table ){
+                        console.log('queryDataqueryDataqueryDataqueryData');
+                        var timestamp = new Date().getTime();
+                        var lastQueryTime = localStorage.getItem( 'listQueryDataTime' );
+                        //0.5秒间隔
+                        if( this.$refs.xjr_table && (!lastQueryTime || timestamp - lastQueryTime > 500 )){
+                            localStorage.setItem( 'listQueryDataTime',timestamp );
                             this.$refs.xjr_table.searchList(newName);
                         }
                     },

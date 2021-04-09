@@ -442,8 +442,18 @@
                             layer.msg(data.message, {icon: 1, time: 1000},function(){
                                 callBack(data);
                             });
+                        } else if(data.code == 10){ 
+                            // 10 是成功询问层专用code
+                            var layerIndex = layer.confirm(data.message, {
+                                btn: ['我知道了'] //按钮
+                            }, function(){
+                                layer.close( layerIndex );
+                                callBack(data);
+                            });
                         } else {
-                            layer.msg(data.message, {icon: 2});
+                            layer.msg(data.message, {icon: 2},function(){
+                                callBack(data);
+                            });
                         }
                     }
                 });
