@@ -92,7 +92,7 @@
             <span v-else>{{field.option.option[item[field.name]]}}</span>
         </block>
         <!--链接图片-->
-        <img v-if = "field.type=='image'" v-bind:src="item[field.name]" v-bind:width="field.min_width" ref="cuplimage" 
+        <img v-if = "field.type=='image' && item[field.name]" v-bind:src="item[field.name]" v-bind:width="field.min_width" ref="cuplimage" 
             @mouseover = "$emit('big_img_url',item[field.name])" 
             @mouseout = "$emit('big_img_url','')">
         <!--上传图片-->
