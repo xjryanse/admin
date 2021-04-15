@@ -429,7 +429,7 @@
             //异步操作
             ajaxOperate : function(url, data, callBack ){
                 //弹层
-                var layerIndex = layer.load(2);
+                var mlayerIndex = layer.load(2);
                 //发异步
                 $.ajax({
                     url : url,
@@ -437,7 +437,7 @@
                     data: data,
                     success:function(data){
                         //关闭弹层
-                        layer.close( layerIndex );
+                        layer.close( mlayerIndex );
                         if(data.code == 0){
                             layer.msg(data.message, {icon: 1, time: 1000},function(){
                                 callBack(data);

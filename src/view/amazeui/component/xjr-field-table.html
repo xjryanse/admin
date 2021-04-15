@@ -125,7 +125,7 @@
                     var layerIndex = layer.load(2);
                     localStorage.setItem( 'lastFormData' ,''); //清空末表单内容
                     $.ajax({
-                        url: "{:url('admin/SCommon/tableNameSave')}",
+                        url: "{:url('admin/SCommon/tableNameSave',$paramInherit)}",
 //                        contentType:'application/json;charset=utf-8',
                         type: 'POST',
                         data: {table_name:that.table_name,table_data: that.dataInfo},
@@ -155,7 +155,7 @@
                 //弹层
                 var layerIndex = layer.load(2);
                 $.ajax({
-                    url: "{:url('admin/SCommon/tableNameColumn')}",
+                    url: "{:url('admin/SCommon/tableNameColumn',$paramInherit)}",
                     type: 'POST',
                     data: {table_name:that.table_name,methodKey : that.method_key,data_id: that.data_id},
                     success: function (data) {
@@ -179,7 +179,7 @@
                 //弹层
                 var layerIndex = layer.load(2);
                 $.ajax({
-                    url: "{:url('admin/SCommon/tableNameData')}",
+                    url: "{:url('admin/SCommon/tableNameData',$paramInherit)}",
                     type: 'POST',
                     data: {table_name:that.table_name,id:that.data_id},
                     success: function (data) {

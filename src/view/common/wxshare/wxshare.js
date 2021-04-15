@@ -33,7 +33,7 @@ wx.ready(function () {
         desc: wxShareContent,
         imgUrl :wxShareImg,            
         success: function(data) {
-            wxShareCallBack(data,'1');            
+            wxShareCallBack(data,'Timeline');            
         },
     });
     //分享到朋友
@@ -43,7 +43,7 @@ wx.ready(function () {
         desc: wxShareContent,
         imgUrl :wxShareImg,
         success: function(data) {
-            wxShareCallBack(data,'2');
+            wxShareCallBack(data,'AppMessage');
         },
     });
     //分享到QQ
@@ -53,7 +53,7 @@ wx.ready(function () {
         desc: wxShareContent,
         imgUrl :wxShareImg,
         success: function(data) {
-            wxShareCallBack(data,'3');            
+            wxShareCallBack(data,'QQ');            
         },
     });
     //分享到腾讯微博
@@ -63,7 +63,7 @@ wx.ready(function () {
         desc: wxShareContent,
         imgUrl :wxShareImg,
         success: function(data) {
-            wxShareCallBack(data,'4');            
+            wxShareCallBack(data,'Weibo');            
         },
     });
     //分享到QQ空间
@@ -73,8 +73,7 @@ wx.ready(function () {
         desc: wxShareContent,
         imgUrl :wxShareImg,
         success: function(data) {
-            wxShareCallBack(data,'5');            
+            wxShareCallBack(data,'QZone');            
         },
     });
-
 });

@@ -1,0 +1,91 @@
+<!-- 数字范围 -->
+<template id="cnumber">
+    <!--layerPage-->
+    <!--需要用js赋值一下，没有绑定。不知道为啥-->
+    <div>
+        <input type="text" class="tpl-form-input bd-r5" v-model="value" v-if="!range">
+        <div v-else>
+            <input type="text" class="tpl-form-input bd-r5" v-model="startNum" placeholder="最小"
+                   style="float:left;display:inline-block;width:48%;">
+            <span style="float:left">-</span>
+            <input type="text" class="tpl-form-input bd-r5" v-model="endNum" placeholder="最大" 
+                   style="float:left;display:inline-block;width:48%;">
+        </div>
+    </div>
+</template>
+
+<script>
+    //定义hblock组件
+    //range:是否范围
+    Vue.component('cnumber', {
+        //type:date 日期,time时间
+        props: { value : Array, is_detail : String, range: String ,type : String ,format : String},
+        template: '#cnumber',
+        data: function(){
+            return {
+                //日期:单值或范围
+                value   : {},
+                startNum:'',
+                endNum  :''                
+            };
+        },
+        methods : {
+      
+        },
+        computed: {
+            // 计算属性的 getter
+            startNum : function(){
+                return this.value ? this.value[0] : '';
+            },
+            endNum : function() {
+                return this.value ? this.value[1] : '';
+            }
+        },
+        watch:{
+            value : {
+                handler :function(newName, oldName) {
+                    if(this.range && newName){
+                        this.startNum   = this.value[0];
+                        this.endNum     = this.value[1];
+                    } else {
+                        this.startNum   = '';
+                        this.endNum     = '';
+                    }
+                    this.$emit('input', newName );
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            },
+            startNum : {
+                handler :function(newName, oldName) {
+                    if(this.range){
+                        if(!this.value){
+                            this.value=[];
+                        }
+                        this.value[0] = newName;
+                    }
+                    //this.$emit('input', newName );
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            },            
+            endNum : {
+                handler :function(newName, oldName) {
+                    if(this.range){
+                        if(!this.value){
+                            this.value=[];
+                        }
+                        
+                        this.value[1] = newName;
+                    }
+                    //this.$emit('input', newName );
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            },            
+        },
+        created :function(){
+
+        }
+    });
+</script>
