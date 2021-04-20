@@ -96,7 +96,7 @@
   padding: 6px 0;
 }
 .theme-black .tpl-login-logo {
-  background: url(../img/logob.png) center no-repeat;
+  background: url(/img/logob.png) center no-repeat;
 }
 .theme-black .tpl-table-line-img {
   max-width: 100px;

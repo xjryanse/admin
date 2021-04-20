@@ -91,7 +91,7 @@
   padding: 6px 0;
 }
 .theme-white .tpl-login-logo {
-  background: url(../img/logoa.png) center no-repeat;
+  background: url(/img/logoa.png) center no-repeat;
 }
 .theme-white .sub-active {
   color: #23abf0!important;
