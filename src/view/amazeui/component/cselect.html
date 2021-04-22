@@ -49,6 +49,31 @@
                     }
                     that.$nextTick(function () {
                         $( that.$refs.mySelect ).select2(selectParam);
+//                        $( that.$refs.mySelect ).select2({
+//                            placeholder: '请输入关键词搜索',
+//                            ajax: {
+//                                url: "{:url('customer')}",
+//                                dataType: 'json',
+//                                delay: 250,
+//                                data: function (params) {
+//                                    return {
+//                                        search: params.term,
+//                                    };
+//                                },
+//                                processResults: function (data) {
+//                                    scopeCompanyData = []
+//                                    $.each( data.data,function (key, value) {
+//                                        scopeCompanyData[ value.id ] = value;
+//                                    });
+//
+//                                    return {
+//                                        results: data.data
+//                                    };
+//                                },
+//                                cache: true
+//                            },
+//                            minimumInputLength: 2                            
+//                        });
                         $(that.$refs.mySelect).on("select2:select",function(e){
                             console.log(e);
                             that.$emit('input', e.target.value );

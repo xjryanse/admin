@@ -239,7 +239,7 @@
                        this.$set(this.query_data,'per_page',20); //20条/页
                    }
                    this.query_data.page = 1;
-                   this.getLists();
+//                   this.getLists();
                 },
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
                 immediate: true,
@@ -385,7 +385,7 @@
         },
         created :function(){
 //            console.log('xjr-table组件开始');
-//            this.getLists();
+            this.getLists();
         },
         mounted () {
             const that = this
