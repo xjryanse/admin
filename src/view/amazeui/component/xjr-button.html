@@ -490,7 +490,7 @@
                     //关闭弹层
                     layer.close(layerIndex);
                     //清空输入框
-                    $(that.$refs.import).value = '';                   
+                    $(that.$refs.import)[0].value="";
                     if(data.code == 0){
                         //弹窗确认信息
                         layer.confirm( '确认导入？' , function (index) {

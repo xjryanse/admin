@@ -197,7 +197,7 @@
     Vue.component('xjr-table', {
         //列表信息:列表编辑：项目 column_info列信息；data数据(不含分页的)；分页数据
         //edit_url编辑页面路径；copy_url复制接口路径；delete_url删除接口路径
-        props: { query_data : Array,list_url : String , edit_url :String, update_url :String, copy_url :String,delete_url :String,height : String},
+        props: { query_data : Array,list_url : String , edit_url :String, update_url :String, copy_url :String,delete_url :String,height : String ,column_info:Array},
         template: '#xjr-table',
         data: function(){
             return {
@@ -266,10 +266,10 @@
             }           
         },
         computed : {
-            //字段信息
-            column_info : function(){
-                return this.paginate_data.columnInfo;
-            },
+//            //字段信息
+//            column_info : function(){
+//                return this.paginate_data.columnInfo;
+//            },
             //列表数据
             list_data : function(){
                 return this.paginate_data.data;

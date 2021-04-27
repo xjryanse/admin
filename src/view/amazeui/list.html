@@ -39,6 +39,7 @@
                                        copy_url   = "{:url('copy',$paramInherit)}"
                                        delete_url = "{:url('del',$paramInherit)}"
                                        update_url = "{:url('update',$paramInherit)}"
+                                       v-bind:column_info ="columnInfo"
                                        v-bind:query_data="queryData"
                                        v-model="selectItems"
                                        @on_item_select="onItemSelect"
@@ -177,6 +178,15 @@
                 //typeTab类型字段
                 if(this.fixedData['typeTab']){
                     this.typeTabValue = this.fixedData[ this.fixedData['typeTab'] ];
+                }
+                var that = this;
+                document.onkeydown = function(e){
+//                    console.log(e)
+//                    console.log(e.key);
+                    //回车搜索
+                    if(e.key == "Enter"){
+                        that.searchList();
+                    }
                 }
             }
         });
