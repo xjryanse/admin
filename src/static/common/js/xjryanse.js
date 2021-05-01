@@ -53,22 +53,34 @@ function ajaxContentChange(itemId, url,callback) {
  * @returns {undefined}
  */
 function contentChange(itemId, url,callback) {
-    $.ajax({
-        url: url,
-        type: 'POST',
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader('X-Requested-With', {toString: function () {
-                return '';
-            }});
-        },
-        success: function (data) {
-            //关闭弹层
-            $('#' + itemId).html(data);
-            if(callback){
-                callback( data );
+    var key = "UrlContent-" + url;
+    var content = "";
+    content = localStorage.getItem( key );
+    if(content){
+        //关闭弹层
+        $('#' + itemId).html(content);
+        if(callback){
+            callback( content );
+        }        
+    } else {
+        $.ajax({
+            url: url,
+            type: 'POST',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-Requested-With', {toString: function () {
+                    return '';
+                }});
+            },
+            success: function (data) {
+                //关闭弹层
+                $('#' + itemId).html(data);
+                content = localStorage.setItem( key,data);
+                if(callback){
+                    callback( data );
+                }
             }
-        }
-    });
+        });        
+    }
 }
 
 /**

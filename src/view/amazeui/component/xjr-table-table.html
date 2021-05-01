@@ -80,7 +80,7 @@
                 });                
             },
             tableNameLists : function(){
-                console.log('tableNameLists执行');
+//                console.log('tableNameLists执行');
                 var that = this;
                 //弹层
                 var layerIndex = layer.load(2);
@@ -88,8 +88,8 @@
                 query.table_name = that.table_name;
                 query.con = {};
                 query.con[that.query_field] = that.query_data;
-                console.log("tableNameLists的query");
-                console.log( query );
+//                console.log("tableNameLists的query");
+//                console.log( query );
 
                 $.ajax({
                     url: "{:url('admin/SCommon/tableNameLists')}",
