@@ -18,7 +18,7 @@
 <script>
     //定义hblock组件
     Vue.component('cselect', {
-        props: { value : String, option : Array ,is_detail : String, multiple : String},//multiple复选
+        props: { value : String, option : Array ,is_detail : String, multiple : String, data_ajax : String},//multiple复选
         template: '#cselect',
         watch:{
             //主数据变化即触发
@@ -29,52 +29,66 @@
                             //按逗号分隔成数组
                             this.value = newName.split(',');
                         }
-                        $(this.$refs.mySelect).select2();
+                        console.log('复选框赋值');
+//                        $(this.$refs.mySelect).select2();
                         $(this.$refs.mySelect).val( this.value ).trigger("change"); //多选赋值
-                    } else {
-                        $(this.$refs.mySelect).val(newName).select2();
                     }
                     this.$emit('linkage');
                 },
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
                 immediate: true
             },
-            option : {
-                handler :function(newName, oldName) {
-//                    console.log('option 重新渲染');
-                    //重新渲染树状
-                    var that = this;
-                    var selectParam = {};
-                    if(that.multiple){
-                        selectParam.multiple = true;
-                    }
-                    that.$nextTick(function () {
-                        $( that.$refs.mySelect ).select2(selectParam);
-                        $(that.$refs.mySelect).on("select2:select",function(e){
-                            if(that.multiple){
-                                var targetOptions = e.target.options;
-                                console.log(targetOptions);
-                                var all = [];
-                                for(var i=0;i<targetOptions.length;i++){
-                                    if(targetOptions[i].selected){
-                                        all.push(targetOptions[i].value);
-                                    }
+        },
+        methods: {
+            doInit :function(){
+                //重新渲染树状
+                var that = this;
+                var selectParam = {};
+                if(that.multiple){
+                    selectParam.multiple = true;
+                } else if( !that.multiple && that.data_ajax * 1 > 0 ){
+                    selectParam.placeholder = '请输入关键词搜索';
+                    selectParam.minimumInputLength= 1;
+                    //ajax接口数据：20210506
+                    selectParam.ajax = {
+                        url: "{:url('admin/SSystem/dynSearch')}?columnListId=" + that.data_ajax ,
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                            return {
+                                search: params.term,
+                            };
+                        },
+                        processResults: function (data) {
+                            return {
+                                results: data.data
+                            };
+                        }
+                    };
+                }
+                that.$nextTick(function () {
+                    $( that.$refs.mySelect ).select2(selectParam);
+                    $(that.$refs.mySelect).on("select2:select",function(e){
+                        if(that.multiple){
+                            var targetOptions = e.target.options;
+                            console.log(targetOptions);
+                            var all = [];
+                            for(var i=0;i<targetOptions.length;i++){
+                                if(targetOptions[i].selected){
+                                    all.push(targetOptions[i].value);
                                 }
-                                that.value = all;
-                            } else {
-                                that.value = e.target.value;
                             }
-                            that.$emit('input', that.value );
-                        })
-                    });
-                },
-                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
-                immediate: true,
-                deep: true,
+                            that.value = all;
+                        } else {
+                            that.value = e.target.value;
+                        }
+                        that.$emit('input', that.value );
+                    })
+                });                
             }
         },
         created :function(){
-
+            this.doInit();
         },
         mounted : function(){
 

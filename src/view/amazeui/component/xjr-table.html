@@ -181,6 +181,7 @@
                             <option value ="20">20</option>
                             <option value="50">50</option>
                             <option value="100">100</option>
+                            <option value="200">200</option>
                         </select>
                     </li>
                     <li>条/页</li>
@@ -197,7 +198,7 @@
     Vue.component('xjr-table', {
         //列表信息:列表编辑：项目 column_info列信息；data数据(不含分页的)；分页数据
         //edit_url编辑页面路径；copy_url复制接口路径；delete_url删除接口路径
-        props: { query_data : Array,list_url : String , edit_url :String, update_url :String, copy_url :String,delete_url :String,height : String ,column_info:Array},
+        props: { query_data : Array,list_url : String , edit_url :String, update_url :String, copy_url :String,delete_url :String,height : String },
         template: '#xjr-table',
         data: function(){
             return {
@@ -207,7 +208,9 @@
                 //全选
                 "allSelect" : false,
                 "targetPicUrl" : "",
-                "reduce" : "65vh"
+                "reduce" : "65vh",
+                //是否正在进行列表请求
+                "myDataQuery" : false
             };
         },
         watch:{
@@ -263,17 +266,27 @@
                 },
                 // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
                 immediate: true
-            }           
+            },
+            perPage : {
+                handler :function (newName, oldName) {
+                    this.getLists();
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            }
         },
         computed : {
 //            //字段信息
-//            column_info : function(){
-//                return this.paginate_data.columnInfo;
-//            },
+            column_info : function(){
+                return this.paginate_data.columnInfo;
+            },
             //列表数据
             list_data : function(){
                 return this.paginate_data.data;
             },
+            perPage : function(){
+                return this.query_data.per_page;
+            }
         },
         methods : {
             //展示条件
@@ -301,6 +314,11 @@
 //                console.log(this.query_data);
                 console.log('xjr-table的getList方法');
                 var that = this;
+                if( that.myDataQuery){
+                    return false;
+                } 
+                that.myDataQuery = true;
+                
                 //弹层
                 var layerIndex = layer.load(2);
                 $.ajax({
@@ -308,6 +326,7 @@
                     type: 'POST',
                     data: that.query_data,
                     success: function (data) {
+                        that.myDataQuery = false;
                         layer.close(layerIndex);
 //                        console.log(data);
                         if (data.code != 0) {

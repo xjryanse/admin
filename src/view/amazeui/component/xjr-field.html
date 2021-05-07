@@ -27,11 +27,18 @@
                      v-bind:is_detail="is_detail"
                      @linkage="formLinkage()"></cselect>
         </div>
-        <!--字段类型：动态枚举-->
+        <!--字段类型：动态枚举：从ajax接口取数据-->
         <div  v-if="list_item.type == 'dynenum'">
-            <cselect v-bind:option="list_item.option.option" 
+            <cselect v-if="list_item.option.data_ajax == 0"  
+                     v-bind:option="list_item.option.option" 
                      v-model="item_data[list_item.name]"
                      v-bind:is_detail="is_detail"
+                     @linkage="formLinkage()"></cselect>
+            <cselect v-else
+                     v-bind:option="list_item.option.option" 
+                     v-model="item_data[list_item.name]"
+                     v-bind:is_detail="is_detail"
+                     v-bind:data_ajax="list_item.id"
                      @linkage="formLinkage()"></cselect>
         </div>
         <!--字段类型：动态树-->

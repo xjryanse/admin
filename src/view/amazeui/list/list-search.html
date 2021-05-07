@@ -21,7 +21,12 @@
                 </div>
                 <!--动态枚举框-->
                 <div class="am-form-group " v-if = "field.type=='dynenum'">
-                    <cselect v-bind:option="field.option.option" v-model="tmpValue[field.name]" v-bind:multiple="field.search_type == 'in' ? 1 : null"></cselect>
+                    <cselect v-if="field.option.data_ajax == 0" 
+                        v-bind:option="field.option.option" v-model="tmpValue[field.name]" 
+                        v-bind:multiple="field.search_type == 'in' ? 1 : null" ></cselect>
+                    <cselect v-else
+                        v-bind:option="field.option.option" v-model="tmpValue[field.name]" v-bind:multiple="field.search_type == 'in' ? 1 : null" 
+                             v-bind:data_ajax="field.id"></cselect>
                 </div>
                 <!--开关-->
                 <div class="am-form-group " v-if = "field.type=='switch'">
