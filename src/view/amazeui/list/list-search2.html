@@ -1,0 +1,70 @@
+<!-- 列表的字段组件 -->
+<template id="list-search2">
+    <div class="am-u-sm-3">
+        高级筛选
+        <div style="min-height:40px;display:flex" v-for="(item,key) in value">
+            <div class="flex1"><cselect v-bind:option="fields" v-model="item.name"></cselect></div>
+            <div class="flex1"><cselect v-bind:option="testType" v-model="item.condition"></cselect></div>
+            <div class="flex1"><cfield type="text" v-model="item.value" v-if="item.condition != 'empty'"></cfield></div>
+        </div>
+        <button type="button" class="am-btn am-btn-default pd5 am-btn-primary f12" @click="addElement()">+</button>
+        <button type="button" class="am-btn am-btn-default pd5 am-btn-primary f12" @click="moveElement()"  v-if="value && value.length>1" >-</button>
+    </div>
+</template>
+
+<script>
+    //定义hblock组件
+    Vue.component('list-search2', {
+        //列表信息:列表编辑：项目
+        //table_name:tplset的表名
+        //list_info：字段信息；value :请求数据；fixed_data ：固定数据，清空时不清
+        props: { fields :Array, value :Array },
+        template: '#list-search2',
+        data: function(){
+            return {
+                "testType" : {start:'开头是',end:'结尾是',equal:'等于',contain:'包含',length:"长度为",empty:"是空的"}
+//                "valueArr" : [
+//                    { name : "column1", condition : "equal", value : "123123"},
+//                    { name : "column2", condition : "length", value : "123123"},
+//                ]
+            };
+        },        
+        watch:{
+            value : {
+                handler :function(newName, oldName) {
+                    console.log( newName );
+                    console.log('list-search2的value赋值');
+                    this.tmpValue = newName;
+                    this.$emit('input', newName );
+                },
+                // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+                immediate: true
+            },
+        },
+        methods : {
+            //重置
+            resetValue : function ( ){
+                this.value = Object.assign({}, this.fixed_data);
+                console.log( this.fixed_data );
+                this.$emit('input', this.value );
+            },
+            //添加元素
+            addElement : function(){
+                var element = {name : "", condition : "", value : ""};
+                if(!this.value){
+                    this.value = [];
+                }
+                this.value.push( element );
+            },
+            //删除元素
+            moveElement : function(){
+                this.value.pop();
+            }
+        },
+        created: function () {
+            if(!this.value){
+                this.addElement();
+            }
+        }
+    });
+</script>

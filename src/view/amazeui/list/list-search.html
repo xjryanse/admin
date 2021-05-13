@@ -41,7 +41,9 @@
                 </div>
             </div>
        </div>
-       <div class="am-u-sm-12 am-u-md-6 am-u-lg-4" style="float:left;min-height:40px;position:relative" >
+        <div class="am-u-sm-12"><list-search2 v-bind:fields="fieldsArr" v-model="value.specialSearchArr"></list-search2></div>
+
+       <div style="float:left;min-height:40px;position:relative" >
            <div>
                <button class="am-btn am-btn-success am-icon-search pd5" type="button" v-on:click="value=tmpValue;$emit('search_list')"><span class="f14">搜索</span></button>
                <button class="am-btn am-btn-success am-icon-repeat pd5" type="button" v-on:click="resetValue()"><span class="f14">清空</span></button>
@@ -75,6 +77,22 @@
                 immediate: true
             },
         },
+        computed: {
+            // 计算属性的 getter
+            fieldsArr : function(){
+                var temp = {};
+                var that = this;
+                var tempVal;
+                console.log( "fieldsArr的搜索" );
+                $.each( that.list_info ,function (index, element) {
+                    //只有高级筛选才出现
+                    if(element.is_senior_search){
+                        temp[element.name]   = element.label;
+                    }
+                });
+                return temp;
+            }
+        },        
         methods : {
             //重置
             resetValue : function ( ){
