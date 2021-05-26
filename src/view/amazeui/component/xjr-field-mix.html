@@ -34,11 +34,10 @@
                            v-bind:table_name="table_name"
                            @get_lists="getLists"       
                            ></xjr-field>
-                <!--按钮  && !is_detail -->
+                <!--按钮  && !is_detail @get_lists="getLists"-->
                 <xjr-button-id v-bind:btn_id="field.edit_btn_id" 
                                v-if="field.edit_btn_id"
                                v-bind:item  =   "item_data" 
-                                @get_lists="getLists"
                             ></xjr-button-id>
             </div>
         </div>

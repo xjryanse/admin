@@ -44,7 +44,7 @@
                         </th>
                         <th>序号</th>
                         <!--字段可设条件进行过滤：20210125-->
-                        <th style="height:40px;text-overflow:ellipsis;overflow:hidden;display:table-cell;vertical-align:middle;" v-for="(field,i) in column_info.listInfo" v-if="field.is_list && isConditionMatch(field.show_condition)" >{{field.label}}</th>
+                        <th style="height:40px;text-overflow:ellipsis;overflow:hidden;display:table-cell;vertical-align:middle;" v-for="(field,i) in column_info.listInfo" v-if="field.is_list && isConditionMatch(field.show_condition)" v-bind:title="field.name">{{field.label}}</th>
                         <th style="height:40px;text-overflow:ellipsis;overflow:hidden;display:table-cell;vertical-align:middle;" v-if="column_info.operateInfo.length > 0 || column_info.btnInfo.length > 0">操作</th>
                     </tr>
                 </thead>                
@@ -94,7 +94,6 @@
                                                v-bind:btn_id="btn.id" 
                                                v-bind:query_data="btn.param"
                                                v-bind:item="item"></xjr-button-id>-->
-                                
                                 <xjr-button icon="pencil" button_cate="ahref" show_name="true"
                                             v-for="(btn,k) in column_info.btnInfo"
                                             v-if="btn.place=='list'"
@@ -111,7 +110,7 @@
                                             v-bind:confirm      =   "btn.confirm"
                                             v-bind:prompt       =   "btn.prompt"
                                             v-bind:prompt_default=   "btn.prompt_default"
-                                            v-bind:data         =   "item" 
+                                            v-bind:data         =   "Object.assign({},item,query_data)" 
                                             v-bind:form_data    =   "btn.param" 
                                             v-bind:show_condition= 'btn.show_condition'
                                             v-bind:no_match_style= "btn.no_match_style"
@@ -157,6 +156,9 @@
             <!--【页码】-->
             <div style="flex:1" v-if="paginate_data && paginate_data.current_page">
                 <ul class="am-pagination tpl-pagination" style="float:right;">
+                    <!--前一页:当前页码大于1显示-->
+                    <li><input type="text" placeholder="输入" class="am-form-field f14" v-model="jumpPage" style="width:40px;height:28px;"></li>
+                    <li><a href="javascript:;" v-on:click="getPageLists( jumpPage )">跳转</a></li>
                     <!--前一页:当前页码大于1显示-->
                     <li v-if="paginate_data.current_page > 1"><a href="javascript:;" v-on:click="getPageLists(paginate_data.current_page *1 -1)">«</a></li>
                     <!--第一页:当前页码大于1显示-->
@@ -208,6 +210,7 @@
                 //全选
                 "allSelect" : false,
                 "targetPicUrl" : "",
+                "jumpPage"  :   '',
                 "reduce" : "65vh",
                 //是否正在进行列表请求
                 "myDataQuery" : false

@@ -178,7 +178,7 @@
                         isMatch = 1;
                     }
                     //数据中，只要有一个不匹配，不存在，就算是没过
-                    if((key in that.data) && that.data[key] != value){
+                    if(((key in that.data) && that.data[key] != value ) || !(key in that.data)){
 //                        console.log( that.data.tm_name);
 //                        console.log( key);
 //                        console.log( that.button_name + 'data一票否决了：key有在'+ (key in that.data) + 'key 不等：'+ (that.data[key] != value));

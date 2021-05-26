@@ -41,6 +41,7 @@
                     //关闭弹层
                      layer.close(layerIndex);     
                      if(data.code == 0){
+                         layer.msg('上传成功，保存后生效');
                         that.$emit('input', data.data);                         
                      } else {
                          layer.msg(data.message, {icon: 2});

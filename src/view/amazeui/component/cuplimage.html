@@ -5,6 +5,8 @@
         <div class="am-form-group pd5"  style="width:100%;">
             <div class="tpl-form-file-img" v-if ="value" style="min-height:100px;justify-content:center;align-items:center;display:-webkit-flex;">
                 <a v-bind:href="value.file_path" v-if="value.file_path && value.file_path.indexOf('.pdf') != -1" target="_blank">查看</a>
+                <a v-bind:href="value.file_path" v-else-if="value.file_path && value.file_path.indexOf('.rar') != -1" target="_blank">查看</a>
+                <a v-bind:href="value.file_path" v-else-if="value.file_path && value.file_path.indexOf('.zip') != -1" target="_blank">查看</a>
                 <img v-bind:src="value.file_path" ref="cuplimage" v-else style="max-width:100%; max-height:100px;" class="bd-r5" >
             </div>
             <div class="tpl-form-file-img" v-else style="min-height:100px;justify-content:center;align-items:center;display:-webkit-flex;">
@@ -25,7 +27,7 @@
                         上传
                     </button>
                     <input id="doc-form-file" type="file" multiple="" @change="uplPic($event,name)"
-                           v-bind:disabled ="is_detail == 1" accept=".pdf,.jpg,.png,.jpeg">
+                           v-bind:disabled ="is_detail == 1" accept=".pdf,.jpg,.png,.jpeg,.rar,.zip">
                 </div>                
                 <a href="javascript:;" class="am-btn am-btn-danger am-btn-sm pd5" 
                     style="background-color:#ff693f;float:left" v-if="value" @click='clear()'>
