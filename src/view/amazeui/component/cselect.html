@@ -32,6 +32,8 @@
                         console.log('复选框赋值');
 //                        $(this.$refs.mySelect).select2();
                         $(this.$refs.mySelect).val( this.value ).trigger("change"); //多选赋值
+                    } else {
+                        $(this.$refs.mySelect).val( this.value ).trigger("change"); //多选赋值
                     }
                     this.$emit('linkage');
                 },

@@ -110,7 +110,7 @@
                                             v-bind:confirm      =   "btn.confirm"
                                             v-bind:prompt       =   "btn.prompt"
                                             v-bind:prompt_default=   "btn.prompt_default"
-                                            v-bind:data         =   "Object.assign({},item,query_data)" 
+                                            v-bind:data         =   "Object.assign({},query_data,item)" 
                                             v-bind:form_data    =   "btn.param" 
                                             v-bind:show_condition= 'btn.show_condition'
                                             v-bind:no_match_style= "btn.no_match_style"
@@ -119,7 +119,7 @@
                                 <!--操作                                            v-bind:form_data    =   "query_data" -->
                                 <block v-for="(operate,k) in column_info.operateInfo">
                                     <!--编辑-->
-                                    <xjr-button operate="layerIframePage" icon="pencil" width = "95%"  height = "95%" button_cate="ahref"
+                                    <xjr-button operate="layerPage" icon="pencil" width = "95%"  height = "95%" button_cate="ahref"
                                                 v-if="operate.operate_key == 'edit'"
                                                 v-bind:button_name  ="operate['operate_name']"
                                                 v-bind:url          = "edit_url + '?id=' + item.id" 

@@ -26,7 +26,7 @@
 
             <block v-for="(operate,k) in columnInfo.operateInfo">
                 <!--新增-->
-                <xjr-button operate="layerIframePage" icon="plus" width = "90%"  height = "90%" button_cate="button" 
+                <xjr-button operate="layerPage" icon="plus" width = "90%"  height = "90%" button_cate="button" 
                             btn_style="primary" size="small" 
                             url          = "{:url('add',array_merge($paramInherit,request()->param()))}" 
                             v-if="operate.operate_key == 'add'"
@@ -58,7 +58,7 @@
             </block>
             {if $admUser['admin_type'] == 'super' && $sysConfigs['isDevMode']}
                 <!--数据：表信息-->
-                <xjr-button operate="layerIframePage" icon="" width = "90%"  height = "90%" button_cate="button" 
+                <xjr-button operate="layerPage" icon="" width = "90%"  height = "90%" button_cate="button" 
                             btn_style="primary" size="small" 
                             button_name  ="表"
                             v-bind:url= "'{:url('/admin/system/edit',array_merge($paramInherit,['admKey'=>'column']))}?id=' + columnInfo.id"
