@@ -157,7 +157,7 @@
                 $.ajax({
                     url: "{:url('admin/SCommon/tableNameColumn',$paramInherit)}",
                     type: 'POST',
-                    data: {table_name:that.table_name,methodKey : that.method_key,data_id: that.data_id},
+                    data: {table_name:that.table_name,methodKey : that.method_key,data_id: that.data_id, table_data : that.input_data},
                     success: function (data) {
                         //关闭弹层
                         layer.close(layerIndex);                            
