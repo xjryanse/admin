@@ -81,7 +81,8 @@
                         </block>
                     </td>
                 </tr>
-                <tr class="gradeX">
+                <!--option.need_sum：需要合计-->
+                <tr class="gradeX" v-if="option.need_sum && parseInt(option.need_sum) > 0">
                     <!--为了排顺序，多了一次循环-->
                     <td v-for="(optionCov,optKey) in option.option_cov">
                         <block v-for="(items,key) in option.option[0]" v-if="key == optKey">
@@ -132,7 +133,7 @@
                         calValue = Number(calValue) + Number(item[field]);
                     }
                 });
-                return calValue;
+                return calValue.toFixed(2);
             },
             /**
              * 模板设定计算全部合计值
@@ -164,7 +165,8 @@
                         }
                     });
                 });
-                return calValue;
+                //console.log(calValue)
+                return calValue.toFixed(2);
             },
             //表格数据块
             SColumnTplset : function( tableName, columnListId, dataId, callback ){
@@ -177,9 +179,9 @@
                     type: 'POST',
                     data: {"tableName":tableName,"columnListId":columnListId,"dataId":dataId},
                     success:function(data){
-                        console.log('-------SColumnTplset----------执行结果');
-                        console.log( {"tableName":tableName,"columnListId":columnListId,"dataId":dataId} );
-                        console.log( data );
+                        //console.log('-------SColumnTplset----------执行结果');
+                        //console.log( {"tableName":tableName,"columnListId":columnListId,"dataId":dataId} );
+                        //console.log( data );
                         
                         //关闭弹层
                         layer.close( layerIndex );
@@ -195,8 +197,8 @@
             },
             //表格数据块
             subUpdate : function( tableName, itemData ){
-                console.log(tableName);
-                console.log(itemData);
+                //console.log(tableName);
+                //console.log(itemData);
                 
                 var that= this;
                 //弹层
@@ -207,14 +209,14 @@
                     type: 'POST',
                     data: {"tableName":tableName,"data": itemData},
                     success:function(data){
-                        console.log('在此调试');
+                        //console.log('在此调试');
                         //关闭弹层
                         layer.close( layerIndex );
                         if(data.code == 0){
                             if(!itemData.id){
                                 that.SColumnTplset( that.table_name, that.column_list_id, that.data_id, function( data ){
-                                    console.log("subUpdate 调用 SColumnTplset");
-                                    console.log( data );
+                                    //console.log("subUpdate 调用 SColumnTplset");
+                                    //console.log( data );
                                     //拿option
                                     that.option.option = data;
                                     //强制刷新
@@ -232,11 +234,11 @@
         },
         created :function(){
             var that = this;
-            console.log('that.data_id');
-            console.log( that.data_id );
+            //console.log('that.data_id');
+            //console.log( that.data_id );
             that.SColumnTplset( that.table_name, that.column_list_id, that.data_id, function( data ){
-                console.log("tplset 调用 SColumnTplset");
-                console.log( data );
+                //console.log("tplset 调用 SColumnTplset");
+                //console.log( data );
                 //拿option
                 that.option.option = data;
                 //强制刷新
